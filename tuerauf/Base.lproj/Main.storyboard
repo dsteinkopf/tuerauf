@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="tuerauf" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -15,8 +16,54 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tür auf" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hoW-BR-i88">
+                                <rect key="frame" x="147" y="28" width="306" height="39"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="306" id="OIx-8w-Pf2"/>
+                                    <constraint firstAttribute="height" constant="39" id="eig-bW-fRW"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="36"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ergebnis" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ixm-yO-xMG">
+                                <rect key="frame" x="16" y="374" width="568" height="206"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wg6-h1-k9E">
+                                <rect key="frame" x="223" y="246" width="154" height="108"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="108" id="9a2-MX-u4Z"/>
+                                    <constraint firstAttribute="width" constant="154" id="GLJ-YV-eye"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="jetzt öffnen">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="jetztOeffnenButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="97j-ae-hhd"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Wg6-h1-k9E" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Lca-uc-tyY"/>
+                            <constraint firstItem="hoW-BR-i88" firstAttribute="centerX" secondItem="Wg6-h1-k9E" secondAttribute="centerX" id="OcZ-Tg-KfO"/>
+                            <constraint firstItem="hoW-BR-i88" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" symbolic="YES" id="Scr-kD-yo5"/>
+                            <constraint firstItem="ixm-yO-xMG" firstAttribute="top" secondItem="Wg6-h1-k9E" secondAttribute="bottom" constant="20" id="bXH-7Z-Cdp"/>
+                            <constraint firstItem="ixm-yO-xMG" firstAttribute="centerX" secondItem="Wg6-h1-k9E" secondAttribute="centerX" id="pKV-q9-vk1"/>
+                            <constraint firstItem="ixm-yO-xMG" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="pxq-13-lDr"/>
+                            <constraint firstItem="ixm-yO-xMG" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="urE-mM-1Il"/>
+                            <constraint firstAttribute="bottom" secondItem="ixm-yO-xMG" secondAttribute="bottom" constant="20" symbolic="YES" id="wSk-qH-kTi"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="ergebnisLabel" destination="ixm-yO-xMG" id="o4I-QZ-3f9"/>
+                        <outlet property="jetztOeffnenButton" destination="Wg6-h1-k9E" id="cdl-uM-oNh"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
