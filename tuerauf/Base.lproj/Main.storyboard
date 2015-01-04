@@ -8,7 +8,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="tuerauf" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Tür_auf" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -17,6 +17,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="scaleAspectFill" misplaced="YES" image="tuer_a.png" translatesAutoresizingMaskIntoConstraints="NO" id="tss-2w-abN">
+                                <rect key="frame" x="-1371" y="-2059" width="2448" height="3264"/>
+                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tür auf" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hoW-BR-i88">
                                 <rect key="frame" x="147" y="28" width="306" height="39"/>
                                 <constraints>
@@ -50,9 +53,13 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="tss-2w-abN" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="0cR-Tx-x06"/>
+                            <constraint firstAttribute="centerY" secondItem="tss-2w-abN" secondAttribute="centerY" id="L1a-Zj-hu9"/>
                             <constraint firstItem="Wg6-h1-k9E" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Lca-uc-tyY"/>
                             <constraint firstItem="hoW-BR-i88" firstAttribute="centerX" secondItem="Wg6-h1-k9E" secondAttribute="centerX" id="OcZ-Tg-KfO"/>
+                            <constraint firstAttribute="centerX" secondItem="tss-2w-abN" secondAttribute="centerX" id="RmX-p3-gsm"/>
                             <constraint firstItem="hoW-BR-i88" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" symbolic="YES" id="Scr-kD-yo5"/>
+                            <constraint firstItem="tss-2w-abN" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" id="aaf-Y7-EQf"/>
                             <constraint firstItem="ixm-yO-xMG" firstAttribute="top" secondItem="Wg6-h1-k9E" secondAttribute="bottom" constant="20" id="bXH-7Z-Cdp"/>
                             <constraint firstItem="ixm-yO-xMG" firstAttribute="centerX" secondItem="Wg6-h1-k9E" secondAttribute="centerX" id="pKV-q9-vk1"/>
                             <constraint firstItem="ixm-yO-xMG" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="pxq-13-lDr"/>
@@ -69,4 +76,7 @@
             </objects>
         </scene>
     </scenes>
+    <resources>
+        <image name="tuer_a.png" width="1079" height="1568"/>
+    </resources>
 </document>

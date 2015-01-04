@@ -14,6 +14,10 @@
 		585FDE131A5904EA00C830F2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 585FDE111A5904EA00C830F2 /* LaunchScreen.xib */; };
 		585FDE1F1A5904EA00C830F2 /* tueraufTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585FDE1E1A5904EA00C830F2 /* tueraufTests.swift */; };
 		585FDE291A5908C100C830F2 /* Backend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585FDE281A5908C100C830F2 /* Backend.swift */; };
+		585FDE2E1A59535C00C830F2 /* tuer.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 585FDE2D1A59535C00C830F2 /* tuer.jpg */; };
+		585FDE301A5956FB00C830F2 /* tuer_a.png in Resources */ = {isa = PBXBuildFile; fileRef = 585FDE2F1A5956FB00C830F2 /* tuer_a.png */; };
+		585FDE331A5959B800C830F2 /* tuer.png in Resources */ = {isa = PBXBuildFile; fileRef = 585FDE311A5959B800C830F2 /* tuer.png */; };
+		585FDE341A5959B800C830F2 /* tuer_icon_180.png in Resources */ = {isa = PBXBuildFile; fileRef = 585FDE321A5959B800C830F2 /* tuer_icon_180.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,7 +31,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		585FDE031A5904EA00C830F2 /* tuerauf.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tuerauf.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		585FDE031A5904EA00C830F2 /* Tür auf.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Tür auf.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		585FDE071A5904EA00C830F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		585FDE081A5904EA00C830F2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		585FDE0A1A5904EA00C830F2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -38,6 +42,10 @@
 		585FDE1D1A5904EA00C830F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		585FDE1E1A5904EA00C830F2 /* tueraufTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tueraufTests.swift; sourceTree = "<group>"; };
 		585FDE281A5908C100C830F2 /* Backend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Backend.swift; sourceTree = "<group>"; };
+		585FDE2D1A59535C00C830F2 /* tuer.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tuer.jpg; sourceTree = "<group>"; };
+		585FDE2F1A5956FB00C830F2 /* tuer_a.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tuer_a.png; sourceTree = "<group>"; };
+		585FDE311A5959B800C830F2 /* tuer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tuer.png; sourceTree = "<group>"; };
+		585FDE321A5959B800C830F2 /* tuer_icon_180.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tuer_icon_180.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,7 +78,7 @@
 		585FDE041A5904EA00C830F2 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				585FDE031A5904EA00C830F2 /* tuerauf.app */,
+				585FDE031A5904EA00C830F2 /* Tür auf.app */,
 				585FDE181A5904EA00C830F2 /* tueraufTests.xctest */,
 			);
 			name = Products;
@@ -85,6 +93,7 @@
 				585FDE0C1A5904EA00C830F2 /* Main.storyboard */,
 				585FDE0F1A5904EA00C830F2 /* Images.xcassets */,
 				585FDE111A5904EA00C830F2 /* LaunchScreen.xib */,
+				585FDE2C1A59533300C830F2 /* images */,
 				585FDE061A5904EA00C830F2 /* Supporting Files */,
 			);
 			path = tuerauf;
@@ -115,6 +124,17 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		585FDE2C1A59533300C830F2 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				585FDE311A5959B800C830F2 /* tuer.png */,
+				585FDE321A5959B800C830F2 /* tuer_icon_180.png */,
+				585FDE2F1A5956FB00C830F2 /* tuer_a.png */,
+				585FDE2D1A59535C00C830F2 /* tuer.jpg */,
+			);
+			name = images;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -132,7 +152,7 @@
 			);
 			name = tuerauf;
 			productName = tuerauf;
-			productReference = 585FDE031A5904EA00C830F2 /* tuerauf.app */;
+			productReference = 585FDE031A5904EA00C830F2 /* Tür auf.app */;
 			productType = "com.apple.product-type.application";
 		};
 		585FDE171A5904EA00C830F2 /* tueraufTests */ = {
@@ -197,7 +217,11 @@
 			files = (
 				585FDE0E1A5904EA00C830F2 /* Main.storyboard in Resources */,
 				585FDE131A5904EA00C830F2 /* LaunchScreen.xib in Resources */,
+				585FDE341A5959B800C830F2 /* tuer_icon_180.png in Resources */,
+				585FDE301A5956FB00C830F2 /* tuer_a.png in Resources */,
+				585FDE2E1A59535C00C830F2 /* tuer.jpg in Resources */,
 				585FDE101A5904EA00C830F2 /* Images.xcassets in Resources */,
+				585FDE331A5959B800C830F2 /* tuer.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -296,6 +320,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "Tür auf";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -332,6 +357,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "Tür auf";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -344,7 +370,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = tuerauf/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
@@ -354,7 +379,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = tuerauf/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
