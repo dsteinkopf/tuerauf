@@ -8,6 +8,7 @@
 
 #include <SPI.h>
 #include <Ethernet.h>
+#include <Timer.h>
 
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFD, 0xEC };
 IPAddress ip(192,168,40,14);
@@ -15,6 +16,7 @@ const int ip_port = 1080;
 int pinTuer = 8;
 
 const String fixed_pin = "4242";
+const String master_pin = "uasdaccbai36dxas";
 String dyn_code;
 
 const int bufsize = 50;
@@ -22,17 +24,26 @@ char line[bufsize];
 
 enum serverstate {
   awaiting_fixed_pin,
-  awaiting_dyn_code,
+  awaiting_dyn_code
 };
 serverstate mystate = awaiting_fixed_pin;
+
+const int timeout_awaiting_dyn_code = 60*1000;
 
 
 EthernetServer server(ip_port);
 
+Timer timer;
+int relaisOffEventId = -1;
+int resetStateEventId = -1;
+
+
 void setup() {
   
   pinMode(pinTuer, OUTPUT);
-  digitalWrite(pinTuer, HIGH);   // Tür-Relaus aus
+  closeRalais();
+  
+  randomSeed(millis());
 
   // Open serial communications and wait for port to open:
   Serial.begin(9600);
@@ -49,6 +60,8 @@ void setup() {
 
 
 void loop() {
+  timer.update();
+  
   EthernetClient client = server.available();
   if (client) {
     int charcount = 0;
@@ -111,33 +124,47 @@ void loop() {
 
 String processRequest(String input)
 {
+  Serial.println("processRequest");
   switch (mystate) {
     case awaiting_fixed_pin: return checkFixedPin(input); break;
     case awaiting_dyn_code:  return checkDynCode(input); break;
     default: 
-      mystate = awaiting_fixed_pin;
+      switchToState(awaiting_fixed_pin);
       return "bad internal state";
   }
 }
 
 String checkFixedPin(String input)
 {
+  Serial.println("checkFixedPin");
   int pos = input.indexOf(fixed_pin);
   
   if (pos > 0) {
     // fixed_pin stimmt
-    mystate = awaiting_dyn_code;
+    switchToState(awaiting_dyn_code);
     return sendNewDynCode();
   }
   else {
     // fixed_pin falsch
-    mystate = awaiting_fixed_pin;
+    
+    // vielleicht ist es ja die masterpin
+    int pos_masterpin = input.indexOf(master_pin);
+    
+    if (pos_masterpin > 0) {
+      // masterpin stimmt
+      openDoorNow();
+      switchToState(awaiting_fixed_pin);
+      return "OFFEN";
+    }
+    
+    switchToState(awaiting_fixed_pin);
     return "bad fixed_pin";
   }
 }
 
 String sendNewDynCode()
 {
+  Serial.println("sendNewDynCode");
   int randNumber4digits = random(0,9999);
 
   dyn_code = String(randNumber4digits);
@@ -146,25 +173,57 @@ String sendNewDynCode()
 
 String checkDynCode(String input)
 { 
+  Serial.println("checkDynCode");
   int pos = input.indexOf(dyn_code);
   
   if (pos > 0) {
     // dyn_code stimmt
     openDoorNow();
-    mystate = awaiting_fixed_pin;
+    switchToState(awaiting_fixed_pin);
     return "OFFEN";
   }
   else {
     // dyn_code falsch - einfach von vorne
-    mystate = awaiting_fixed_pin;
+    switchToState(awaiting_fixed_pin);
     return "bad dyn_code";
   }
 }
 
 void openDoorNow()
 {
-    digitalWrite(pinTuer, LOW);   // Relais AN
-    delay(1000);              // wait for a second
-    digitalWrite(pinTuer, HIGH);    // Relais AUS
+  Serial.println("openDoorNow");
+  digitalWrite(pinTuer, LOW);   // Relais AN
+  // delay(1000);              // wait for a second
+  relaisOffEventId = timer.after(1000, closeRalais); // call closeRalais with delay
+}
+
+void closeRalais()
+{
+  Serial.println("closeRalais");
+  digitalWrite(pinTuer, HIGH);   // Tür-Relaus aus
+  relaisOffEventId = -1;
+}
+
+void switchToState(int newState)
+{
+  Serial.print("switchToState "); Serial.println(newState);
+  mystate = (serverstate) newState;
+  
+  if (resetStateEventId >= 0) {
+    timer.stop(resetStateEventId);
+    resetStateEventId = -1;
+  }
+  
+  // awaiting_dyn_code bleibt nur so lange:
+  if (mystate == awaiting_dyn_code) {
+    resetStateEventId = timer.after(timeout_awaiting_dyn_code, resetState);
+  }
+}
+
+void resetState()
+{
+  Serial.println("resetState");
+  switchToState(awaiting_fixed_pin);
+  resetStateEventId = -1;
 }
 
