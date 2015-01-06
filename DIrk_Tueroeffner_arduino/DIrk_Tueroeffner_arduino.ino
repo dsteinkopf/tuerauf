@@ -42,7 +42,7 @@ enum serverstate {
 };
 serverstate mystate = awaiting_fixed_pin;
 
-const int timeout_awaiting_dyn_code = 60*1000;
+const unsigned long timeout_awaiting_dyn_code = 60u*1000u; // Vorsicht long ist offenbar nur 16 bit
 
 
 EthernetServer server(ip_port);
@@ -253,6 +253,7 @@ void switchToState(int newState)
   
   // awaiting_dyn_code bleibt nur so lange:
   if (mystate == awaiting_dyn_code) {
+    Serial.print("start timer to reset state after ms "); Serial.println(timeout_awaiting_dyn_code);
     resetStateEventId = timer.after(timeout_awaiting_dyn_code, resetState);
   }
 }
