@@ -58,7 +58,8 @@ void setup() {
   pinMode(pinTuer, OUTPUT);
   closeRalais();
   
-  randomSeed(millis());
+  // randomSeed(millis());
+  randomSeed(analogRead(0));
 
   // Open serial communications and wait for port to open:
   Serial.begin(9600);
