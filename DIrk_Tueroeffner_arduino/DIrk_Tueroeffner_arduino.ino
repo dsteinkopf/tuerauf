@@ -10,8 +10,9 @@
 #include <Ethernet.h>
 #include <Timer.h>
 
+
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFD, 0xEC };
-IPAddress ip(192,168,40,14);
+// jetzt via DHCP: IPAddress ip(192,168,40,14);
 const int ip_port = 1080;
 int pinTuer = 8;
 
@@ -52,7 +53,19 @@ void setup() {
   }
 
   // start the Ethernet connection and the server:
-  Ethernet.begin(mac, ip);
+  while (1) {
+    Serial.println("doing DHCP...");
+    int dhcpok = Ethernet.begin(mac);
+    if (dhcpok) {
+      Serial.println("DHCP ok");
+      break;
+    }
+    else {
+      Serial.println("DHCP failed");
+      delay(5*1000);
+    }
+  }
+  
   server.begin();
   Serial.print("server is at ");
   Serial.println(Ethernet.localIP());
