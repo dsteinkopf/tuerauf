@@ -46,6 +46,7 @@ const int timeout_awaiting_dyn_code = 60*1000;
 
 
 EthernetServer server(ip_port);
+IPAddress myNet; 
 
 Timer timer;
 int relaisOffEventId = -1;
@@ -81,7 +82,9 @@ void setup() {
   
   server.begin();
   Serial.print("server is at ");
-  Serial.println(Ethernet.localIP());
+  IPAddress myIp = Ethernet.localIP();
+  Serial.println(myIp);
+  myNet = IPAddress(myIp[0], myIp[1], myIp[2], 0);
 }
 
 
@@ -153,9 +156,8 @@ String processRequest(EthernetClient client, String input)
   // check remote ip first - only local net allowed:
   byte rip[] = {0,0,0,0 };
   client.getRemoteIP(rip);
-  if ( rip[0] != 192
-    || rip[1] != 168
-    || rip[2] != 40 ) {
+  IPAddress remoteNet(rip[0], rip[1], rip[2], 0); 
+  if (myNet != remoteNet) {
       return "bad client ip";
   }
   
