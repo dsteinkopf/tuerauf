@@ -78,6 +78,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="bgImage" destination="tss-2w-abN" id="BSn-hc-Bv4"/>
                         <outlet property="ergebnisLabel" destination="ixm-yO-xMG" id="o4I-QZ-3f9"/>
                         <outlet property="jetztOeffnenButton" destination="Wg6-h1-k9E" id="cdl-uM-oNh"/>
                         <outlet property="pinEntryField" destination="8k9-yC-vMD" id="eKu-X3-iji"/>

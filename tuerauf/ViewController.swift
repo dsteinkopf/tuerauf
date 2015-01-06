@@ -12,8 +12,8 @@ class ViewController: UIViewController {
 
     @IBOutlet var jetztOeffnenButton: UIButton!
     @IBOutlet var ergebnisLabel: UILabel!
-
     @IBOutlet var pinEntryField: UITextField!
+    @IBOutlet var bgImage: UIImageView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,7 +42,8 @@ class ViewController: UIViewController {
                     self.pinEntryField.text = ""
                     
                     if hasBeenOpened {
-                        self.ergebnisLabel.text = "offen"
+                        self.ergebnisLabel.text = "!!!!! Tür ist offen !!!!!"
+                        self.bgImage.alpha = 1.0;
                     }
                     else {
                         self.ergebnisLabel.text = info
@@ -54,6 +55,7 @@ class ViewController: UIViewController {
                     var dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64(5 * Double(NSEC_PER_SEC)))
                     dispatch_after(dispatchTime, dispatch_get_main_queue(), {
                         self.ergebnisLabel.text = ""
+                        self.bgImage.alpha = 0.7;
                     })
                     
                 })
