@@ -44,6 +44,8 @@ serverstate mystate = awaiting_fixed_pin;
 
 const unsigned long timeout_awaiting_dyn_code = 60u*1000u; // Vorsicht long ist offenbar nur 16 bit
 
+int email_pending = 0;
+
 
 EthernetServer server(ip_port);
 IPAddress myNet; 
@@ -233,6 +235,8 @@ void openDoorNow()
   digitalWrite(pinTuer, LOW);   // Relais AN
   // delay(1000);              // wait for a second
   relaisOffEventId = timer.after(3000, closeRalais); // call closeRalais with delay
+  
+  email_pending = 1;
 }
 
 void closeRalais()
@@ -240,6 +244,11 @@ void closeRalais()
   Serial.println("closeRalais");
   digitalWrite(pinTuer, HIGH);   // Tür-Relaus aus
   relaisOffEventId = -1;
+  
+  if (email_pending) {
+    email_pending = 0;
+    sendEMail();
+  }
 }
 
 void switchToState(int newState)
@@ -266,3 +275,41 @@ void resetState()
   resetStateEventId = -1;
 }
 
+void sendEMail()
+{
+  Serial.println("sendEMail");
+  EthernetClient client = EthernetClient();
+  client.connect("mail.wor.net",25);
+  Serial.println("connected");
+  int count = 0;
+  while (count < 20) {
+    if (client.available()) {
+      char c = client.read();
+      if (c == '\n')
+        break;
+    }
+    else {
+      Serial.println("delay");
+      delay(1000);
+    }
+  }
+  Serial.println("got response from mail server");
+  client.print("HELO arduino.steinkopf.net\n");
+  delay(100);
+  // client.print("AUTH PLAIN\n");
+  // client.print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\r\n");  // x: base64 encoded login: \0foo@yahoo.com\0password
+  client.print("MAIL FROM:<tueroeffner_arduino@steinkopf.net>\n");
+  client.print("RCPT TO:<dirk@wor.net>\n");
+  client.print("DATA\n");
+  delay(100);
+  client.print("From: \"tueroeffner_arduino\" <tueroeffner_arduino@steinkopf.net>\r\n");
+  client.print("To: dirk@wor.net\r\n");
+  client.print("Subject: Tuer geoeffnet\r\n");  // xD
+  client.print("\r\n");
+  client.print("Tuer wurde geoeffnet\r\n");  // Lines of text
+  // ......................................
+  client.print(".\r\n");
+  client.print("quit\n");
+  client.stop();
+  Serial.println("mail sent");
+}
