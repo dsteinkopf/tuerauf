@@ -12,10 +12,11 @@ class Backend {
 
     class func doOpen(code: String, completionHandler: (hasBeenOpened: Bool, info: String) -> ()) {
 
-        var baseUrl = "http://arduino.steinkopf.net/"
+        var baseUrl = "http://arduino.steinkopf.net:1080/"
 
         var urlString = baseUrl + code;
         var url = NSURL(string: urlString)
+        println("calling url="+urlString)
 
         var config = NSURLSessionConfiguration.defaultSessionConfiguration()
         config.timeoutIntervalForRequest = 5
@@ -45,14 +46,28 @@ class Backend {
                 return
             }
 
-            // alles ok
+            // mit dem Aufruf an sich ist alles ok
 
-            var dataString = NSString(data: data, encoding: NSUTF8StringEncoding)
-            // println("http result:" + dataString!)
+            var dataStringNS = NSString(data: data, encoding: NSUTF8StringEncoding)
+            var dataString = String(dataStringNS!)
+            println("http result:" + dataString)
 
-            var wasOpened = dataString?.containsString("OFFEN") != nil;
+            var lines = dataString.componentsSeparatedByString("\n")
+            var resultLine: String?
+            for line in lines {
+                if line.hasPrefix("<") {
+                    continue
+                }
+                if let range = line.rangeOfString("<") {
+                    resultLine = line.substringToIndex(range.startIndex)
+                }
+            }
 
-            completionHandler(hasBeenOpened: wasOpened, info: "ok")
+            let hasBeenOpened: Bool = resultLine?.rangeOfString("OFFEN") != nil
+            // let gotDynCode: Bool =    resultLine!.hasPrefix("dyn_code ")
+            // let badFixedPin: Bool   = resultLine?.rangeOfString("bad fixed_pin") != nil
+
+            completionHandler(hasBeenOpened: hasBeenOpened, info: resultLine!)
         }
         
         task.resume()

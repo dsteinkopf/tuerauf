@@ -13,28 +13,34 @@ class ViewController: UIViewController {
     @IBOutlet var jetztOeffnenButton: UIButton!
     @IBOutlet var ergebnisLabel: UILabel!
 
+    @IBOutlet var pinEntryField: UITextField!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         ergebnisLabel.text = ""
+        pinEntryField.text = ""
     }
     
     @IBAction func jetztOeffnenButtonPressed(sender: AnyObject) {
         NSLog("buttonPressed")
 
+        var code = pinEntryField.text
+        println("pin="+code)
+        pinEntryField.resignFirstResponder()
+
         ergebnisLabel.text = "running"
         jetztOeffnenButton.enabled = false
-
-        var code = "abc"
 
         Backend.doOpen(code,
             completionHandler: { (hasBeenOpened, info) -> () in
 
-                println("returned.")
+                println("call returned to ViewController.")
 
                 dispatch_async(dispatch_get_main_queue(), {
 
+                    self.pinEntryField.text = ""
+                    
                     if hasBeenOpened {
                         self.ergebnisLabel.text = "offen"
                     }

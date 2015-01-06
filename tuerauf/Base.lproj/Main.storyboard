@@ -30,12 +30,14 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ergebnis" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ixm-yO-xMG">
-                                <rect key="frame" x="16" y="374" width="568" height="206"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="9999" borderStyle="line" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="8k9-yC-vMD">
+                                <rect key="frame" x="230" y="142" width="141" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="141" id="7de-wv-5lG"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <textInputTraits key="textInputTraits" keyboardType="decimalPad" returnKeyType="go" secureTextEntry="YES"/>
+                            </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wg6-h1-k9E">
                                 <rect key="frame" x="223" y="246" width="154" height="108"/>
                                 <constraints>
@@ -50,10 +52,17 @@
                                     <action selector="jetztOeffnenButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="97j-ae-hhd"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ergebnis" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ixm-yO-xMG">
+                                <rect key="frame" x="16" y="374" width="568" height="206"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="tss-2w-abN" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="0cR-Tx-x06"/>
+                            <constraint firstAttribute="centerX" secondItem="8k9-yC-vMD" secondAttribute="centerX" id="DWw-e4-mEa"/>
                             <constraint firstAttribute="centerY" secondItem="tss-2w-abN" secondAttribute="centerY" id="L1a-Zj-hu9"/>
                             <constraint firstItem="Wg6-h1-k9E" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Lca-uc-tyY"/>
                             <constraint firstItem="hoW-BR-i88" firstAttribute="centerX" secondItem="Wg6-h1-k9E" secondAttribute="centerX" id="OcZ-Tg-KfO"/>
@@ -61,6 +70,7 @@
                             <constraint firstItem="hoW-BR-i88" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" symbolic="YES" id="Scr-kD-yo5"/>
                             <constraint firstItem="tss-2w-abN" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" id="aaf-Y7-EQf"/>
                             <constraint firstItem="ixm-yO-xMG" firstAttribute="top" secondItem="Wg6-h1-k9E" secondAttribute="bottom" constant="20" id="bXH-7Z-Cdp"/>
+                            <constraint firstItem="Wg6-h1-k9E" firstAttribute="top" secondItem="8k9-yC-vMD" secondAttribute="bottom" constant="74" id="ey3-9T-yFY"/>
                             <constraint firstItem="ixm-yO-xMG" firstAttribute="centerX" secondItem="Wg6-h1-k9E" secondAttribute="centerX" id="pKV-q9-vk1"/>
                             <constraint firstItem="ixm-yO-xMG" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="pxq-13-lDr"/>
                             <constraint firstItem="ixm-yO-xMG" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="urE-mM-1Il"/>
@@ -70,6 +80,7 @@
                     <connections>
                         <outlet property="ergebnisLabel" destination="ixm-yO-xMG" id="o4I-QZ-3f9"/>
                         <outlet property="jetztOeffnenButton" destination="Wg6-h1-k9E" id="cdl-uM-oNh"/>
+                        <outlet property="pinEntryField" destination="8k9-yC-vMD" id="eKu-X3-iji"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
