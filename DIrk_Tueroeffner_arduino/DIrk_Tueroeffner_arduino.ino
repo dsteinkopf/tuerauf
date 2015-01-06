@@ -3,6 +3,19 @@
   Dirk Steinkopf
   
   Türöffner
+  
+  Zur Sicherheit wird die Client-IP geprüft.
+  Hierzu muss EthernetClient.cpp/h gepatcht werden :-(
+  siehe http://forum.arduino.cc/index.php?topic=82416.0
+  ->
+  I added the following lines to the end of the EthernetClient.cpp file:
+uint8_t *EthernetClient::getRemoteIP(uint8_t remoteIP[])
+{
+  W5100.readSnDIPR(_sock, remoteIP);
+  return remoteIP;
+}
+I then added the following line (under the virtual void stop(); line)to the EthernetClient.h file:
+uint8_t *getRemoteIP(uint8_t RemoteIP[]);//adds remote ip address
  
  */
 
@@ -96,7 +109,7 @@ void loop() {
         if (c == '\n' && currentLineIsBlank) {
           line[charcount-1] = '\0';
           
-          String result = processRequest(line);
+          String result = processRequest(client, line);
 
           // send a standard http response header
           client.println("HTTP/1.1 200 OK");
@@ -135,8 +148,17 @@ void loop() {
   }
 }
 
-String processRequest(String input)
+String processRequest(EthernetClient client, String input)
 {
+  // check remote ip first - only local net allowed:
+  byte rip[] = {0,0,0,0 };
+  client.getRemoteIP(rip);
+  if ( rip[0] != 192
+    || rip[1] != 168
+    || rip[2] != 40 ) {
+      return "bad client ip";
+  }
+  
   Serial.println("processRequest");
   switch (mystate) {
     case awaiting_fixed_pin: return checkFixedPin(input); break;
@@ -207,7 +229,7 @@ void openDoorNow()
   Serial.println("openDoorNow");
   digitalWrite(pinTuer, LOW);   // Relais AN
   // delay(1000);              // wait for a second
-  relaisOffEventId = timer.after(1000, closeRalais); // call closeRalais with delay
+  relaisOffEventId = timer.after(3000, closeRalais); // call closeRalais with delay
 }
 
 void closeRalais()
