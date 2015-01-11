@@ -62,6 +62,8 @@ float feuchtigkeit = -999;
 DHT22 DHT22_1(dht22Pin); // bilde DHT22-Instanz
 
 
+IPAddress doorRequestCameFromIP;
+
 
 EthernetServer server(ip_port);
 IPAddress myNet; 
@@ -193,6 +195,8 @@ String processRequest(EthernetClient client, String input)
   if (pos > 0) {
     return getHumidity();
   }
+  
+  doorRequestCameFromIP = IPAddress(rip[0], rip[1], rip[2], rip[3]);
 
   switch (mystate) {
     case awaiting_fixed_pin: return checkFixedPin(input); break;
@@ -335,9 +339,14 @@ void sendEMail()
   client.print(F("From: \"tueroeffner_arduino\" <tueroeffner_arduino@steinkopf.net>\r\n"));
   client.print(F("To: dirk@wor.net\r\n"));
   client.print(F("Subject: Tuer geoeffnet\r\n"));  // xD
-  client.print(F("\r\n"));
   client.print(F("Tuer wurde geoeffnet\r\n"));  // Lines of text
+  if (doorRequestCameFromIP != NULL) {
+    Serial.print(F("doorRequestCameFromIP=")); Serial.println(doorRequestCameFromIP);
+    client.print(doorRequestCameFromIP);
+    client.print(F("\r\n"));
+  }
   // ......................................
+  client.print(F("\r\n"));
   client.print(F(".\r\n"));
   client.print(F("quit\n"));
   client.stop();
