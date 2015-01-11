@@ -31,6 +31,7 @@ F("abc") spart Speicher. siehe http://electronics.stackexchange.com/questions/66
 #include <DHT22.h>
 
 
+//  Ethernet shield attached to pins 10, 11, 12, 13
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFD, 0xEC };
 IPAddress ip(192,168,40,14);
 const int do_dhcp = 0;
