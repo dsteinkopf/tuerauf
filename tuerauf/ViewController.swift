@@ -56,19 +56,20 @@ class ViewController: UIViewController {
                     var waitSeconds: Int64 = 5;
 
                     if hasBeenOpened {
+                        self.pinResultLabel.text = "";
                         self.ergebnisLabel.text = "!!!!! Tür ist offen !!!!!"
                         self.bgImage.alpha = 1.0;
-                        self.pinResultLabel.text = ""
                     }
                     else {
                         println(info)
 
-                        if info.rangeOfString("dyn_code ") != nil {
+                        if countElements(info) < 20 {
                             self.pinResultLabel.text = info;
                             self.ergebnisLabel.text = ""
                             waitSeconds = 1
                         }
                         else {
+                            self.pinResultLabel.text = "";
                             self.ergebnisLabel.text = info
                         }
                     }
