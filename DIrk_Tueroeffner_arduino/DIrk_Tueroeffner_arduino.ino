@@ -32,7 +32,8 @@ F("abc") spart Speicher. siehe http://electronics.stackexchange.com/questions/66
 
 
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFD, 0xEC };
-// jetzt via DHCP: IPAddress ip(192,168,40,14);
+IPAddress ip(192,168,40,14);
+const int do_dhcp = 0;
 const int ip_port = 1080;
 int pinTuer = 8;
 
@@ -88,17 +89,22 @@ void setup() {
   }
 
   // start the Ethernet connection and the server:
-  while (1) {
-    Serial.println(F("doing DHCP..."));
-    int dhcpok = Ethernet.begin(mac);
-    if (dhcpok) {
-      Serial.println(F("DHCP ok"));
-      break;
+  if (do_dhcp) {
+    while (1) {
+      Serial.println(F("doing DHCP..."));
+      int dhcpok = Ethernet.begin(mac);
+      if (dhcpok) {
+        Serial.println(F("DHCP ok"));
+        break;
+      }
+      else {
+        Serial.println(F("DHCP failed"));
+        delay(5*1000);
+      }
     }
-    else {
-      Serial.println(F("DHCP failed"));
-      delay(5*1000);
-    }
+  }
+  else {
+    Ethernet.begin(mac, ip);
   }
   
   server.begin();
