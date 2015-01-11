@@ -34,7 +34,7 @@ F("abc") spart Speicher. siehe http://electronics.stackexchange.com/questions/66
 //  Ethernet shield attached to pins 10, 11, 12, 13
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFD, 0xEC };
 IPAddress ip(192,168,40,14);
-const int do_dhcp = 0;
+const int do_dhcp = 1;
 const int ip_port = 1080;
 int pinTuer = 8;
 
@@ -150,16 +150,8 @@ void loop() {
           client.println(F("Connection: close"));  // the connection will be closed after completion of the response
 	  // client.println("Refresh: 5");  // refresh the page automatically every 5 sec
           client.println();
-          client.println(F("<!DOCTYPE HTML>"));
-          client.println(F("<html>"));
-          // client.print(F("line:");
-          // client.print(line);
-          client.println(F("<br/>"));
 
-          client.print(result);          
-          client.println(F("<br/>"));       
-
-          client.println(F("</html>"));
+          client.println(result);          
 
           break;
         }

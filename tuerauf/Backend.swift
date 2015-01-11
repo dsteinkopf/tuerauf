@@ -48,26 +48,15 @@ class Backend {
 
             // mit dem Aufruf an sich ist alles ok
 
-            var dataStringNS = NSString(data: data, encoding: NSUTF8StringEncoding)
-            var dataString = String(dataStringNS!)
+            let dataStringNS = NSString(data: data, encoding: NSUTF8StringEncoding)
+            let dataString = String(dataStringNS!).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
             println("http result:" + dataString)
 
-            var lines = dataString.componentsSeparatedByString("\n")
-            var resultLine: String?
-            for line in lines {
-                if line.hasPrefix("<") {
-                    continue
-                }
-                if let range = line.rangeOfString("<") {
-                    resultLine = line.substringToIndex(range.startIndex)
-                }
-            }
+            let hasBeenOpened: Bool = dataString.rangeOfString("OFFEN") != nil
+            // let gotDynCode: Bool =    dataString!.hasPrefix("dyn_code ")
+            // let badFixedPin: Bool   = dataString?.rangeOfString("bad fixed_pin") != nil
 
-            let hasBeenOpened: Bool = resultLine?.rangeOfString("OFFEN") != nil
-            // let gotDynCode: Bool =    resultLine!.hasPrefix("dyn_code ")
-            // let badFixedPin: Bool   = resultLine?.rangeOfString("bad fixed_pin") != nil
-
-            completionHandler(hasBeenOpened: hasBeenOpened, info: resultLine!)
+            completionHandler(hasBeenOpened: hasBeenOpened, info: dataString)
         }
         
         task.resume()
