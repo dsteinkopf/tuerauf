@@ -19,7 +19,7 @@ class Backend {
         println("calling url="+urlString)
 
         var config = NSURLSessionConfiguration.defaultSessionConfiguration()
-        config.timeoutIntervalForRequest = 5
+        config.timeoutIntervalForRequest = 15
 
         var session = NSURLSession(configuration: config)
 

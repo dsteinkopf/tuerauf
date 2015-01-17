@@ -171,6 +171,7 @@ void loop() {
     client.stop();
     Serial.println(F("client disconnected"));
   }
+  delay(100); // damit kein busy wait entsteht
 }
 
 String processRequest(EthernetClient client, String input)
@@ -230,6 +231,7 @@ String checkFixedPin(String input)
     }
     
     switchToState(awaiting_fixed_pin);
+    sendEMail(F("bad fixed_pin")); // Mail-Verschicken erzeugt außerdem ein Delay von ein paar Sekunden
     return F("bad fixed_pin");
   }
 }
@@ -279,7 +281,7 @@ void closeRalais()
   
   if (email_pending) {
     email_pending = 0;
-    sendEMail();
+    sendEMail(F("Tuer wurde geoeffnet"));
   }
 }
 
@@ -308,7 +310,7 @@ void resetState()
 }
 
 
-void sendEMail()
+void sendEMail(String content)
 {
   Serial.println(F("sendEMail"));
   EthernetClient client = EthernetClient();
@@ -337,10 +339,16 @@ void sendEMail()
   delay(100);
   client.print(F("From: \"tueroeffner_arduino\" <tueroeffner_arduino@steinkopf.net>\r\n"));
   client.print(F("To: dirk@wor.net\r\n"));
-  client.print(F("Subject: Tuer geoeffnet\r\n"));  // xD
-  client.print(F("Tuer wurde geoeffnet\r\n"));  // Lines of text
+
+  client.print(F("Subject: ")); 
+  client.print(content); 
+  client.print(F("\r\n")); 
+
+  client.print(content);  // Lines of text
+  client.print(F("\r\n"));  // Lines of text
   if (doorRequestCameFromIP != NULL) {
     Serial.print(F("doorRequestCameFromIP=")); Serial.println(doorRequestCameFromIP);
+    client.print(F("von "));
     client.print(doorRequestCameFromIP);
     client.print(F("\r\n"));
   }
