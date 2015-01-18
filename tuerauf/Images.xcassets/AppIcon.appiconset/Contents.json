@@ -23,7 +23,7 @@
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "tuer_icon_180-1.png",
+      "filename" : "tuer_icon_120.png",
       "scale" : "2x"
     },
     {
@@ -55,13 +55,13 @@
     {
       "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "tuer_icon_180-2.png",
+      "filename" : "tuer_icon_76.png",
       "scale" : "1x"
     },
     {
       "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "tuer_icon_180-3.png",
+      "filename" : "tuer_icon_152.png",
       "scale" : "2x"
     }
   ],
