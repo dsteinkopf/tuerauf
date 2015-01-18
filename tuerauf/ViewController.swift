@@ -79,10 +79,11 @@ class ViewController: UIViewController {
                     }
 
                     self.jetztOeffnenButton.enabled = true
-                    self.pinEntryField.enabled = false
+                    self.pinEntryField.enabled = true
 
                     var dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, waitSeconds * Int64(NSEC_PER_SEC))
                     dispatch_after(dispatchTime, dispatch_get_main_queue(), {
+                        println("jetzt Ergebnis ausblenden etc.")
                         self.ergebnisLabel.text = ""
                         self.bgImage.alpha = 0.7;
                         self.pinEntryField.becomeFirstResponder()
