@@ -15,6 +15,7 @@ class ViewController: UIViewController {
     @IBOutlet var pinEntryField: UITextField!
     @IBOutlet var bgImage: UIImageView!
     @IBOutlet var pinResultLabel: UILabel!
+    @IBOutlet var versionLabel: UILabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +23,8 @@ class ViewController: UIViewController {
         ergebnisLabel.text = ""
         pinEntryField.text = ""
         pinResultLabel.text = ""
+
+        versionLabel.text = AppDelegate.getAppVersionFull()
 
 //        pinEntryField.addTarget(self, action: "pinEntryValueChanged:", forControlEvents: UIControlEvents.ValueChanged)
         pinEntryField.addTarget(self, action: "pinEntryValueChanged:", forControlEvents: UIControlEvents.EditingChanged)
@@ -43,6 +46,7 @@ class ViewController: UIViewController {
 
         ergebnisLabel.text = "running"
         jetztOeffnenButton.enabled = false
+        pinEntryField.enabled = false
 
         Backend.doOpen(code,
             completionHandler: { (hasBeenOpened, info) -> () in
@@ -75,6 +79,7 @@ class ViewController: UIViewController {
                     }
 
                     self.jetztOeffnenButton.enabled = true
+                    self.pinEntryField.enabled = false
 
                     var dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, waitSeconds * Int64(NSEC_PER_SEC))
                     dispatch_after(dispatchTime, dispatch_get_main_queue(), {

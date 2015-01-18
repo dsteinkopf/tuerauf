@@ -41,6 +41,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
+    class func getAppVersionFull() -> String! {
+        let infoDict: NSDictionary? = NSBundle.mainBundle().infoDictionary?
+        let revDetails: String? = infoDict?["CFBundleVersionDetails"] as? String // CFBundleVersionDetails = our own key
+        let version:    String? = infoDict?["CFBundleShortVersionString"] as? String
 
+        let fullVersion = String(format:"%@ (%@)",
+            version == nil ? "?" : version!,
+            revDetails == nil ? "??" : revDetails!)
+        NSLog("fullVersion="+fullVersion)
+        return fullVersion
+    }
 }
 

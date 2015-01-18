@@ -62,6 +62,16 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="V1.0.1 (1234-1234567)" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KWf-g3-s9s">
+                                <rect key="frame" x="461" y="20" width="123" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="123" id="EYj-1v-aLS"/>
+                                    <constraint firstAttribute="height" constant="21" id="x1K-wk-eCo"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="PIN" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fFZ-Uq-eKn">
                                 <rect key="frame" x="16" y="-6" width="568" height="206"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="28"/>
@@ -72,6 +82,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="tss-2w-abN" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="0cR-Tx-x06"/>
+                            <constraint firstItem="KWf-g3-s9s" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="5Ar-B3-qcS"/>
                             <constraint firstAttribute="centerX" secondItem="8k9-yC-vMD" secondAttribute="centerX" id="DWw-e4-mEa"/>
                             <constraint firstAttribute="centerY" secondItem="tss-2w-abN" secondAttribute="centerY" id="L1a-Zj-hu9"/>
                             <constraint firstItem="Wg6-h1-k9E" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Lca-uc-tyY"/>
@@ -85,6 +96,7 @@
                             <constraint firstItem="ixm-yO-xMG" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="pxq-13-lDr"/>
                             <constraint firstItem="ixm-yO-xMG" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="urE-mM-1Il"/>
                             <constraint firstAttribute="bottom" secondItem="ixm-yO-xMG" secondAttribute="bottom" constant="20" symbolic="YES" id="wSk-qH-kTi"/>
+                            <constraint firstItem="KWf-g3-s9s" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="yjN-RV-QdC"/>
                         </constraints>
                     </view>
                     <connections>
@@ -93,6 +105,7 @@
                         <outlet property="jetztOeffnenButton" destination="Wg6-h1-k9E" id="cdl-uM-oNh"/>
                         <outlet property="pinEntryField" destination="8k9-yC-vMD" id="eKu-X3-iji"/>
                         <outlet property="pinResultLabel" destination="fFZ-Uq-eKn" id="i2I-QB-hfC"/>
+                        <outlet property="versionLabel" destination="KWf-g3-s9s" id="P4j-3g-Tj6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

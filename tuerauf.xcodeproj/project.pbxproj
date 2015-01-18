@@ -145,6 +145,7 @@
 				585FDDFF1A5904EA00C830F2 /* Sources */,
 				585FDE001A5904EA00C830F2 /* Frameworks */,
 				585FDE011A5904EA00C830F2 /* Resources */,
+				584E093B1A6BEDAB002AC50E /* Revisionsnummer holen */,
 			);
 			buildRules = (
 			);
@@ -233,6 +234,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		584E093B1A6BEDAB002AC50E /* Revisionsnummer holen */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Revisionsnummer holen";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "#!/bin/bash\nset -x\n\ncd \"$PROJECT_DIR\"\nREVCOUNT=$(git rev-list --count HEAD)\nlet BUILD_VERSION=$REVCOUNT\nBUILD_VERSION_DETAILS=`echo \"$BUILD_VERSION-$(git rev-list --max-count=1 --pretty=format:%h HEAD | tail -1)\"`\n\ncd \"$BUILT_PRODUCTS_DIR/$PRODUCT_NAME.app\"\nRELEASE_VERSION=$(/usr/libexec/PListBuddy -c \"Print CFBundleShortVersionString\" Info.plist)\n/usr/libexec/PListBuddy -c \"Set CFBundleVersion $BUILD_VERSION\" Info.plist\n\n# CFBundleVersionDetails = our own key\n/usr/libexec/PListBuddy -c \"Delete CFBundleVersionDetails\" Info.plist || true\n/usr/libexec/PListBuddy -c \"Add CFBundleVersionDetails string $BUILD_VERSION_DETAILS\" Info.plist\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		585FDDFF1A5904EA00C830F2 /* Sources */ = {
@@ -397,7 +415,7 @@
 				INFOPLIST_FILE = tueraufTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/tuerauf.app/tuerauf";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Tür auf.app/Tür auf";
 			};
 			name = Debug;
 		};
@@ -412,7 +430,7 @@
 				INFOPLIST_FILE = tueraufTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/tuerauf.app/tuerauf";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Tür auf.app/Tür auf";
 			};
 			name = Release;
 		};
@@ -435,6 +453,7 @@
 				585FDE241A5904EA00C830F2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		585FDE251A5904EA00C830F2 /* Build configuration list for PBXNativeTarget "tueraufTests" */ = {
 			isa = XCConfigurationList;
@@ -443,6 +462,7 @@
 				585FDE271A5904EA00C830F2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
