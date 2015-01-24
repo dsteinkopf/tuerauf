@@ -144,15 +144,21 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             self.geox = manager.location.coordinate.longitude
             if (!self.gotGeolocation) {
                 NSLog("didUpdateLocations ok: geoy=%f, geox=%f", self.geoy, self.geox)
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.enableAll(true)
+                })
             }
             self.gotGeolocation = true
         }
         else {
-            self.gotGeolocation = false
+            if (self.gotGeolocation) {
+                NSLog("didUpdateLocations ok: geoy=%f, geox=%f", self.geoy, self.geox)
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.enableAll(false)
+                })
+                self.gotGeolocation = false
+            }
         }
-        dispatch_async(dispatch_get_main_queue(), {
-            self.enableAll(self.gotGeolocation)
-        })
     }
 
     func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {

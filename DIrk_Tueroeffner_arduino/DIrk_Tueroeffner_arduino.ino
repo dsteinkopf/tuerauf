@@ -34,6 +34,7 @@ F("abc") spart Speicher. siehe http://electronics.stackexchange.com/questions/66
 //  Ethernet shield attached to pins 10, 11, 12, 13
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFD, 0xEC };
 IPAddress ip(192,168,40,14);
+IPAddress allowedip(192,168,41,18);
 const int do_dhcp = 1;
 const int ip_port = 1080;
 int pinTuer = 8;
@@ -178,11 +179,12 @@ String processRequest(EthernetClient client, String input)
 {
   Serial.println(F("processRequest"));
    
-  // check remote ip first - only local net allowed:
+  // check remote ip first - only local net and allowedip are allowed:
   byte rip[] = {0,0,0,0 };
   client.getRemoteIP(rip);
+  doorRequestCameFromIP = IPAddress(rip[0], rip[1], rip[2], rip[3]);
   IPAddress remoteNet(rip[0], rip[1], rip[2], 0); 
-  if (myNet != remoteNet) {
+  if (myNet != remoteNet && allowedip != doorRequestCameFromIP) {
       return F("bad client ip");
   }
   
@@ -196,8 +198,6 @@ String processRequest(EthernetClient client, String input)
     return getHumidity();
   }
   
-  doorRequestCameFromIP = IPAddress(rip[0], rip[1], rip[2], rip[3]);
-
   switch (mystate) {
     case awaiting_fixed_pin: return checkFixedPin(input); break;
     case awaiting_dyn_code:  return checkDynCode(input); break;
