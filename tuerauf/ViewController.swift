@@ -7,8 +7,10 @@
 //
 
 import UIKit
+import CoreLocation
 
-class ViewController: UIViewController {
+
+class ViewController: UIViewController, CLLocationManagerDelegate {
 
     @IBOutlet var jetztOeffnenButton: UIButton!
     @IBOutlet var ergebnisLabel: UILabel!
@@ -16,6 +18,13 @@ class ViewController: UIViewController {
     @IBOutlet var bgImage: UIImageView!
     @IBOutlet var pinResultLabel: UILabel!
     @IBOutlet var versionLabel: UILabel!
+
+    let locationManager = CLLocationManager()
+    let NEEDED_ACCURACY_IN_M = 75.0
+    var geoy: Double = 0.0
+    var geox: Double = 0.0
+    var gotGeolocation = false
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +34,8 @@ class ViewController: UIViewController {
         pinResultLabel.text = ""
 
         versionLabel.text = AppDelegate.getAppVersionFull()
+
+        initFindMyLocation()
 
 //        pinEntryField.addTarget(self, action: "pinEntryValueChanged:", forControlEvents: UIControlEvents.ValueChanged)
         pinEntryField.addTarget(self, action: "pinEntryValueChanged:", forControlEvents: UIControlEvents.EditingChanged)
@@ -45,10 +56,9 @@ class ViewController: UIViewController {
         pinEntryField.resignFirstResponder()
 
         ergebnisLabel.text = "running"
-        jetztOeffnenButton.enabled = false
-        pinEntryField.enabled = false
+        enableAll(false)
 
-        Backend.doOpen(code,
+        Backend.doOpen(code, geoy:geoy, geox:geox,
             completionHandler: { (hasBeenOpened, info) -> () in
 
                 println("call returned to ViewController.")
@@ -78,8 +88,7 @@ class ViewController: UIViewController {
                         }
                     }
 
-                    self.jetztOeffnenButton.enabled = true
-                    self.pinEntryField.enabled = true
+                    self.enableAll(true)
 
                     var dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, waitSeconds * Int64(NSEC_PER_SEC))
                     dispatch_after(dispatchTime, dispatch_get_main_queue(), {
@@ -91,6 +100,14 @@ class ViewController: UIViewController {
                     
                 })
         })
+    }
+
+    func enableAll(on:Bool) {
+        self.jetztOeffnenButton.enabled = on
+        self.pinEntryField.enabled = on
+        if (on) {
+            self.pinEntryField.becomeFirstResponder()
+        }
     }
 
     @IBAction func pinEntryEditingDidEnd(sender: AnyObject) {
@@ -110,6 +127,36 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    func initFindMyLocation() {
+        NSLog("initFindMyLocation")
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
+        gotGeolocation = false
+        self.enableAll(self.gotGeolocation)
+    }
 
+    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+
+        if (manager.location.horizontalAccuracy < NEEDED_ACCURACY_IN_M && manager.location.horizontalAccuracy < NEEDED_ACCURACY_IN_M) {
+            self.geoy = manager.location.coordinate.latitude
+            self.geox = manager.location.coordinate.longitude
+            if (!self.gotGeolocation) {
+                NSLog("didUpdateLocations ok: geoy=%f, geox=%f", self.geoy, self.geox)
+            }
+            self.gotGeolocation = true
+        }
+        else {
+            self.gotGeolocation = false
+        }
+        dispatch_async(dispatch_get_main_queue(), {
+            self.enableAll(self.gotGeolocation)
+        })
+    }
+
+    func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
+        println("Error while updating location " + error.localizedDescription)
+    }
 }
 

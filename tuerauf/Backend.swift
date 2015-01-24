@@ -10,11 +10,15 @@ import Foundation
 
 class Backend {
 
-    class func doOpen(code: String, completionHandler: (hasBeenOpened: Bool, info: String) -> ()) {
+    class func doOpen(code: String, geoy: Double, geox: Double,
+                        completionHandler: (hasBeenOpened: Bool, info: String) -> ())
+    {
+        // let baseUrl = "http://arduino.steinkopf.net:1080/"
+        let baseUrl = "https://owncloud.steinkopf.net:39931/tuerauf.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o"
 
-        var baseUrl = "http://arduino.steinkopf.net:1080/"
-
-        var urlString = baseUrl + code;
+        let geoy_str = String(format:"%f", geoy)
+        let geox_str = String(format:"%f", geox)
+        var urlString = String(format:"%@&geoy=%@&geox=%@&arduinoparam=%@", baseUrl, geoy_str, geox_str, code)
         var url = NSURL(string: urlString)
         println("calling url="+urlString)
 

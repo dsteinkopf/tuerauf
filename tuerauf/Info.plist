@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSLocationUsageDescription</key>
+	<string>this is NSLocationUsageDescription</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Die App stellt fest, ob Du in der Nähe von Steinkopfs Haus bist.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>de_DE</string>
 	<key>CFBundleExecutable</key>
