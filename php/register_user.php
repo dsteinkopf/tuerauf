@@ -1,34 +1,35 @@
 <?php
 /*
 Neue User anzeigen:
-https://owncloudsrv.steinkopf.net:39931/tuerauf/register_user.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o&showusers=WsI65yuGCkjcA&type=new
+https://backend.steinkopf.net:39931/tuerauf/register_user.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o&showusers=WsI65yuGCkjcA&type=new
 
 Neue User nach all kopieren (und dadurch aktivieren):
-https://owncloudsrv.steinkopf.net:39931/tuerauf/register_user.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o&showusers=WsI65yuGCkjcA&type=new&savenewtoall=WsI65yuGCkjcA
+https://backend.steinkopf.net:39931/tuerauf/register_user.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o&showusers=WsI65yuGCkjcA&type=new&savenewtoall=WsI65yuGCkjcA
 
 Einen User anlegen: (dazu vorher freischalten mit: cp -p data/userlistnew_empty.php data/userlistnew.php
-https://owncloudsrv.steinkopf.net:39931/tuerauf/register_user.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o&installationid=ii1&name=nn1
+https://backendsrv.steinkopf.net:39931/tuerauf/register_user.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o&installationid=ii1&name=nn1
 
 
 Ablauf Registrierung:
 1. Admin schaltet Registrierung frei:
     cd ... && cp -p data/userlistnew_empty.php data/userlistnew.php
 2. User registrieren sich mit App. D.h.
-    https://owncloudsrv.steinkopf.net:39931/tuerauf/register_user.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o&installationid=ii1&name=nn1
+    https://backendsrv.steinkopf.net:39931/tuerauf/register_user.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o&installationid=ii1&name=nn1
 3. Admin zeigt neue User an:
-    https://owncloudsrv.steinkopf.net:39931/tuerauf/register_user.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o&showusers=WsI65yuGCkjcA&type=new
+    https://backendsrv.steinkopf.net:39931/tuerauf/register_user.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o&showusers=WsI65yuGCkjcA&type=new
 4. Admin speichert neue User nach all und aktiviert sie daurch:
-    https://owncloudsrv.steinkopf.net:39931/tuerauf/register_user.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o&showusers=WsI65yuGCkjcA&type=new&savenewtoall=WsI65yuGCkjcA&showusers=WsI65yuGCkjcA
+    https://backendsrv.steinkopf.net:39931/tuerauf/register_user.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o&showusers=WsI65yuGCkjcA&type=new&savenewtoall=WsI65yuGCkjcA&showusers=WsI65yuGCkjcA
 5. Admin schaltet Registrierung ab:
     cd ... && rm data/userlistnew.php
 6. Admin zeigt alle user an:
-    https://owncloudsrv.steinkopf.net:39931/tuerauf/register_user.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o&showusers=WsI65yuGCkjcA&type=all
+    https://backendsrv.steinkopf.net:39931/tuerauf/register_user.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o&showusers=WsI65yuGCkjcA&type=all
    */
 
 require 'incl/lib.php';
+check_appsecret();
+
 require 'incl/users.php';
 
-check_appsecret();
 
 $adminsecret = "WsI65yuGCkjcA";
 
