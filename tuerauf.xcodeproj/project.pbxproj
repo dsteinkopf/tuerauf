@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		580A91D01A75E96E002AEE17 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 580A91CF1A75E96E002AEE17 /* SettingsViewController.swift */; };
 		585FDE091A5904EA00C830F2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585FDE081A5904EA00C830F2 /* AppDelegate.swift */; };
 		585FDE0B1A5904EA00C830F2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585FDE0A1A5904EA00C830F2 /* ViewController.swift */; };
 		585FDE0E1A5904EA00C830F2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 585FDE0C1A5904EA00C830F2 /* Main.storyboard */; };
@@ -36,6 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		580A91CF1A75E96E002AEE17 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		585FDE031A5904EA00C830F2 /* Tür auf.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Tür auf.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		585FDE071A5904EA00C830F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		585FDE081A5904EA00C830F2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 				585FDE281A5908C100C830F2 /* Backend.swift */,
 				585FDE081A5904EA00C830F2 /* AppDelegate.swift */,
 				585FDE0A1A5904EA00C830F2 /* ViewController.swift */,
+				580A91CF1A75E96E002AEE17 /* SettingsViewController.swift */,
 				585FDE0C1A5904EA00C830F2 /* Main.storyboard */,
 				585FDE0F1A5904EA00C830F2 /* Images.xcassets */,
 				585FDE111A5904EA00C830F2 /* LaunchScreen.xib */,
@@ -281,6 +284,7 @@
 				585FDE0B1A5904EA00C830F2 /* ViewController.swift in Sources */,
 				585FDE091A5904EA00C830F2 /* AppDelegate.swift in Sources */,
 				585FDE291A5908C100C830F2 /* Backend.swift in Sources */,
+				580A91D01A75E96E002AEE17 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

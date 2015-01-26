@@ -127,6 +127,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         // Dispose of any resources that can be recreated.
     }
 
+    @IBAction func cancelToMainViewController(segue:UIStoryboardSegue) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+
+    @IBAction func saveRegistration(segue:UIStoryboardSegue) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+
     func initFindMyLocation() {
         NSLog("initFindMyLocation")
         locationManager.delegate = self

@@ -8,24 +8,23 @@
 
 import Foundation
 
+
+private let baseUrl = "https://backend.steinkopf.net:39931/tuerauf/"
+private let appsecretParam = "appsecret=plUwPcIE82vKwHUVnGiS4o5J6o"
+
+
 class Backend {
 
     class func doOpen(code: String, geoy: Double, geox: Double,
                         completionHandler: (hasBeenOpened: Bool, info: String) -> ())
     {
-        // let baseUrl = "http://arduino.steinkopf.net:1080/"
-        let baseUrl = "https://owncloud.steinkopf.net:39931/tuerauf.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o"
-
         let geoy_str = String(format:"%f", geoy)
         let geox_str = String(format:"%f", geox)
-        var urlString = String(format:"%@&geoy=%@&geox=%@&arduinoparam=%@", baseUrl, geoy_str, geox_str, code)
+        var urlString = String(format:"%@tuerauf.php?%@&geoy=%@&geox=%@&arduinoparam=%@", baseUrl, appsecretParam, geoy_str, geox_str, code)
         var url = NSURL(string: urlString)
         println("calling url="+urlString)
 
-        var config = NSURLSessionConfiguration.defaultSessionConfiguration()
-        config.timeoutIntervalForRequest = 15
-
-        var session = NSURLSession(configuration: config)
+        let session = getSession()
 
         let task = session.dataTaskWithURL(url!) {
             (data, response, error) in
@@ -64,5 +63,60 @@ class Backend {
         }
         
         task.resume()
+    }
+
+    class func registerUser(username: String,
+        completionHandler: (hasBeenSaved: Bool, info: String) -> ())
+    {
+        let installationid = NSUUID().UUIDString
+        let urlString = String(format:"%@register_user.php?%@&installationid=%@&name=%@", baseUrl, appsecretParam, installationid, username)
+        let url = NSURL(string: urlString)
+        println("calling url="+urlString)
+
+        let session = getSession()
+
+        let task = session.dataTaskWithURL(url!) {
+            (data, response, error) in
+
+            sleep(3)
+
+            if (error != nil) {
+                var infoString = error.userInfo?.description
+                completionHandler(hasBeenSaved: false, info: infoString!)
+                return
+            }
+
+            if !(response is NSHTTPURLResponse) {
+                completionHandler(hasBeenSaved: false, info: "no http response")
+                return
+            }
+
+            let httpresponse = response as NSHTTPURLResponse
+
+            if httpresponse.statusCode != 200 {
+                completionHandler(hasBeenSaved: false, info: "falscher status code \(httpresponse.statusCode)")
+                return
+            }
+
+            // mit dem Aufruf an sich ist alles ok
+
+            let dataStringNS = NSString(data: data, encoding: NSUTF8StringEncoding)
+            let dataString = String(dataStringNS!).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+            println("http result:" + dataString)
+
+            let hasBeenSaved: Bool = dataString.rangeOfString("saved_waiting") != nil
+
+            completionHandler(hasBeenSaved: hasBeenSaved, info: dataString)
+        }
+        
+        task.resume()
+    }
+
+    private class func getSession() -> NSURLSession! {
+        var config = NSURLSessionConfiguration.defaultSessionConfiguration()
+        config.timeoutIntervalForRequest = 15
+
+        let session = NSURLSession(configuration: config)
+        return session
     }
 }

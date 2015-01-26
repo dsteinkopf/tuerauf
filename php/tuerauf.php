@@ -16,6 +16,9 @@ require 'incl/users.php';
 loadUserlist();
 
 $installationid = $_REQUEST["installationid"];
+if (!array_key_exists($installationid, $glob_userlist)) {
+        reject("user unknown");
+}
 $username = $glob_userlist[$installationid];
 
 
@@ -37,7 +40,7 @@ if ($debug) {
 }
 
 if ($dist > $maxdist) {
-    reject();
+    reject("not here");
 }
 
 $arduino_url = $arduino_baseurl . $arduinoparam;
