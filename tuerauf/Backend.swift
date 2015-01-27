@@ -14,12 +14,13 @@ private let appsecretParam = "appsecret=plUwPcIE82vKwHUVnGiS4o5J6o"
 
 class Backend {
 
-    class func doOpen(code: String, geoy: Double, geox: Double,
+    class func doOpen(code: String, geoy: Double, geox: Double, installationid: String,
                         completionHandler: (hasBeenOpened: Bool, info: String) -> ())
     {
         let geoy_str = String(format:"%f", geoy)
         let geox_str = String(format:"%f", geox)
-        var urlString = String(format:"%@tuerauf.php?%@&geoy=%@&geox=%@&arduinoparam=%@", baseUrl, appsecretParam, geoy_str, geox_str, code)
+        var urlString = String(format:"%@tuerauf.php?%@&geoy=%@&geox=%@&installationid=%@&arduinoparam=%@",
+            baseUrl, appsecretParam, geoy_str, geox_str, installationid, code)
         var url = NSURL(string: urlString)
         println("calling url="+urlString)
 

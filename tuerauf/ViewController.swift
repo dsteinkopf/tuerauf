@@ -68,7 +68,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         ergebnisLabel.text = "running"
         enableAll(false)
 
-        Backend.doOpen(code, geoy:geoy, geox:geox,
+        Backend.doOpen(code, geoy:geoy, geox:geox, installationid:userRegistration!.installationId,
             completionHandler: { (hasBeenOpened, info) -> () in
 
                 println("call returned to ViewController.")
@@ -125,6 +125,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 
     private func checkToEnableAll() {
         self.enableAll(self.gotGeolocation && self.userRegistration!.registered!)
+        if !self.gotGeolocation {
+            self.ergebnisLabel.text = "Handy-Ortung nicht bereit oder genau genug."
+        }
+        if !self.userRegistration!.registered! {
+            self.ergebnisLabel.text = "Nicht registriert.\nBitte auf Zahnrad klicken, Name eingeben und Speichern!"
+        }
     }
 
     @IBAction func pinEntryEditingDidEnd(sender: AnyObject) {
