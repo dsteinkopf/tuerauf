@@ -16,10 +16,10 @@ require 'incl/users.php';
 loadUserlist();
 
 $installationid = $_REQUEST["installationid"];
-if (!array_key_exists($installationid, $glob_userlist)) {
+$username = getUsername($installationid);
+if (!$username) {
         reject("user unknown");
 }
-$username = $glob_userlist[$installationid];
 
 
 $geoy = $_REQUEST["geoy"]; // lat

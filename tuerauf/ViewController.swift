@@ -19,33 +19,43 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet var pinResultLabel: UILabel!
     @IBOutlet var versionLabel: UILabel!
 
-    let locationManager = CLLocationManager()
-    let NEEDED_ACCURACY_IN_M = 75.0
-    var geoy: Double = 0.0
-    var geox: Double = 0.0
-    var gotGeolocation = false
+    private let locationManager = CLLocationManager()
+    private let NEEDED_ACCURACY_IN_M = 75.0
+    private var geoy: Double = 0.0
+    private var geox: Double = 0.0
+    private var gotGeolocation = false
+
+    private var userRegistration: UserRegistration?
 
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        ergebnisLabel.text = ""
-        pinEntryField.text = ""
-        pinResultLabel.text = ""
 
-        versionLabel.text = AppDelegate.getAppVersionFull()
+        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        userRegistration = appDelegate.userRegistration
 
-        initFindMyLocation()
+        fillViews()
 
 //        pinEntryField.addTarget(self, action: "pinEntryValueChanged:", forControlEvents: UIControlEvents.ValueChanged)
         pinEntryField.addTarget(self, action: "pinEntryValueChanged:", forControlEvents: UIControlEvents.EditingChanged)
 //        pinEntryField.addTarget(self, action: "pinEntryValueChanged:", forControlEvents: UIControlEvents.TouchUpInside)
     }
 
+    private func fillViews() {
+        versionLabel.text = AppDelegate.getAppVersionFull()
+
+        ergebnisLabel.text = ""
+        pinEntryField.text = ""
+        pinResultLabel.text = ""
+    }
+
     override func viewWillAppear(animated: Bool) {
         NSLog("viewWillAppear")
 
         pinEntryField.becomeFirstResponder()
+
+        initFindMyLocation()
     }
     
     @IBAction func jetztOeffnenButtonPressed(sender: AnyObject) {
@@ -88,7 +98,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                         }
                     }
 
-                    self.enableAll(true)
+                    self.checkToEnableAll()
 
                     var dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, waitSeconds * Int64(NSEC_PER_SEC))
                     dispatch_after(dispatchTime, dispatch_get_main_queue(), {
@@ -102,12 +112,19 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         })
     }
 
-    func enableAll(on:Bool) {
+    private func enableAll(on:Bool) {
         self.jetztOeffnenButton.enabled = on
         self.pinEntryField.enabled = on
         if (on) {
             self.pinEntryField.becomeFirstResponder()
         }
+        else {
+            self.pinEntryField.resignFirstResponder()
+        }
+    }
+
+    private func checkToEnableAll() {
+        self.enableAll(self.gotGeolocation && self.userRegistration!.registered!)
     }
 
     @IBAction func pinEntryEditingDidEnd(sender: AnyObject) {
@@ -142,25 +159,27 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
         gotGeolocation = false
-        self.enableAll(self.gotGeolocation)
+
+        self.checkToEnableAll()
     }
 
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
 
-        if (manager.location.horizontalAccuracy < NEEDED_ACCURACY_IN_M && manager.location.horizontalAccuracy < NEEDED_ACCURACY_IN_M) {
+        // NSLog("didUpdateLocations: geoy=%f, geox=%f accuracy=%f m", self.geoy, self.geox, manager.location.horizontalAccuracy)
+
+        if (manager.location.horizontalAccuracy < NEEDED_ACCURACY_IN_M) {
             self.geoy = manager.location.coordinate.latitude
             self.geox = manager.location.coordinate.longitude
-            if (!self.gotGeolocation) {
-                NSLog("didUpdateLocations ok: geoy=%f, geox=%f", self.geoy, self.geox)
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.enableAll(true)
-                })
-            }
             self.gotGeolocation = true
+
+            // NSLog("didUpdateLocations here: geoy=%f, geox=%f", self.geoy, self.geox)
+            dispatch_async(dispatch_get_main_queue(), {
+                self.checkToEnableAll()
+            })
         }
         else {
             if (self.gotGeolocation) {
-                NSLog("didUpdateLocations ok: geoy=%f, geox=%f", self.geoy, self.geox)
+                // NSLog("didUpdateLocations away: geoy=%f, geox=%f", self.geoy, self.geox)
                 dispatch_async(dispatch_get_main_queue(), {
                     self.enableAll(false)
                 })

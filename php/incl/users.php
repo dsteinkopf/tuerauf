@@ -6,6 +6,19 @@ $glob_userlist = array();
 
 
 /**
+ Liefert den Namen des Users anhand der installationid
+*/
+function getUsername($installationid) {
+        global $glob_userlist;
+
+        if (array_key_exists($installationid, $glob_userlist)) {
+                $userarr = $glob_userlist[$installationid];
+                return $userarr["name"];
+        }
+        return null;
+}
+
+/**
  * speichert die Userlist als PHP-Include-File, damit sie nicht von extern direkt aufgerufen werden kann
  */
 function saveUserlist($suffix = "all") {

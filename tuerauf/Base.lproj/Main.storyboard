@@ -150,6 +150,9 @@
                                                     <rect key="frame" x="8" y="7" width="584" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits"/>
+                                                    <connections>
+                                                        <action selector="usernameTextFieldValueChanged:" destination="uPT-Pn-o4E" eventType="valueChanged" id="lE5-Mo-0jR"/>
+                                                    </connections>
                                                 </textField>
                                             </subviews>
                                         </tableViewCellContentView>
@@ -176,6 +179,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="activityIndicator" destination="6c3-Vd-4sF" id="xt5-so-DCt"/>
+                        <outlet property="usernameCell" destination="ZBn-Os-mNl" id="vts-Jd-mFT"/>
                         <outlet property="usernameTextField" destination="hVL-wT-WtL" id="5Qp-Fe-Eay"/>
                         <segue destination="9FJ-Ec-XaI" kind="unwind" identifier="saveRegistration" unwindAction="saveRegistration:" id="CUj-mW-BeE"/>
                     </connections>

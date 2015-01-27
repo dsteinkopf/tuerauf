@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 private let baseUrl = "https://backend.steinkopf.net:39931/tuerauf/"
 private let appsecretParam = "appsecret=plUwPcIE82vKwHUVnGiS4o5J6o"
 
@@ -65,10 +64,9 @@ class Backend {
         task.resume()
     }
 
-    class func registerUser(username: String,
+    class func registerUser(username: String, installationid: String,
         completionHandler: (hasBeenSaved: Bool, info: String) -> ())
     {
-        let installationid = AppDelegate.getMyInstallationId()
         let urlString = String(format:"%@register_user.php?%@&installationid=%@&name=%@", baseUrl, appsecretParam, installationid, username)
         let url = NSURL(string: urlString)
         println("calling url="+urlString)

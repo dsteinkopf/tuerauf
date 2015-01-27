@@ -13,6 +13,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
+    private var _userRegistration: UserRegistration! = UserRegistration()
+
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
@@ -53,19 +55,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return fullVersion
     }
 
-    class func getMyInstallationId() -> String {
-        let userdefaults = NSUserDefaults.standardUserDefaults()
-        var myInstallationId: String
-        if let tueraufInstallationId = userdefaults.stringForKey("tueraufInstallationId") {
-            myInstallationId = tueraufInstallationId
+    internal var userRegistration: UserRegistration {
+        get {
+            return _userRegistration
         }
-        else {
-            myInstallationId = NSUUID().UUIDString
-            userdefaults.setObject(myInstallationId, forKey: "tueraufInstallationId")
-            NSLog("created new installationId")
-        }
-        NSLog("getMyInstallationId returns %@", myInstallationId)
-        return myInstallationId
     }
 }
 
