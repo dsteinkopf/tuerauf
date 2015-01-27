@@ -68,7 +68,7 @@ class Backend {
     class func registerUser(username: String,
         completionHandler: (hasBeenSaved: Bool, info: String) -> ())
     {
-        let installationid = NSUUID().UUIDString
+        let installationid = AppDelegate.getMyInstallationId()
         let urlString = String(format:"%@register_user.php?%@&installationid=%@&name=%@", baseUrl, appsecretParam, installationid, username)
         let url = NSURL(string: urlString)
         println("calling url="+urlString)
@@ -78,7 +78,7 @@ class Backend {
         let task = session.dataTaskWithURL(url!) {
             (data, response, error) in
 
-            sleep(3)
+            // sleep(3)
 
             if (error != nil) {
                 var infoString = error.userInfo?.description

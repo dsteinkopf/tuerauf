@@ -28,10 +28,18 @@ class SettingsViewController: UITableViewController {
             completionHandler: { (hasBeenSaved, info) -> () in
 
                 NSLog("registerUser returned: hasBeenSaved:%@ info=%@", hasBeenSaved, info)
+                dispatch_async(dispatch_get_main_queue(), {
+                        self.activityIndicator.stopAnimating()
+                    })
 
-                self.activityIndicator.stopAnimating()
-                
-                self.performSegueWithIdentifier("saveRegistration", sender: self)
+                if hasBeenSaved {
+                    self.performSegueWithIdentifier("saveRegistration", sender: self)
+                }
+                else {
+                    var alert = UIAlertController(title: "Nicht registriert", message: info, preferredStyle: UIAlertControllerStyle.Alert)
+                    alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
         })
     }
     

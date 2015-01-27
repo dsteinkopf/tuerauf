@@ -52,5 +52,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NSLog("fullVersion="+fullVersion)
         return fullVersion
     }
+
+    class func getMyInstallationId() -> String {
+        let userdefaults = NSUserDefaults.standardUserDefaults()
+        var myInstallationId: String
+        if let tueraufInstallationId = userdefaults.stringForKey("tueraufInstallationId") {
+            myInstallationId = tueraufInstallationId
+        }
+        else {
+            myInstallationId = NSUUID().UUIDString
+            userdefaults.setObject(myInstallationId, forKey: "tueraufInstallationId")
+            NSLog("created new installationId")
+        }
+        NSLog("getMyInstallationId returns %@", myInstallationId)
+        return myInstallationId
+    }
 }
 
