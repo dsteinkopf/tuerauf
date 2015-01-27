@@ -6,6 +6,9 @@ ssh root@backendsrv chown -R www-data:www-data /var/www/backend/tuerauf/data
 
 Änderungen holen mit:
 rsync -av root@backendsrv:/var/www/backend/tuerauf/ php/
+
+Aufruf:
+https://backendsrv.steinkopf.net:39931/tuerauf/tuerauf.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o&installationid=C2EE441B-294F-4AFC-80A8-37122BFAD03B&geoy=48.109536&geox=11.622306&arduinoparam=1111
  */
 
 require 'incl/lib.php';
@@ -56,11 +59,11 @@ if ($response === false) {
     exit(2);
 }
 $remote = $_SERVER['REMOTE_ADDR'].(array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER) ? "/".$_SERVER['HTTP_X_FORWARDED_FOR'] : "");
-$logstr = $_SERVER['SCRIPT_NAME'].": user $username from $remote got response $response";
+$logstr = $_SERVER['SCRIPT_NAME'].": user $username from $remote got response $response (installationid=$installationid)";
 error_log($logstr, 0);
-if (strpos($logstr, 'OFFEN') !== FALSE) {
+//if (strpos($logstr, 'OFFEN') !== FALSE) {
         error_log($logstr, 1, "dirk@wor.net");
-}
+//}
 
 print $response;
 exit(0);

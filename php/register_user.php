@@ -15,13 +15,13 @@ Ablauf Registrierung:
     cd ... && cp -p data/userlistnew_empty.php data/userlistnew.php
 2. User registrieren sich mit App. D.h.
     https://backendsrv.steinkopf.net:39931/tuerauf/register_user.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o&installationid=ii1&name=nn1
-3. Admin zeigt neue User an:
+3. Admin zeigt User an:
     https://backendsrv.steinkopf.net:39931/tuerauf/register_user.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o&showusers=WsI65yuGCkjcA
 4. Admin speichert neue User nach all und aktiviert sie daurch:
     https://backendsrv.steinkopf.net:39931/tuerauf/register_user.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o&showusers=WsI65yuGCkjcA&savenewtoall=WsI65yuGCkjcA&showusers=WsI65yuGCkjcA
 5. Admin schaltet Registrierung ab:
     cd ... && rm data/userlistnew.php
-6. Admin zeigt alle user an:
+6. Admin zeigt User an:
     https://backendsrv.steinkopf.net:39931/tuerauf/register_user.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o&showusers=WsI65yuGCkjcA
    */
 
@@ -85,8 +85,9 @@ if ($showusers) {
                 if (array_key_exists($installationid, $userlist2display)) {
                         // user, der "überschrieben" wurde
                         $useroldarr = $userlist2display[$installationid];
-                        $useroldarr["name_new"] = ($usernewarr["name"] != $useroldarr["name"]);
-                        if ($useroldarr["name_new"]) {
+                        if ($usernewarr["name"] != $useroldarr["name"]) {
+                                $useroldarr["name_new"] = 1;
+                                $useroldarr["name_orig"] = $useroldarr["name"];
                                 $useroldarr["name"] = $usernewarr["name"];
                         }
                         $userlist2display[$installationid] = $useroldarr;
@@ -115,6 +116,9 @@ if ($showusers) {
                 if ($bold_name) { print "<b>"; }
                 print $userarr["name"];
                 if ($bold_name) { print "</b>"; }
+                if (array_key_exists("name_orig", $userarr)) {
+                        print " (was: ".$userarr["name_orig"].")";
+                }
 
                 print "</td></tr>\n";
         }
