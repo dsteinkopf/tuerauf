@@ -14,23 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "585FDE021A5904EA00C830F2"
-               BuildableName = "Tu&#x308;r auf.app"
-               BlueprintName = "tuerauf"
-               ReferencedContainer = "container:tuerauf.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "585FDE171A5904EA00C830F2"
-               BuildableName = "tueraufTests.xctest"
-               BlueprintName = "tueraufTests"
+               BlueprintIdentifier = "5823BADC1A79582100B8FB33"
+               BuildableName = "tuerauf copy.app"
+               BlueprintName = "tuerauf_prod"
                ReferencedContainer = "container:tuerauf.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -40,25 +26,15 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES"
-      buildConfiguration = "Debug">
+      buildConfiguration = "Release">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "585FDE171A5904EA00C830F2"
-               BuildableName = "tueraufTests.xctest"
-               BlueprintName = "tueraufTests"
-               ReferencedContainer = "container:tuerauf.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "585FDE021A5904EA00C830F2"
-            BuildableName = "Tu&#x308;r auf.app"
-            BlueprintName = "tuerauf"
+            BlueprintIdentifier = "5823BADC1A79582100B8FB33"
+            BuildableName = "tuerauf copy.app"
+            BlueprintName = "tuerauf_prod"
             ReferencedContainer = "container:tuerauf.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -68,16 +44,16 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
-      buildConfiguration = "Debug"
+      buildConfiguration = "Release"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "585FDE021A5904EA00C830F2"
-            BuildableName = "Tu&#x308;r auf.app"
-            BlueprintName = "tuerauf"
+            BlueprintIdentifier = "5823BADC1A79582100B8FB33"
+            BuildableName = "tuerauf copy.app"
+            BlueprintName = "tuerauf_prod"
             ReferencedContainer = "container:tuerauf.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -93,15 +69,15 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "585FDE021A5904EA00C830F2"
-            BuildableName = "Tu&#x308;r auf.app"
-            BlueprintName = "tuerauf"
+            BlueprintIdentifier = "5823BADC1A79582100B8FB33"
+            BuildableName = "tuerauf copy.app"
+            BlueprintName = "tuerauf_prod"
             ReferencedContainer = "container:tuerauf.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
-      buildConfiguration = "Debug">
+      buildConfiguration = "Release">
    </AnalyzeAction>
    <ArchiveAction
       buildConfiguration = "Release"

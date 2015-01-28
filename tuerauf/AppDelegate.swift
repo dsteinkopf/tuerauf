@@ -48,9 +48,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let revDetails: String? = infoDict?["CFBundleVersionDetails"] as? String // CFBundleVersionDetails = our own key
         let version:    String? = infoDict?["CFBundleShortVersionString"] as? String
 
-        let fullVersion = String(format:"%@ (%@)",
+        var fullVersion = String(format:"%@ (%@)",
             version == nil ? "?" : version!,
             revDetails == nil ? "??" : revDetails!)
+        #if DEBUG
+            fullVersion += " test"
+        #endif
         NSLog("fullVersion="+fullVersion)
         return fullVersion
     }

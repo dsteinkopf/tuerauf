@@ -68,7 +68,8 @@ class Backend {
     class func registerUser(username: String, installationid: String,
         completionHandler: (hasBeenSaved: Bool, info: String) -> ())
     {
-        let urlString = String(format:"%@register_user.php?%@&installationid=%@&name=%@", baseUrl, appsecretParam, installationid, username)
+        let urlString = String(format:"%@register_user.php?%@&installationid=%@&name=%@",
+            baseUrl, appsecretParam, installationid, username.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!)
         let url = NSURL(string: urlString)
         println("calling url="+urlString)
 
