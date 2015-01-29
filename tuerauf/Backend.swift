@@ -29,7 +29,7 @@ class Backend {
         let task = session.dataTaskWithURL(url!) {
             (data, response, error) in
 
-            // sleep(1)
+            sleep(3)
 
             if (error != nil) {
                 var infoString = error.userInfo?.description
@@ -45,7 +45,7 @@ class Backend {
             let httpresponse = response as NSHTTPURLResponse
 
             if httpresponse.statusCode != 200 {
-                completionHandler(hasBeenOpened: false, info: "falscher status code \(httpresponse.statusCode)")
+                completionHandler(hasBeenOpened: false, info: "falscher Statuscode \(httpresponse.statusCode)")
                 return
             }
 
@@ -94,7 +94,7 @@ class Backend {
             let httpresponse = response as NSHTTPURLResponse
 
             if httpresponse.statusCode != 200 {
-                completionHandler(hasBeenSaved: false, info: "falscher status code \(httpresponse.statusCode)")
+                completionHandler(hasBeenSaved: false, info: "falscher Statuscode \(httpresponse.statusCode)")
                 return
             }
 

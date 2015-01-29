@@ -27,6 +27,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 
     private var userRegistration: UserRegistration?
 
+    private var textToShowInErgebnisLabel:String? = nil
+    private var specialTextToShowInErgebnisLabel:String? = nil // "überschreibt" specialTextToShowInErgebnisLabel
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,15 +48,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     private func fillViews() {
         versionLabel.text = AppDelegate.getAppVersionFull()
 
-        ergebnisLabel.text = ""
+        updateErgebnisLabel()
         pinEntryField.text = ""
         pinResultLabel.text = ""
     }
 
     override func viewWillAppear(animated: Bool) {
         NSLog("viewWillAppear")
-
-        pinEntryField.becomeFirstResponder()
 
         initFindMyLocation()
     }
@@ -65,7 +66,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         println("pin="+code)
         pinEntryField.resignFirstResponder()
 
-        ergebnisLabel.text = "running"
+        self.updateErgebnisLabel(text:"running")
         enableAll(false)
 
         Backend.doOpen(code, geoy:geoy, geox:geox, installationid:userRegistration!.installationId,
@@ -81,31 +82,30 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 
                     if hasBeenOpened {
                         self.pinResultLabel.text = "";
-                        self.ergebnisLabel.text = "!!!!! Tür ist offen !!!!!"
+                        self.updateErgebnisLabel(text:"!!!!! Tür ist offen !!!!!")
                         self.bgImage.alpha = 1.0;
                     }
                     else {
                         println(info)
 
                         if countElements(info) < 20 {
-                            self.pinResultLabel.text = info;
-                            self.ergebnisLabel.text = ""
+                            self.pinResultLabel.text = info
+                            self.updateErgebnisLabel(text:"")
                             waitSeconds = 1
                         }
                         else {
                             self.pinResultLabel.text = "";
-                            self.ergebnisLabel.text = info
+                            self.updateErgebnisLabel(text:info)
                         }
                     }
-
-                    self.checkToEnableAll()
 
                     var dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, waitSeconds * Int64(NSEC_PER_SEC))
                     dispatch_after(dispatchTime, dispatch_get_main_queue(), {
                         println("jetzt Ergebnis ausblenden etc.")
-                        self.ergebnisLabel.text = ""
+                        self.updateErgebnisLabel(text:"")
                         self.bgImage.alpha = 0.7;
-                        self.pinEntryField.becomeFirstResponder()
+
+                        self.checkToEnableAll()
                     })
                     
                 })
@@ -125,12 +125,39 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 
     private func checkToEnableAll() {
         self.enableAll(self.gotGeolocation && self.userRegistration!.registered!)
-        if !self.gotGeolocation {
-            self.ergebnisLabel.text = "Handy-Ortung nicht bereit oder genau genug."
-        }
+        // NSLog("checkToEnableAll: self.gotGeolocation=%@, registered=%@", self.gotGeolocation ? "t":"f", self.userRegistration!.registered! ? "t":"f")
         if !self.userRegistration!.registered! {
-            self.ergebnisLabel.text = "Nicht registriert.\nBitte auf Zahnrad klicken, Name eingeben und Speichern!"
+            updateErgebnisLabel(specialText: "Nicht registriert.\nBitte auf Zahnrad klicken, Name eingeben und speichern!")
         }
+        else if !self.gotGeolocation {
+            updateErgebnisLabel(specialText: "Handy-Ortung nicht bereit oder genau genug.")
+        }
+        else {
+            updateErgebnisLabel(specialText: "")
+        }
+    }
+
+    // Zeigt den specialText bzw. text an. Wenn einer nil ist, bleibt der alte Wert
+    // Wenn specialText == nil wird self.textToShowInErgebnisLabel angezeigt.
+    private func updateErgebnisLabel(text:String? = nil, specialText: String? = nil) {
+
+        if text != nil {
+            self.textToShowInErgebnisLabel = text!.isEmpty ? nil : text!
+        }
+        if specialText != nil {
+            self.specialTextToShowInErgebnisLabel = specialText!.isEmpty ? nil : specialText!
+        }
+        dispatch_async(dispatch_get_main_queue(), {
+            if (self.specialTextToShowInErgebnisLabel != nil) {
+                self.ergebnisLabel.text = self.specialTextToShowInErgebnisLabel
+            }
+            else if (self.textToShowInErgebnisLabel != nil) {
+                    self.ergebnisLabel.text = self.textToShowInErgebnisLabel
+            }
+            else {
+                self.ergebnisLabel.text = ""
+            }
+        })
     }
 
     @IBAction func pinEntryEditingDidEnd(sender: AnyObject) {
@@ -176,20 +203,25 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         if (manager.location.horizontalAccuracy < NEEDED_ACCURACY_IN_M) {
             self.geoy = manager.location.coordinate.latitude
             self.geox = manager.location.coordinate.longitude
-            self.gotGeolocation = true
 
             // NSLog("didUpdateLocations here: geoy=%f, geox=%f", self.geoy, self.geox)
-            dispatch_async(dispatch_get_main_queue(), {
-                self.checkToEnableAll()
-            })
+
+            if !gotGeolocation { // geoLocation ist also jetzt neu
+                self.gotGeolocation = true
+
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.checkToEnableAll()
+                })
+            }
         }
         else {
-            if (self.gotGeolocation) {
+            if self.gotGeolocation { // geoLocation gerade verloren
                 // NSLog("didUpdateLocations away: geoy=%f, geox=%f", self.geoy, self.geox)
+                self.gotGeolocation = false
+
                 dispatch_async(dispatch_get_main_queue(), {
                     self.enableAll(false)
                 })
-                self.gotGeolocation = false
             }
         }
     }
