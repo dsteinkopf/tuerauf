@@ -342,7 +342,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		5823BAF11A79582100B8FB33 /* Revisionsnummer holen */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
@@ -352,7 +352,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "#!/bin/bash\nset -x\n\ncd \"$PROJECT_DIR\"\nREVCOUNT=$(git rev-list --count HEAD)\nlet BUILD_VERSION=$REVCOUNT\nBUILD_VERSION_DETAILS=`echo \"$BUILD_VERSION-$(git rev-list --max-count=1 --pretty=format:%h HEAD | tail -1)\"`\n\ncd \"$BUILT_PRODUCTS_DIR/$PRODUCT_NAME.app\"\nRELEASE_VERSION=$(/usr/libexec/PListBuddy -c \"Print CFBundleShortVersionString\" Info.plist)\n/usr/libexec/PListBuddy -c \"Set CFBundleVersion $BUILD_VERSION\" Info.plist\n\n# CFBundleVersionDetails = our own key\n/usr/libexec/PListBuddy -c \"Delete CFBundleVersionDetails\" Info.plist || true\n/usr/libexec/PListBuddy -c \"Add CFBundleVersionDetails string $BUILD_VERSION_DETAILS\" Info.plist\n";
+			shellScript = "#!/bin/bash\nset -x\n\ncd \"$PROJECT_DIR\"\nREVCOUNT=$(git rev-list --count HEAD)\nlet BUILD_VERSION=$REVCOUNT\nGITHASH=$(git rev-list --max-count=1 --pretty=format:%h HEAD | tail -1)\nGITMODIFIED=$(git diff --quiet HEAD || echo \"M\")\nBUILD_VERSION_DETAILS=`echo \"$BUILD_VERSION-$GITHASH $GITMODIFIED\"`\n\ncd \"$BUILT_PRODUCTS_DIR/$PRODUCT_NAME.app\"\nRELEASE_VERSION=$(/usr/libexec/PListBuddy -c \"Print CFBundleShortVersionString\" Info.plist)\n/usr/libexec/PListBuddy -c \"Set CFBundleVersion $BUILD_VERSION\" Info.plist\n\n# CFBundleVersionDetails = our own key\n/usr/libexec/PListBuddy -c \"Delete CFBundleVersionDetails\" Info.plist || true\n/usr/libexec/PListBuddy -c \"Add CFBundleVersionDetails string $BUILD_VERSION_DETAILS\" Info.plist\n";
 		};
 		584E093B1A6BEDAB002AC50E /* Revisionsnummer holen */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -366,7 +366,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "#!/bin/bash\nset -x\n\ncd \"$PROJECT_DIR\"\nREVCOUNT=$(git rev-list --count HEAD)\nlet BUILD_VERSION=$REVCOUNT\nBUILD_VERSION_DETAILS=`echo \"$BUILD_VERSION-$(git rev-list --max-count=1 --pretty=format:%h HEAD | tail -1)\"`\n\ncd \"$BUILT_PRODUCTS_DIR/$PRODUCT_NAME.app\"\nRELEASE_VERSION=$(/usr/libexec/PListBuddy -c \"Print CFBundleShortVersionString\" Info.plist)\n/usr/libexec/PListBuddy -c \"Set CFBundleVersion $BUILD_VERSION\" Info.plist\n\n# CFBundleVersionDetails = our own key\n/usr/libexec/PListBuddy -c \"Delete CFBundleVersionDetails\" Info.plist || true\n/usr/libexec/PListBuddy -c \"Add CFBundleVersionDetails string $BUILD_VERSION_DETAILS\" Info.plist\n";
+			shellScript = "#!/bin/bash\nset -x\n\ncd \"$PROJECT_DIR\"\nREVCOUNT=$(git rev-list --count HEAD)\nlet BUILD_VERSION=$REVCOUNT\nGITHASH=$(git rev-list --max-count=1 --pretty=format:%h HEAD | tail -1)\nGITMODIFIED=$(git diff --quiet HEAD || echo \"M\")\nBUILD_VERSION_DETAILS=`echo \"$BUILD_VERSION-$GITHASH $GITMODIFIED\"`\n\ncd \"$BUILT_PRODUCTS_DIR/$PRODUCT_NAME.app\"\nRELEASE_VERSION=$(/usr/libexec/PListBuddy -c \"Print CFBundleShortVersionString\" Info.plist)\n/usr/libexec/PListBuddy -c \"Set CFBundleVersion $BUILD_VERSION\" Info.plist\n\n# CFBundleVersionDetails = our own key\n/usr/libexec/PListBuddy -c \"Delete CFBundleVersionDetails\" Info.plist || true\n/usr/libexec/PListBuddy -c \"Add CFBundleVersionDetails string $BUILD_VERSION_DETAILS\" Info.plist\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
