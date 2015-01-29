@@ -29,7 +29,7 @@ class Backend {
         let task = session.dataTaskWithURL(url!) {
             (data, response, error) in
 
-            sleep(3)
+            // sleep(3)
 
             if (error != nil) {
                 var infoString = error.userInfo?.description

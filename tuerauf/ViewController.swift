@@ -58,6 +58,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 
         initFindMyLocation()
     }
+
+    override func viewDidAppear(animated: Bool) {
+        checkToEnableAll()
+    }
     
     @IBAction func jetztOeffnenButtonPressed(sender: AnyObject) {
         NSLog("buttonPressed")
@@ -220,7 +224,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 self.gotGeolocation = false
 
                 dispatch_async(dispatch_get_main_queue(), {
-                    self.enableAll(false)
+                    self.checkToEnableAll()
                 })
             }
         }
