@@ -58,6 +58,7 @@
 		580A91CF1A75E96E002AEE17 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		5823BAF51A79582100B8FB33 /* tuerauf.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tuerauf.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5823BAF71A795D7B00B8FB33 /* tuerauf_prod-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "tuerauf_prod-Info.plist"; sourceTree = "<group>"; };
+		5823BAFB1A79F27100B8FB33 /* getgitrevision.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = getgitrevision.sh; sourceTree = SOURCE_ROOT; };
 		585FDE031A5904EA00C830F2 /* tuerauf_test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tuerauf_test.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		585FDE071A5904EA00C830F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		585FDE081A5904EA00C830F2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -148,6 +149,7 @@
 		585FDE061A5904EA00C830F2 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				5823BAFB1A79F27100B8FB33 /* getgitrevision.sh */,
 				585FDE071A5904EA00C830F2 /* Info.plist */,
 				5823BAF71A795D7B00B8FB33 /* tuerauf_prod-Info.plist */,
 			);
@@ -352,7 +354,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "#!/bin/bash\nset -x\n\ncd \"$PROJECT_DIR\"\nREVCOUNT=$(git rev-list --count HEAD)\nlet BUILD_VERSION=$REVCOUNT\nGITHASH=$(git rev-list --max-count=1 --pretty=format:%h HEAD | tail -1)\nGITMODIFIED=$(git diff --quiet HEAD || echo \"M\")\nBUILD_VERSION_DETAILS=`echo \"$BUILD_VERSION-$GITHASH $GITMODIFIED\"`\n\ncd \"$BUILT_PRODUCTS_DIR/$PRODUCT_NAME.app\"\nRELEASE_VERSION=$(/usr/libexec/PListBuddy -c \"Print CFBundleShortVersionString\" Info.plist)\n/usr/libexec/PListBuddy -c \"Set CFBundleVersion $BUILD_VERSION\" Info.plist\n\n# CFBundleVersionDetails = our own key\n/usr/libexec/PListBuddy -c \"Delete CFBundleVersionDetails\" Info.plist || true\n/usr/libexec/PListBuddy -c \"Add CFBundleVersionDetails string $BUILD_VERSION_DETAILS\" Info.plist\n";
+			shellScript = "#!/bin/bash\nbash \"$PROJECT_DIR\"/getgitrevision.sh";
 		};
 		584E093B1A6BEDAB002AC50E /* Revisionsnummer holen */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -366,7 +368,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "#!/bin/bash\nset -x\n\ncd \"$PROJECT_DIR\"\nREVCOUNT=$(git rev-list --count HEAD)\nlet BUILD_VERSION=$REVCOUNT\nGITHASH=$(git rev-list --max-count=1 --pretty=format:%h HEAD | tail -1)\nGITMODIFIED=$(git diff --quiet HEAD || echo \"M\")\nBUILD_VERSION_DETAILS=`echo \"$BUILD_VERSION-$GITHASH $GITMODIFIED\"`\n\ncd \"$BUILT_PRODUCTS_DIR/$PRODUCT_NAME.app\"\nRELEASE_VERSION=$(/usr/libexec/PListBuddy -c \"Print CFBundleShortVersionString\" Info.plist)\n/usr/libexec/PListBuddy -c \"Set CFBundleVersion $BUILD_VERSION\" Info.plist\n\n# CFBundleVersionDetails = our own key\n/usr/libexec/PListBuddy -c \"Delete CFBundleVersionDetails\" Info.plist || true\n/usr/libexec/PListBuddy -c \"Add CFBundleVersionDetails string $BUILD_VERSION_DETAILS\" Info.plist\n";
+			shellScript = "#!/bin/bash\nbash \"$PROJECT_DIR\"/getgitrevision.sh";
 		};
 /* End PBXShellScriptBuildPhase section */
 

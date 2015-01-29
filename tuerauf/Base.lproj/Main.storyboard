@@ -8,7 +8,7 @@
         <!--Tür auf-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="Tuerauf" title="Tür auf" id="BYZ-38-t0r" customClass="ViewController" customModule="Tür_auf" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Tuerauf" title="Tür auf" id="BYZ-38-t0r" customClass="ViewController" customModule="tuerauf" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -63,9 +63,9 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="V1.0.1 (1234-1234567)" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KWf-g3-s9s">
-                                <rect key="frame" x="461" y="20" width="123" height="21"/>
+                                <rect key="frame" x="441" y="20" width="143" height="21"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="123" id="EYj-1v-aLS"/>
+                                    <constraint firstAttribute="width" constant="143" id="EYj-1v-aLS"/>
                                     <constraint firstAttribute="height" constant="21" id="x1K-wk-eCo"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
@@ -128,7 +128,7 @@
         <!--Registrierung-->
         <scene sceneID="PBR-98-PZG">
             <objects>
-                <tableViewController storyboardIdentifier="Einstellungen" id="uPT-Pn-o4E" customClass="SettingsViewController" customModule="Tür_auf" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="Einstellungen" id="uPT-Pn-o4E" customClass="SettingsViewController" customModule="tuerauf" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="LMW-Xm-Okh">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
