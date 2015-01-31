@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "585FDE021A5904EA00C830F2"
-               BuildableName = "Tu&#x308;r auf.app"
+               BuildableName = "tuerauf_test.app"
                BlueprintName = "tuerauf_test"
                ReferencedContainer = "container:tuerauf.xcodeproj">
             </BuildableReference>
@@ -57,7 +57,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "585FDE021A5904EA00C830F2"
-            BuildableName = "Tu&#x308;r auf.app"
+            BuildableName = "tuerauf_test.app"
             BlueprintName = "tuerauf_test"
             ReferencedContainer = "container:tuerauf.xcodeproj">
          </BuildableReference>
@@ -76,7 +76,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "585FDE021A5904EA00C830F2"
-            BuildableName = "Tu&#x308;r auf.app"
+            BuildableName = "tuerauf_test.app"
             BlueprintName = "tuerauf_test"
             ReferencedContainer = "container:tuerauf.xcodeproj">
          </BuildableReference>
@@ -94,7 +94,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "585FDE021A5904EA00C830F2"
-            BuildableName = "Tu&#x308;r auf.app"
+            BuildableName = "tuerauf_test.app"
             BlueprintName = "tuerauf_test"
             ReferencedContainer = "container:tuerauf.xcodeproj">
          </BuildableReference>

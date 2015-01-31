@@ -23,11 +23,15 @@ $username = getUsername($installationid);
 if (!$username) {
         reject("user unknown");
 }
+$userpin = getUserPIN($installationid);
 
 
 $geoy = $_REQUEST["geoy"]; // lat
 $geox = $_REQUEST["geox"]; // lon
 $arduinoparam = $_REQUEST["arduinoparam"];
+if (strlen($userpin) >= 1 && $arduinoparam == $userpin) {
+        $arduinoparam = "4242";
+}
 
 $arduino_baseurl = "http://arduino.steinkopf.net:1080/";
 

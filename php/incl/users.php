@@ -19,6 +19,19 @@ function getUsername($installationid) {
 }
 
 /**
+ Liefert die PIN des Users anhand der installationid
+*/
+function getUserPIN($installationid) {
+        global $glob_userlist;
+
+        if (array_key_exists($installationid, $glob_userlist)) {
+                $userarr = $glob_userlist[$installationid];
+                return $userarr["pin"];
+        }
+        return null;
+}
+
+/**
  * speichert die Userlist als PHP-Include-File, damit sie nicht von extern direkt aufgerufen werden kann
  */
 function saveUserlist($suffix = "all") {

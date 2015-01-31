@@ -10,9 +10,11 @@ import UIKit
 
 class SettingsViewController: UITableViewController {
 
-    @IBOutlet var usernameTextField: UITextField!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     @IBOutlet var usernameCell: UITableViewCell!
+    @IBOutlet var pinEntryCell: UITableViewCell!
+    @IBOutlet var usernameTextField: UITextField!
+    @IBOutlet var pinEntryTextField: UITextField!
 
     private var userRegistration: UserRegistration?
 
@@ -29,32 +31,46 @@ class SettingsViewController: UITableViewController {
         userRegistration = appDelegate.userRegistration
 
         usernameTextField.addTarget(self, action: "usernameTextFieldValueChanged:", forControlEvents: UIControlEvents.EditingChanged)
+        pinEntryTextField.addTarget(self, action: "pinEntryTextFieldValueChanged:", forControlEvents: UIControlEvents.EditingChanged)
 
         fillViews()
 }
 
     private func fillViews() {
         usernameTextField.text = userRegistration!.username;
+        pinEntryTextField.text = userRegistration!.pin;
         usernameCell.accessoryType = userRegistration!.registered! ? UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None;
+        pinEntryCell.accessoryType = userRegistration!.registered! ? UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None;
 
         usernameTextField.becomeFirstResponder()
     }
 
-    private func saveUsername() {
+    private func saveUservalues() {
         userRegistration!.username = usernameTextField.text
+        userRegistration!.pin = pinEntryTextField.text
         userRegistration!.registered = false
         self.usernameCell.accessoryType = UITableViewCellAccessoryType.None;
+        self.pinEntryCell.accessoryType = UITableViewCellAccessoryType.None;
     }
 
     private func saveRegistration() {
         userRegistration!.username = usernameTextField.text
+        userRegistration!.pin = pinEntryTextField.text
         userRegistration!.registered = true
         self.usernameCell.accessoryType = UITableViewCellAccessoryType.Checkmark;
+        self.pinEntryCell.accessoryType = UITableViewCellAccessoryType.Checkmark;
     }
 
     @IBAction func usernameTextFieldValueChanged(sender: AnyObject) {
         NSLog("usernameTextFieldValueChanged");
         self.usernameCell.accessoryType = UITableViewCellAccessoryType.None;
+        self.pinEntryCell.accessoryType = UITableViewCellAccessoryType.None;
+    }
+
+    @IBAction func pinEntryTextFieldValueChanged(sender: AnyObject) {
+        NSLog("pinEntryTextFieldValueChanged");
+        self.usernameCell.accessoryType = UITableViewCellAccessoryType.None;
+        self.pinEntryCell.accessoryType = UITableViewCellAccessoryType.None;
     }
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -68,7 +84,7 @@ class SettingsViewController: UITableViewController {
 
         self.activityIndicator.startAnimating()
 
-        Backend.registerUser(usernameTextField.text, installationid: self.userRegistration!.installationId,
+        Backend.registerUser(usernameTextField.text, pin:pinEntryTextField.text, installationid: self.userRegistration!.installationId,
             completionHandler: { (hasBeenSaved, info) -> () in
 
                 NSLog("registerUser returned: hasBeenSaved:%@ info=%@", hasBeenSaved, info)
@@ -89,7 +105,7 @@ class SettingsViewController: UITableViewController {
                         self.presentViewController(alert, animated: true, completion: nil)
                     }
                     else {
-                        self.saveUsername() // username bleibt erhalten, auch wenn reg. fehlschlägt
+                        self.saveUservalues() // username/Pin bleiben erhalten, auch wenn reg. fehlschlägt
                         
                         var alert = UIAlertController(title: "Nicht registriert", message: info, preferredStyle: UIAlertControllerStyle.Alert)
                         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))

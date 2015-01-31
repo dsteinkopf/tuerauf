@@ -48,15 +48,16 @@ loadUserlist($suffix);
 
 $new_installationid = array_key_exists("installationid", $_REQUEST) ? $_REQUEST["installationid"] : "";
 $new_name = array_key_exists("name", $_REQUEST) ? $_REQUEST["name"] : "";
+$new_pin = array_key_exists("pin", $_REQUEST) ? $_REQUEST["pin"] : "";
 
 if ($debug) print "installationid=$new_installationid<br>";
 if ($debug) print "name=$new_name<br>";
 
-if ($new_installationid && $new_name) {
+if ($new_installationid && $new_name && $new_pin) {
         if ($suffix != "new") {
                 reject("can't save to all");
         }
-        $glob_userlist[$new_installationid] = array("name" => $new_name);
+        $glob_userlist[$new_installationid] = array("name" => $new_name, "pin" => $new_pin);
         saveUserlist($suffix);
         print "saved_waiting";
 }
@@ -85,10 +86,18 @@ if ($showusers) {
                 if (array_key_exists($installationid, $userlist2display)) {
                         // user, der "überschrieben" wurde
                         $useroldarr = $userlist2display[$installationid];
+                        if ( ! array_key_exists("pin", $useroldarr)) {
+                                $useroldarr["pin"] = "-";
+                        }
                         if ($usernewarr["name"] != $useroldarr["name"]) {
                                 $useroldarr["name_new"] = 1;
                                 $useroldarr["name_orig"] = $useroldarr["name"];
                                 $useroldarr["name"] = $usernewarr["name"];
+                        }
+                        if ($usernewarr["pin"] != $useroldarr["pin"]) {
+                                $useroldarr["pin_new"] = 1;
+                                $useroldarr["pin_orig"] = $useroldarr["pin"];
+                                $useroldarr["pin"] = $usernewarr["pin"];
                         }
                         $userlist2display[$installationid] = $useroldarr;
                 }
@@ -99,11 +108,12 @@ if ($showusers) {
         }
 
         // jetzt das Ergebnis anzeigen:
-        print "<table>\n<tr><th>installationid</th><th>name</td></tr>\n";
+        print "<table>\n<tr><th>installationid</th><th>name</td><th>pin</td></tr>\n";
         foreach($userlist2display as $installationid => $userarr) {
 
                 $bold_installationid = array_key_exists("user_new", $userarr);
                 $bold_name = (array_key_exists("name_new", $userarr) || $bold_installationid);
+                $bold_pin = (array_key_exists("pin_new", $userarr) || $bold_installationid);
 
                 print "<tr><td>";
 
@@ -118,6 +128,15 @@ if ($showusers) {
                 if ($bold_name) { print "</b>"; }
                 if (array_key_exists("name_orig", $userarr)) {
                         print " (was: ".$userarr["name_orig"].")";
+                }
+
+                print "</td><td>";
+
+                if ($bold_pin) { print "<b>"; }
+                print $userarr["pin"];
+                if ($bold_pin) { print "</b>"; }
+                if (array_key_exists("pin_orig", $userarr)) {
+                        print " (was: ".$userarr["pin_orig"].")";
                 }
 
                 print "</td></tr>\n";

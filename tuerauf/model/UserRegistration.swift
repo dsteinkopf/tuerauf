@@ -12,6 +12,7 @@ import Foundation
 class UserRegistration {
 
     private var _username: String?
+    private var _pin: String?
     private var _installationId: String?
     private var _registered: Bool?
 
@@ -32,6 +33,23 @@ class UserRegistration {
         set {
             _username = newValue
             userdefaults.setObject(_username, forKey: "tueraufUsername")
+        }
+    }
+
+    var pin: String! {
+        get {
+            if _pin != nil {
+                return _pin!
+            }
+            if let _pin = userdefaults.stringForKey("tueraufPIN") {
+                return _pin;
+            }
+            _pin = ""
+            return _pin!
+        }
+        set {
+            _username = newValue
+            userdefaults.setObject(_username, forKey: "tueraufPIN")
         }
     }
 
