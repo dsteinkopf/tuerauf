@@ -263,11 +263,11 @@
 				ORGANIZATIONNAME = "Dirk Steinkopf";
 				TargetAttributes = {
 					5823BADC1A79582100B8FB33 = {
-						DevelopmentTeam = P9KWCR26DJ;
+						DevelopmentTeam = Z9F28AVBD8;
 					};
 					585FDE021A5904EA00C830F2 = {
 						CreatedOnToolsVersion = 6.1.1;
-						DevelopmentTeam = P9KWCR26DJ;
+						DevelopmentTeam = Z9F28AVBD8;
 					};
 					585FDE171A5904EA00C830F2 = {
 						CreatedOnToolsVersion = 6.1.1;

@@ -11,6 +11,9 @@ if ($debug) {
     ini_set('display_errors', 'on');
 }
 
+$arduino_baseurl = "http://arduino.steinkopf.net:1080/";
+
+
 function check_appsecret()
 {
         $appsecret = $_REQUEST["appsecret"];

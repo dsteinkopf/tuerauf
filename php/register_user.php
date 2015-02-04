@@ -4,7 +4,7 @@ Neue User anzeigen:
 https://backend.steinkopf.net:39931/tuerauf/register_user.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o&showusers=WsI65yuGCkjcA
 
 Neue User nach all kopieren (und dadurch aktivieren):
-https://backend.steinkopf.net:39931/tuerauf/register_user.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o&showusers=WsI65yuGCkjcA&savenewtoall=WsI65yuGCkjcA
+https://backend.steinkopf.net:39931/tuerauf/register_user.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o&showusers=WsI65yuGCkjcA&activateallnew=WsI65yuGCkjcA
 
 Einen User anlegen: (dazu vorher freischalten mit: cp -p data/userlistnew_empty.php data/userlistnew.php
 https://backendsrv.steinkopf.net:39931/tuerauf/register_user.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o&installationid=ii1&name=nn1
@@ -14,11 +14,11 @@ Ablauf Registrierung:
 1. Admin schaltet Registrierung frei:
     cd ... && cp -p data/userlistnew_empty.php data/userlistnew.php
 2. User registrieren sich mit App. D.h.
-    https://backendsrv.steinkopf.net:39931/tuerauf/register_user.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o&installationid=ii1&name=nn1
+    https://backendsrv.steinkopf.net:39931/tuerauf/register_user.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o&installationid=ii1&name=nn1&pin=1111
 3. Admin zeigt User an:
     https://backendsrv.steinkopf.net:39931/tuerauf/register_user.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o&showusers=WsI65yuGCkjcA
-4. Admin speichert neue User nach all und aktiviert sie daurch:
-    https://backendsrv.steinkopf.net:39931/tuerauf/register_user.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o&showusers=WsI65yuGCkjcA&savenewtoall=WsI65yuGCkjcA&showusers=WsI65yuGCkjcA
+4. Admin aktiviert neue User:
+    https://backendsrv.steinkopf.net:39931/tuerauf/register_user.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o&showusers=WsI65yuGCkjcA&activateallnew=WsI65yuGCkjcA&showusers=WsI65yuGCkjcA
 5. Admin schaltet Registrierung ab:
     cd ... && rm data/userlistnew.php
 6. Admin zeigt User an:
@@ -36,117 +36,60 @@ $adminsecret = "WsI65yuGCkjcA";
 
 
 $showusers = (array_key_exists("showusers", $_REQUEST) && $_REQUEST["showusers"] == $adminsecret);
-$savenewtoall = (array_key_exists("savenewtoall", $_REQUEST) && $_REQUEST["savenewtoall"] == $adminsecret);
+$activateallnew = (array_key_exists("activateallnew", $_REQUEST) && $_REQUEST["activateallnew"] == $adminsecret);
 
-$suffix = "new";
-if ($showusers) {
-        $suffix = "all";
+$installationid = array_key_exists("installationid", $_REQUEST) ? $_REQUEST["installationid"] : "";
+$name = array_key_exists("name", $_REQUEST) ? $_REQUEST["name"] : "";
+$pin = array_key_exists("pin", $_REQUEST) ? $_REQUEST["pin"] : "";
+
+if ($debug) print "installationid=$installationid<br>";
+if ($debug) print "name=$name<br>";
+if ($debug) print "pin=$pin<br>";
+
+if ($installationid && $name && $pin) {
+        User::createUser($name, $pin, $installationid);
+        User::saveUserlist();
+        print "saved: new, inactive";
 }
 
-loadUserlist($suffix);
-
-
-$new_installationid = array_key_exists("installationid", $_REQUEST) ? $_REQUEST["installationid"] : "";
-$new_name = array_key_exists("name", $_REQUEST) ? $_REQUEST["name"] : "";
-$new_pin = array_key_exists("pin", $_REQUEST) ? $_REQUEST["pin"] : "";
-
-if ($debug) print "installationid=$new_installationid<br>";
-if ($debug) print "name=$new_name<br>";
-
-if ($new_installationid && $new_name && $new_pin) {
-        if ($suffix != "new") {
-                reject("can't save to all");
-        }
-        $glob_userlist[$new_installationid] = array("name" => $new_name, "pin" => $new_pin);
-        saveUserlist($suffix);
-        print "saved_waiting";
-}
-
-if ($savenewtoall) {
-        loadUserlist("new");
-        $newuserlist = $glob_userlist;
-        $glob_userlist = array();
-        saveUserlist("new");
-
-        loadUserlist();
-        foreach($newuserlist as $installationid => $userarr) {
-                $glob_userlist[$installationid] = $userarr;
-        }
-        saveUserlist();
-        print "done_savenewtoall";
+if ($activateallnew) {
+        User::activateAllNew();
+        User::saveUserlist();
+        print "done: activateallnew";
 }
 
 if ($showusers) {
-        $userlist2display = $glob_userlist;
-        loadUserlist("new");
-        $userlistnew = $glob_userlist;
-
-        // erstmal new und all für die Anzeige zusammenführen; markeren, was neu ist.
-        foreach($userlistnew as $installationid => $usernewarr) {
-                if (array_key_exists($installationid, $userlist2display)) {
-                        // user, der "überschrieben" wurde
-                        $useroldarr = $userlist2display[$installationid];
-                        if ( ! array_key_exists("pin", $useroldarr)) {
-                                $useroldarr["pin"] = "-";
-                        }
-                        if ($usernewarr["name"] != $useroldarr["name"]) {
-                                $useroldarr["name_new"] = 1;
-                                $useroldarr["name_orig"] = $useroldarr["name"];
-                                $useroldarr["name"] = $usernewarr["name"];
-                        }
-                        if ($usernewarr["pin"] != $useroldarr["pin"]) {
-                                $useroldarr["pin_new"] = 1;
-                                $useroldarr["pin_orig"] = $useroldarr["pin"];
-                                $useroldarr["pin"] = $usernewarr["pin"];
-                        }
-                        $userlist2display[$installationid] = $useroldarr;
-                }
-                else {
-                        $usernewarr["user_new"] = 1;
-                        $userlist2display[$installationid] = $usernewarr;
-                }
-        }
-
         // jetzt das Ergebnis anzeigen:
-        print "<table>\n<tr><th>installationid</th><th>name</td><th>pin</td></tr>\n";
-        foreach($userlist2display as $installationid => $userarr) {
+        print "<table>\n<tr><th>installationid</th><th>name</td><th>pin</td><th>lfdid</td></tr>\n";
+        foreach (User::getUserlist() as $installationid => $user) {
 
-                $bold_installationid = array_key_exists("user_new", $userarr);
-                $bold_name = (array_key_exists("name_new", $userarr) || $bold_installationid);
-                $bold_pin = (array_key_exists("pin_new", $userarr) || $bold_installationid);
+                $emph = $user->new ? "<b>" : "";
+                $emph_end = $user->new ? "</b>" : "";
+                $emph = $emph . (! $user->active ? "<i>" : "");
+                $emph_end = (! $user->active ? "</i>" : "") . $emph_end;
 
                 print "<tr><td>";
-
-                if ($bold_installationid) { print "<b>"; }
-                print $installationid;
-                if ($bold_installationid) { print "</b>"; }
-
+                print $emph.$user->installationid.$emph_end;
                 print "</td><td>";
-
-                if ($bold_name) { print "<b>"; }
-                print $userarr["name"];
-                if ($bold_name) { print "</b>"; }
-                if (array_key_exists("name_orig", $userarr)) {
-                        print " (was: ".$userarr["name_orig"].")";
-                }
-
+                print $emph.$user->username.$emph_end;
                 print "</td><td>";
-
-                if ($bold_pin) { print "<b>"; }
-                print $userarr["pin"];
-                if ($bold_pin) { print "</b>"; }
-                if (array_key_exists("pin_orig", $userarr)) {
-                        print " (was: ".$userarr["pin_orig"].")";
-                }
-
+                print $emph.$user->pin.$emph_end;
+                print "</td><td>";
+                print $emph.$user->lfdid.$emph_end;
                 print "</td></tr>\n";
         }
         print "</table>\n";
 
-        print "<pre>";
-        print_r($userlist2display);
-        print "</pre>";
-
+        print "<br>Pins an Arduino schicken:<br>";
+        $pinlist = User::getPinList();
+        print_r($pinlist);
+        $pins4arduino = implode('&',
+                                array_map(function ($v, $k) { return $v; },
+                                          $pinlist,
+                                          array_keys($pinlist))
+                                );
+        $arduinourl = $arduino_baseurl."storepinlist?".$pins4arduino;
+        print "<a href='$arduinourl'>$arduinourl</a><br>";
 }
 
 

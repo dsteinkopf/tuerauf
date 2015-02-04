@@ -16,14 +16,13 @@ check_appsecret();
 
 require 'incl/users.php';
 
-loadUserlist();
-
 $installationid = $_REQUEST["installationid"];
-$username = getUsername($installationid);
-if (!$username) {
+$user = User::getActiveUser($installationid);
+if (!$user) {
         reject("user unknown");
 }
-$userpin = getUserPIN($installationid);
+$username = $user->username;
+$userpin = $user->pin;
 
 
 $geoy = $_REQUEST["geoy"]; // lat
@@ -32,8 +31,6 @@ $arduinoparam = $_REQUEST["arduinoparam"];
 if (strlen($userpin) >= 1 && $arduinoparam == $userpin) {
         $arduinoparam = "4242";
 }
-
-$arduino_baseurl = "http://arduino.steinkopf.net:1080/";
 
 $stkhomey = 48.109535;
 $stkhomex = 11.622306;
