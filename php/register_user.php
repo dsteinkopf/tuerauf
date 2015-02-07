@@ -18,7 +18,7 @@ Ablauf Registrierung:
 3. Admin zeigt User an:
     https://backendsrv.steinkopf.net:39931/tuerauf/register_user.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o&showusers=WsI65yuGCkjcA
 4. Admin aktiviert neue User:
-    https://backendsrv.steinkopf.net:39931/tuerauf/register_user.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o&showusers=WsI65yuGCkjcA&activateallnew=WsI65yuGCkjcA&showusers=WsI65yuGCkjcA
+    https://backendsrv.steinkopf.net:39931/tuerauf/register_user.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o&showusers=WsI65yuGCkjcA&activateallnew=WsI65yuGCkjcA
 5. Admin schaltet Registrierung ab:
     cd ... && rm data/userlistnew.php
 6. Admin zeigt User an:
@@ -80,9 +80,9 @@ if ($showusers) {
         }
         print "</table>\n";
 
-        print "<br>Pins an Arduino schicken:<br>";
+        print "<br>Aktive Pins an Arduino schicken:<br>";
         $pinlist = User::getPinList();
-        print_r($pinlist);
+        // print_r($pinlist);
         $pins4arduino = implode('&',
                                 array_map(function ($v, $k) { return $v; },
                                           $pinlist,

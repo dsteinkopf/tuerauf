@@ -19,7 +19,7 @@ class Backend {
     {
         let geoy_str = String(format:"%f", geoy)
         let geox_str = String(format:"%f", geox)
-        var urlString = String(format:"%@tuerauf.php?%@&geoy=%@&geox=%@&installationid=%@&arduinoparam=%@",
+        var urlString = String(format:"%@tuerauf.php?%@&geoy=%@&geox=%@&installationid=%@&pin=%@",
             baseUrl, appsecretParam, geoy_str, geox_str, installationid, code)
         var url = NSURL(string: urlString)
         println("calling url="+urlString)
@@ -109,7 +109,7 @@ class Backend {
             let dataString = String(dataStringNS!).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
             println("http result:" + dataString)
 
-            let hasBeenSaved: Bool = dataString.rangeOfString("saved_waiting") != nil
+            let hasBeenSaved: Bool = dataString.rangeOfString("saved") != nil
 
             completionHandler(hasBeenSaved: hasBeenSaved, info: dataString)
         }

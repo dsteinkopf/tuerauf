@@ -8,7 +8,7 @@ ssh root@backendsrv chown -R www-data:www-data /var/www/backend/tuerauf/data
 rsync -av root@backendsrv:/var/www/backend/tuerauf/ php/
 
 Aufruf:
-https://backendsrv.steinkopf.net:39931/tuerauf/tuerauf.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o&installationid=C2EE441B-294F-4AFC-80A8-37122BFAD03B&geoy=48.109536&geox=11.622306&arduinoparam=1111
+https://backendsrv.steinkopf.net:39931/tuerauf/tuerauf.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o&installationid=C2EE441B-294F-4AFC-80A8-37122BFAD03B&geoy=48.109536&geox=11.622306&pin=1111
  */
 
 require 'incl/lib.php';
@@ -22,15 +22,12 @@ if (!$user) {
         reject("user unknown");
 }
 $username = $user->username;
-$userpin = $user->pin;
+$userlfdid = $user->lfdid;
 
 
 $geoy = $_REQUEST["geoy"]; // lat
 $geox = $_REQUEST["geox"]; // lon
-$arduinoparam = $_REQUEST["arduinoparam"];
-if (strlen($userpin) >= 1 && $arduinoparam == $userpin) {
-        $arduinoparam = "4242";
-}
+$pin = $_REQUEST["pin"];
 
 $stkhomey = 48.109535;
 $stkhomex = 11.622306;
@@ -47,7 +44,7 @@ if ($dist > $maxdist) {
     reject("not here");
 }
 
-$arduino_url = $arduino_baseurl . $arduinoparam;
+$arduino_url = $arduino_baseurl . $pin . "/" . $userlfdid;
 if ($debug) print "arduino_url=$arduino_url<br>\n";
 $opts = array('http' =>
     array(

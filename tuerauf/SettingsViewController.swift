@@ -15,6 +15,7 @@ class SettingsViewController: UITableViewController {
     @IBOutlet var pinEntryCell: UITableViewCell!
     @IBOutlet var usernameTextField: UITextField!
     @IBOutlet var pinEntryTextField: UITextField!
+    @IBOutlet var saveButton: UIBarButtonItem!
 
     private var userRegistration: UserRegistration?
 
@@ -34,7 +35,7 @@ class SettingsViewController: UITableViewController {
         pinEntryTextField.addTarget(self, action: "pinEntryTextFieldValueChanged:", forControlEvents: UIControlEvents.EditingChanged)
 
         fillViews()
-}
+    }
 
     private func fillViews() {
         usernameTextField.text = userRegistration!.username;
@@ -43,34 +44,41 @@ class SettingsViewController: UITableViewController {
         pinEntryCell.accessoryType = userRegistration!.registered! ? UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None;
 
         usernameTextField.becomeFirstResponder()
+
+        enableDisableSaveButton()
+    }
+
+    private func enableDisableSaveButton() {
+        saveButton.enabled = (countElements(pinEntryTextField.text) == 4)
     }
 
     private func saveUservalues() {
         userRegistration!.username = usernameTextField.text
         userRegistration!.pin = pinEntryTextField.text
         userRegistration!.registered = false
-        self.usernameCell.accessoryType = UITableViewCellAccessoryType.None;
-        self.pinEntryCell.accessoryType = UITableViewCellAccessoryType.None;
+        self.usernameCell.accessoryType = UITableViewCellAccessoryType.None
+        self.pinEntryCell.accessoryType = UITableViewCellAccessoryType.None
     }
 
     private func saveRegistration() {
         userRegistration!.username = usernameTextField.text
         userRegistration!.pin = pinEntryTextField.text
         userRegistration!.registered = true
-        self.usernameCell.accessoryType = UITableViewCellAccessoryType.Checkmark;
-        self.pinEntryCell.accessoryType = UITableViewCellAccessoryType.Checkmark;
+        self.usernameCell.accessoryType = UITableViewCellAccessoryType.Checkmark
+        self.pinEntryCell.accessoryType = UITableViewCellAccessoryType.Checkmark
     }
 
     @IBAction func usernameTextFieldValueChanged(sender: AnyObject) {
-        NSLog("usernameTextFieldValueChanged");
-        self.usernameCell.accessoryType = UITableViewCellAccessoryType.None;
-        self.pinEntryCell.accessoryType = UITableViewCellAccessoryType.None;
+        NSLog("usernameTextFieldValueChanged")
+        self.usernameCell.accessoryType = UITableViewCellAccessoryType.None
+        self.pinEntryCell.accessoryType = UITableViewCellAccessoryType.None
     }
 
     @IBAction func pinEntryTextFieldValueChanged(sender: AnyObject) {
-        NSLog("pinEntryTextFieldValueChanged");
-        self.usernameCell.accessoryType = UITableViewCellAccessoryType.None;
-        self.pinEntryCell.accessoryType = UITableViewCellAccessoryType.None;
+        NSLog("pinEntryTextFieldValueChanged")
+        self.usernameCell.accessoryType = UITableViewCellAccessoryType.None
+        self.pinEntryCell.accessoryType = UITableViewCellAccessoryType.None
+        enableDisableSaveButton()
     }
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -81,6 +89,10 @@ class SettingsViewController: UITableViewController {
 
     @IBAction func saveButtonPressed(sender: AnyObject) {
         NSLog("saveButtonPressed");
+
+        if countElements(pinEntryTextField.text) != 4 {
+            return
+        }
 
         self.activityIndicator.startAnimating()
 
