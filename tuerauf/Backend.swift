@@ -10,6 +10,7 @@ import Foundation
 
 private let baseUrl = "https://backend.steinkopf.net:39931/tuerauf/"
 private let appsecretParam = "appsecret=plUwPcIE82vKwHUVnGiS4o5J6o"
+private let debugParam = "&debug=1"
 
 
 class Backend {
@@ -21,6 +22,9 @@ class Backend {
         let geox_str = String(format:"%f", geox)
         var urlString = String(format:"%@tuerauf.php?%@&geoy=%@&geox=%@&installationid=%@&pin=%@",
             baseUrl, appsecretParam, geoy_str, geox_str, installationid, code)
+        #if DEBUG
+            urlString += debugParam // wird (noch) nicht ausgewertet
+        #endif
         var url = NSURL(string: urlString)
         println("calling url="+urlString)
 
@@ -68,13 +72,16 @@ class Backend {
     class func registerUser(username: String, pin: String, installationid: String,
         completionHandler: (hasBeenSaved: Bool, info: String) -> ())
     {
-        let urlString = String(format:"%@register_user.php?%@&installationid=%@&name=%@&pin=%@",
+        var urlString = String(format:"%@register_user.php?%@&installationid=%@&name=%@&pin=%@",
             baseUrl,
             appsecretParam,
             installationid,
             username.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!,
             pin.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
         )
+        #if DEBUG
+            urlString += debugParam // wird (noch) nicht ausgewertet
+        #endif
         let url = NSURL(string: urlString)
         println("calling url="+urlString)
 
