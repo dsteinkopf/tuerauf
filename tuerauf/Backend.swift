@@ -16,40 +16,20 @@ private let debugParam = "&debug=1"
 class Backend {
 
     class func doOpen(code: String, geoy: Double, geox: Double, installationid: String,
-                        completionHandler: (hasBeenOpened: Bool, info: String) -> ())
+        completionHandler: (hasBeenOpened: Bool, info: String) -> ())
     {
         let geoy_str = String(format:"%f", geoy)
         let geox_str = String(format:"%f", geox)
-        var urlString = String(format:"%@tuerauf.php?%@&geoy=%@&geox=%@&installationid=%@&pin=%@",
+        let urlString = String(format:"%@tuerauf.php?%@&geoy=%@&geox=%@&installationid=%@&pin=%@",
             baseUrl, appsecretParam, geoy_str, geox_str, installationid, code)
-        #if DEBUG
-            urlString += debugParam // wird (noch) nicht ausgewertet
-        #endif
-        var url = NSURL(string: urlString)
-        println("calling url="+urlString)
 
-        let session = getSession()
-
-        let task = session.dataTaskWithURL(url!) {
-            (data, response, error) in
+        let task = dataTaskWithURL(urlString) {
+            (data, info) in
 
             // sleep(3)
 
-            if (error != nil) {
-                var infoString = error.userInfo?.description
-                completionHandler(hasBeenOpened: false, info: infoString!)
-                return
-            }
-
-            if !(response is NSHTTPURLResponse) {
-                completionHandler(hasBeenOpened: false, info: "no http response")
-                return
-            }
-
-            let httpresponse = response as NSHTTPURLResponse
-
-            if httpresponse.statusCode != 200 {
-                completionHandler(hasBeenOpened: false, info: "falscher Statuscode \(httpresponse.statusCode)")
+            if info != nil {
+                completionHandler(hasBeenOpened: false, info: info)
                 return
             }
 
@@ -69,44 +49,57 @@ class Backend {
         task.resume()
     }
 
+    class func checkloc(geoy: Double, geox: Double, installationid: String,
+                        completionHandler: (isNear: Bool, info: String) -> ())
+    {
+        let geoy_str = String(format:"%f", geoy)
+        let geox_str = String(format:"%f", geox)
+        let urlString = String(format:"%@checkloc.php?%@&geoy=%@&geox=%@&installationid=%@",
+            baseUrl, appsecretParam, geoy_str, geox_str, installationid)
+
+        let task = dataTaskWithURL(urlString) {
+            (data, info) in
+
+            // sleep(3)
+
+            if info != nil {
+                completionHandler(isNear: false, info: info)
+                return
+            }
+
+            // mit dem Aufruf an sich ist alles ok
+
+            let dataStringNS = NSString(data: data, encoding: NSUTF8StringEncoding)
+            let dataString = String(dataStringNS!).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+            println("http result:" + dataString)
+
+            let isNear: Bool = dataString.rangeOfString("near") != nil
+            println("isNear:\(isNear)")
+
+            completionHandler(isNear: isNear, info: dataString)
+        }
+        
+        task.resume()
+    }
+
     class func registerUser(username: String, pin: String, installationid: String,
         completionHandler: (hasBeenSaved: Bool, info: String) -> ())
     {
-        var urlString = String(format:"%@register_user.php?%@&installationid=%@&name=%@&pin=%@",
+        let urlString = String(format:"%@register_user.php?%@&installationid=%@&name=%@&pin=%@",
             baseUrl,
             appsecretParam,
             installationid,
             username.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!,
             pin.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
         )
-        #if DEBUG
-            urlString += debugParam // wird (noch) nicht ausgewertet
-        #endif
-        let url = NSURL(string: urlString)
-        println("calling url="+urlString)
 
-        let session = getSession()
-
-        let task = session.dataTaskWithURL(url!) {
-            (data, response, error) in
+        let task = dataTaskWithURL(urlString) {
+            (data, info) in
 
             // sleep(3)
 
-            if (error != nil) {
-                var infoString = error.userInfo?.description
-                completionHandler(hasBeenSaved: false, info: infoString!)
-                return
-            }
-
-            if !(response is NSHTTPURLResponse) {
-                completionHandler(hasBeenSaved: false, info: "no http response")
-                return
-            }
-
-            let httpresponse = response as NSHTTPURLResponse
-
-            if httpresponse.statusCode != 200 {
-                completionHandler(hasBeenSaved: false, info: "falscher Statuscode \(httpresponse.statusCode)")
+            if info != nil {
+                completionHandler(hasBeenSaved: false, info: info)
                 return
             }
 
@@ -122,6 +115,45 @@ class Backend {
         }
         
         task.resume()
+    }
+
+    private class func dataTaskWithURL(urlStringParam: String, completionHandler: ((NSData!, String!) -> Void)) -> NSURLSessionDataTask {
+
+        var urlString = urlStringParam
+        #if DEBUG
+            urlString += debugParam // wird (noch) nicht ausgewertet
+        #endif
+        let url = NSURL(string: urlString)
+        println("calling url="+urlString)
+
+        let session = getSession()
+
+        let task = session.dataTaskWithURL(url!) {
+            (data, response, error) in
+
+            if (error != nil) {
+                var infoString = error.userInfo?.description
+                completionHandler(data, infoString!)
+                return
+            }
+
+            if !(response is NSHTTPURLResponse) {
+                completionHandler(data, "no http response")
+                return
+            }
+
+            let httpresponse = response as NSHTTPURLResponse
+
+            if httpresponse.statusCode != 200 {
+                completionHandler(data, "falscher Statuscode \(httpresponse.statusCode)")
+                return
+            }
+
+            // mit dem Aufruf an sich ist alles ok
+            completionHandler(data, nil)
+        }
+
+        return task
     }
 
     private class func getSession() -> NSURLSession! {

@@ -13,6 +13,14 @@ if ($debug) {
 
 $arduino_baseurl = "http://arduino.steinkopf.net:1080/";
 
+$stkhomey = 48.109535;
+$stkhomex = 11.622306;
+
+$stkhomey_min = 48.109388; // 48.109420;
+$stkhomey_max = 48.109584;
+$stkhomex_min = 11.622288;
+$stkhomex_max = 11.622506; // 11.622456;
+
 
 function check_appsecret()
 {
@@ -31,6 +39,13 @@ function reject($msg = "bad")
 function startsWith($haystack, $needle) {
     // search backwards starting from haystack length characters from the end
     return $needle === "" || strrpos($haystack, $needle, -strlen($haystack)) !== FALSE;
+}
+
+function isNear($geoy, $geox) {
+        global $stkhomey_min, $stkhomey_max, $stkhomex_min, $stkhomex_max;
+
+        return $stkhomey_min <= $geoy && $geoy <= $stkhomey_max &&
+                $stkhomex_min <= $geox && $geox <= $stkhomex_max;
 }
 
 

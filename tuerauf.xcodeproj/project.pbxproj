@@ -584,7 +584,7 @@
 				INFOPLIST_FILE = tueraufTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Tür auf.app/Tür auf";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/tuerauf_test.app/tuerauf_test";
 			};
 			name = Debug;
 		};
@@ -599,7 +599,7 @@
 				INFOPLIST_FILE = tueraufTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Tür auf.app/Tür auf";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/tuerauf_test.app/tuerauf_test";
 			};
 			name = Release;
 		};

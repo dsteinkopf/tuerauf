@@ -255,8 +255,11 @@ String storePinList() {
         for (char *param = strtok(0, "&");
              param != 0 && pinNum < max_pins;
              param = strtok(0, "&"), pinNum++) {
-           settings.pin[pinNum] = atoi(param);
-           Serial.print("Stored pin "); Serial.println(param);
+                int pin = atoi(param);
+                if (pin >= 1000 && pin <= 9999) {
+                        settings.pin[pinNum] = pin;
+                        Serial.print("Stored pin "); Serial.println(param);
+                }
         }
         for (; pinNum < max_pins; pinNum++) {
            settings.pin[pinNum] = 0;
@@ -265,44 +268,55 @@ String storePinList() {
         return F("done");
 }
 
-// input ist z.B. "/1234" oder "/1234/22"
+// input ist z.B. "/1234" oder "/1234/22" oder "/1234/22/near"
 // 22 ist dann der pin-Index
+// near zeigt an, dass die dyn_code-Schritt ausgelassen werden kann, weil der Nutzer "nah" ist.
 String checkFixedPin(char *command)
 {
   Serial.print(F("checkFixedPin ")); Serial.println(command);
-  
+
+  // korrekte PIN bestimmen:
   int got_pin = atoi(strtok(command, "/"));
   char *pinIndex = strtok(0, "/");
-  
+
   int correct_pin = fixed_pin;
   if (pinIndex) {
     correct_pin = settings.pin[atoi(pinIndex)];
     Serial.print(F("pinIndex=")); Serial.println(pinIndex);
   }
   Serial.print(F("correct_pin=")); Serial.println(correct_pin);
-  
+
+  // PIN überprüfen:
   if (got_pin == correct_pin) {
-    // fixed_pin stimmt
-    switchToState(awaiting_dyn_code);
-    return sendNewDynCode();
+          // fixed_pin stimmt
+
+          // nach "near" suchen und ggf. Tür direkt öffnen
+          if (pinIndex) {
+                  char *nearString = strtok(0, "/");
+                  if (nearString && 0 == strcmp("near", nearString)) {
+                          openDoorNow();
+                          switchToState(awaiting_fixed_pin);
+                          return "OFFEN";
+                  }
+          }
+
+          switchToState(awaiting_dyn_code);
+          return sendNewDynCode();
   }
-  else {
-    // fixed_pin falsch
 
-    // vielleicht ist es ja die masterpin
-    int pos_masterpin = String(command).indexOf(master_pin);
-
-    if (pos_masterpin > 0) {
-      // masterpin stimmt
-      openDoorNow();
-      switchToState(awaiting_fixed_pin);
-      return "OFFEN";
-    }
-
+  // fixed_pin falsch, vielleicht ist es ja die masterpin
+  int pos_masterpin = String(command).indexOf(master_pin);
+  if (pos_masterpin > 0) {
+    // masterpin stimmt
+    openDoorNow();
     switchToState(awaiting_fixed_pin);
-    sendEMail(F("bad fixed_pin")); // Mail-Verschicken erzeugt außerdem ein Delay von ein paar Sekunden
-    return F("bad fixed_pin");
+    return "OFFEN";
   }
+
+  // MasterPin war es auch nicht - also Mail schicken und von vorne
+  switchToState(awaiting_fixed_pin);
+  sendEMail(F("bad fixed_pin")); // Mail-Verschicken erzeugt außerdem ein Delay von ein paar Sekunden
+  return F("bad fixed_pin");
 }
 
 String sendNewDynCode()

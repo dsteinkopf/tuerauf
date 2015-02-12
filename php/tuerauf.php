@@ -8,7 +8,7 @@ ssh root@backendsrv chown -R www-data:www-data /var/www/backend/tuerauf/data
 rsync -av root@backendsrv:/var/www/backend/tuerauf/ php/
 
 Aufruf:
-https://backendsrv.steinkopf.net:39931/tuerauf/tuerauf.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o&installationid=C2EE441B-294F-4AFC-80A8-37122BFAD03B&geoy=48.109536&geox=11.622306&pin=1111
+https://backendsrv.steinkopf.net:39931/tuerauf/tuerauf.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o&installationid=03C085B2-D6C2-4172-A051-6BDB6ED93C12&geoy=48.109536&geox=11.622306&pin=1111
  */
 
 require 'incl/lib.php';
@@ -29,8 +29,6 @@ $geoy = $_REQUEST["geoy"]; // lat
 $geox = $_REQUEST["geox"]; // lon
 $pin = $_REQUEST["pin"];
 
-$stkhomey = 48.109535;
-$stkhomex = 11.622306;
 $maxdist = 80; // meter
 $dist = distance($stkhomey, $stkhomex, $geoy, $geox, "K") * 1000;
 
@@ -44,7 +42,13 @@ if ($dist > $maxdist) {
     reject("not here");
 }
 
+
 $arduino_url = $arduino_baseurl . $pin . "/" . $userlfdid;
+
+if (isNear($geoy, $geox)) {
+        $arduino_url .= "/near";
+}
+
 if ($debug) print "arduino_url=$arduino_url<br>\n";
 $opts = array('http' =>
     array(

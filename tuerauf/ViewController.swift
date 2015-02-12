@@ -24,6 +24,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     private var geoy: Double = 0.0
     private var geox: Double = 0.0
     private var gotGeolocation = false
+    private var isNear = false
 
     private var userRegistration: UserRegistration?
 
@@ -76,7 +77,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         Backend.doOpen(code, geoy:geoy, geox:geox, installationid:userRegistration!.installationId,
             completionHandler: { (hasBeenOpened, info) -> () in
 
-                println("call returned to ViewController.")
+                println("call to Backend.doOpen returned to ViewController.")
 
                 dispatch_async(dispatch_get_main_queue(), {
 
@@ -139,6 +140,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         else {
             updateErgebnisLabel(specialText: "")
         }
+        if self.gotGeolocation && self.isNear {
+            pinEntryField.backgroundColor = UIColor.greenColor()
+        }
+        else {
+            pinEntryField.backgroundColor = UIColor.clearColor()
+        }
     }
 
     // Zeigt den specialText bzw. text an. Wenn einer nil ist, bleibt der alte Wert
@@ -191,11 +198,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 
     func initFindMyLocation() {
         NSLog("initFindMyLocation")
+
+        gotGeolocation = false
+
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
-        gotGeolocation = false
 
         self.checkToEnableAll()
     }
@@ -217,6 +226,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     self.checkToEnableAll()
                 })
             }
+
+            self.checklocation()
         }
         else {
             if self.gotGeolocation { // geoLocation gerade verloren
@@ -232,6 +243,21 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 
     func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
         println("Error while updating location " + error.localizedDescription)
+    }
+
+    private func checklocation() {
+
+        Backend.checkloc(geoy, geox:geox, installationid:userRegistration!.installationId,
+            completionHandler: { (isNear, info) -> () in
+
+                println("call to Backend.checkloc returned to ViewController. isNear=\(isNear)")
+
+                self.isNear = isNear
+
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.checkToEnableAll()
+                })
+        })
     }
 }
 
