@@ -11,6 +11,7 @@ import Foundation
 private let baseUrl = "https://backend.steinkopf.net:39931/tuerauf/"
 private let appsecretParam = "appsecret=plUwPcIE82vKwHUVnGiS4o5J6o"
 private let debugParam = "&debug=1"
+private var lastCall = Dictionary<String,NSDate>()
 
 
 class Backend {
@@ -23,7 +24,7 @@ class Backend {
         let urlString = String(format:"%@tuerauf.php?%@&geoy=%@&geox=%@&installationid=%@&pin=%@",
             baseUrl, appsecretParam, geoy_str, geox_str, installationid, code)
 
-        let task = dataTaskWithURL(urlString) {
+        bgRunDataTaskWithURL("doOpen", urlStringParam:urlString) {
             (data, info) in
 
             // sleep(3)
@@ -37,7 +38,7 @@ class Backend {
 
             let dataStringNS = NSString(data: data, encoding: NSUTF8StringEncoding)
             let dataString = String(dataStringNS!).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-            println("http result:" + dataString)
+            NSLog("http result:" + dataString)
 
             let hasBeenOpened: Bool = dataString.rangeOfString("OFFEN") != nil
             // let gotDynCode: Bool =    dataString!.hasPrefix("dyn_code ")
@@ -45,8 +46,6 @@ class Backend {
 
             completionHandler(hasBeenOpened: hasBeenOpened, info: dataString)
         }
-        
-        task.resume()
     }
 
     class func checkloc(geoy: Double, geox: Double, installationid: String,
@@ -57,7 +56,7 @@ class Backend {
         let urlString = String(format:"%@checkloc.php?%@&geoy=%@&geox=%@&installationid=%@",
             baseUrl, appsecretParam, geoy_str, geox_str, installationid)
 
-        let task = dataTaskWithURL(urlString) {
+        bgRunDataTaskWithURL("checkloc", urlStringParam:urlString) {
             (data, info) in
 
             // sleep(3)
@@ -71,15 +70,13 @@ class Backend {
 
             let dataStringNS = NSString(data: data, encoding: NSUTF8StringEncoding)
             let dataString = String(dataStringNS!).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-            println("http result:" + dataString)
+            NSLog("http result:" + dataString)
 
             let isNear: Bool = dataString.rangeOfString("near") != nil
-            println("isNear:\(isNear)")
+            // println("isNear:\(isNear)")
 
             completionHandler(isNear: isNear, info: dataString)
         }
-        
-        task.resume()
     }
 
     class func registerUser(username: String, pin: String, installationid: String,
@@ -93,7 +90,7 @@ class Backend {
             pin.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
         )
 
-        let task = dataTaskWithURL(urlString) {
+        bgRunDataTaskWithURL("registerUser", urlStringParam:urlString) {
             (data, info) in
 
             // sleep(3)
@@ -107,26 +104,34 @@ class Backend {
 
             let dataStringNS = NSString(data: data, encoding: NSUTF8StringEncoding)
             let dataString = String(dataStringNS!).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-            println("http result:" + dataString)
+            NSLog("http result:" + dataString)
 
             let hasBeenSaved: Bool = dataString.rangeOfString("saved") != nil
 
             completionHandler(hasBeenSaved: hasBeenSaved, info: dataString)
         }
-        
-        task.resume()
     }
 
-    private class func dataTaskWithURL(urlStringParam: String, completionHandler: ((NSData!, String!) -> Void)) -> NSURLSessionDataTask {
+    private class func bgRunDataTaskWithURL(callType: String, urlStringParam: String, completionHandler: ((NSData!, String!) -> Void)) {
+
+        if let lastCallThisType = lastCall[callType] {
+            if -lastCallThisType.timeIntervalSinceNow < 3 {
+                NSLog("lastCall[\(callType)].timeIntervalSinceNow < 3 => return")
+                return
+            }
+        }
+        lastCall[callType] = NSDate()
+
+        NSLog("running \(callType)]")
 
         var urlString = urlStringParam
         #if DEBUG
             urlString += debugParam // wird (noch) nicht ausgewertet
         #endif
         let url = NSURL(string: urlString)
-        println("calling url="+urlString)
+        NSLog("calling url="+urlString)
 
-        let session = getSession()
+        let session = self.getSession()
 
         let task = session.dataTaskWithURL(url!) {
             (data, response, error) in
@@ -151,9 +156,12 @@ class Backend {
 
             // mit dem Aufruf an sich ist alles ok
             completionHandler(data, nil)
+
+            NSLog("running \(callType)] done")
         }
 
-        return task
+        task.resume()
+        session.finishTasksAndInvalidate()
     }
 
     private class func getSession() -> NSURLSession! {

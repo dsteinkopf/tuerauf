@@ -21,6 +21,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 
     private let locationManager = CLLocationManager()
     private let NEEDED_ACCURACY_IN_M = 75.0
+
+    private var isRunning = false
     private var geoy: Double = 0.0
     private var geox: Double = 0.0
     private var gotGeolocation = false
@@ -68,22 +70,25 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         NSLog("buttonPressed")
 
         var code = pinEntryField.text
-        println("pin="+code)
+        NSLog("pin="+code)
         pinEntryField.resignFirstResponder()
 
         self.updateErgebnisLabel(text:"running")
-        enableAll(false)
+        self.isRunning = true
+        self.checkToEnableAll()
 
         Backend.doOpen(code, geoy:geoy, geox:geox, installationid:userRegistration!.installationId,
             completionHandler: { (hasBeenOpened, info) -> () in
 
-                println("call to Backend.doOpen returned to ViewController.")
+                NSLog("call to Backend.doOpen returned to ViewController.")
 
                 dispatch_async(dispatch_get_main_queue(), {
 
+                    self.isRunning = false
                     self.pinEntryField.text = ""
-                    
-                    var waitSeconds: Int64 = 5;
+                    self.checkToEnableAll()
+
+                    var waitSeconds = 5.0;
 
                     if hasBeenOpened {
                         self.pinResultLabel.text = "";
@@ -91,12 +96,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                         self.bgImage.alpha = 1.0;
                     }
                     else {
-                        println(info)
+                        NSLog(info)
 
                         if countElements(info) < 20 {
                             self.pinResultLabel.text = info
                             self.updateErgebnisLabel(text:"")
-                            waitSeconds = 1
+                            waitSeconds = 0.1
                         }
                         else {
                             self.pinResultLabel.text = "";
@@ -104,9 +109,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                         }
                     }
 
-                    var dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, waitSeconds * Int64(NSEC_PER_SEC))
+                    var dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64(waitSeconds * Double(NSEC_PER_SEC)))
                     dispatch_after(dispatchTime, dispatch_get_main_queue(), {
-                        println("jetzt Ergebnis ausblenden etc.")
+                        NSLog("jetzt Ergebnis ausblenden etc.")
                         self.updateErgebnisLabel(text:"")
                         self.bgImage.alpha = 0.7;
 
@@ -129,7 +134,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
 
     private func checkToEnableAll() {
-        self.enableAll(self.gotGeolocation && self.userRegistration!.registered!)
+        self.enableAll(!self.isRunning && self.gotGeolocation && self.userRegistration!.registered!)
         // NSLog("checkToEnableAll: self.gotGeolocation=%@, registered=%@", self.gotGeolocation ? "t":"f", self.userRegistration!.registered! ? "t":"f")
         if !self.userRegistration!.registered! {
             updateErgebnisLabel(specialText: "Nicht registriert.\nBitte auf Zahnrad klicken, Name eingeben und speichern!")
@@ -141,7 +146,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             updateErgebnisLabel(specialText: "")
         }
         if self.gotGeolocation && self.isNear {
-            pinEntryField.backgroundColor = UIColor.greenColor()
+            pinEntryField.backgroundColor = UIColor(red: 153.0/255, green: 255.0/255, blue: 204.0/255, alpha: 0.7)
         }
         else {
             pinEntryField.backgroundColor = UIColor.clearColor()
@@ -242,7 +247,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
 
     func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
-        println("Error while updating location " + error.localizedDescription)
+        NSLog("Error while updating location " + error.localizedDescription)
     }
 
     private func checklocation() {
@@ -250,7 +255,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         Backend.checkloc(geoy, geox:geox, installationid:userRegistration!.installationId,
             completionHandler: { (isNear, info) -> () in
 
-                println("call to Backend.checkloc returned to ViewController. isNear=\(isNear)")
+                NSLog("call to Backend.checkloc returned to ViewController. isNear=\(isNear)")
 
                 self.isNear = isNear
 
