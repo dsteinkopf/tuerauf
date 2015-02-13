@@ -116,13 +116,13 @@ class Backend {
 
         if let lastCallThisType = lastCall[callType] {
             if -lastCallThisType.timeIntervalSinceNow < 3 {
-                NSLog("lastCall[\(callType)].timeIntervalSinceNow < 3 => return")
+                // NSLog("lastCall[\(callType)].timeIntervalSinceNow < 3 => return")
                 return
             }
         }
         lastCall[callType] = NSDate()
 
-        NSLog("running \(callType)]")
+        // NSLog("running \(callType)]")
 
         var urlString = urlStringParam
         #if DEBUG
@@ -157,7 +157,7 @@ class Backend {
             // mit dem Aufruf an sich ist alles ok
             completionHandler(data, nil)
 
-            NSLog("running \(callType)] done")
+            // NSLog("running \(callType)] done")
         }
 
         task.resume()

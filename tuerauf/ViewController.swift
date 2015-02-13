@@ -21,12 +21,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 
     private let locationManager = CLLocationManager()
     private let NEEDED_ACCURACY_IN_M = 75.0
+    private let TIME_TO_KEEP_NEAR_LOCATION = 10.0 // sek.
 
     private var isRunning = false
     private var geoy: Double = 0.0
     private var geox: Double = 0.0
     private var gotGeolocation = false
     private var isNear = false
+    private var nextTimeChecklocation: NSDate? = nil
 
     private var userRegistration: UserRegistration?
 
@@ -63,6 +65,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
 
     override func viewDidAppear(animated: Bool) {
+        NSLog("viewDidAppear")
+
         checkToEnableAll()
     }
     
@@ -204,8 +208,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     func initFindMyLocation() {
         NSLog("initFindMyLocation")
 
-        gotGeolocation = false
-
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
@@ -217,6 +219,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
 
         // NSLog("didUpdateLocations: geoy=%f, geox=%f accuracy=%f m", self.geoy, self.geox, manager.location.horizontalAccuracy)
+
+        if self.nextTimeChecklocation != nil && !self.nextTimeChecklocation!.timeIntervalSinceNow.isSignMinus {
+            // NSLog("nextTimeChecklocation in future: no checklocation")
+            return
+        }
 
         if (manager.location.horizontalAccuracy < NEEDED_ACCURACY_IN_M) {
             self.geoy = manager.location.coordinate.latitude
@@ -252,12 +259,22 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 
     private func checklocation() {
 
-        Backend.checkloc(geoy, geox:geox, installationid:userRegistration!.installationId,
+        let checkGeoy = geoy
+        let checkGeox = geox
+
+        Backend.checkloc(checkGeoy, geox:checkGeox, installationid:userRegistration!.installationId,
             completionHandler: { (isNear, info) -> () in
 
                 NSLog("call to Backend.checkloc returned to ViewController. isNear=\(isNear)")
 
                 self.isNear = isNear
+
+                if (self.isNear) {
+                    // wenn guter Ort gefunden, dann erst nach bestimmter Zeit wieder probieren
+                    self.nextTimeChecklocation = NSDate().dateByAddingTimeInterval(self.TIME_TO_KEEP_NEAR_LOCATION)
+                    self.geoy = checkGeoy
+                    self.geox = checkGeox
+                }
 
                 dispatch_async(dispatch_get_main_queue(), {
                     self.checkToEnableAll()
