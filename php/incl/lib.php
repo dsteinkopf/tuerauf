@@ -2,7 +2,7 @@
 
 $debug = 0;
 
-if (strstr($_SERVER['HTTP_USER_AGENT'], "Mozilla") && startsWith($_SERVER['REMOTE_ADDR'], "192.168.40.")) {
+if (strstr($_SERVER['HTTP_USER_AGENT'], "Mozilla") && startsWith($_SERVER['REMOTE_ADDR'], $localNetPrefix)) {
     $debug=1;
 }
 
@@ -11,21 +11,11 @@ if ($debug) {
     ini_set('display_errors', 'on');
 }
 
-$arduino_baseurl = "http://arduino.steinkopf.net:1080/";
-
-$stkhomey = 48.109535;
-$stkhomex = 11.622306;
-
-$stkhomey_min = 48.109388; // 48.109420;
-$stkhomey_max = 48.109584;
-$stkhomex_min = 11.622288;
-$stkhomex_max = 11.622506; // 11.622456;
-
-
 function check_appsecret()
 {
-        $appsecret = $_REQUEST["appsecret"];
-        if ($appsecret != "plUwPcIE82vKwHUVnGiS4o5J6o")  {
+        global $appsecret;
+        $gotappsecret = $_REQUEST["appsecret"];
+        if ($gotappsecret != $appsecret)  {
                 reject();
         }
 }

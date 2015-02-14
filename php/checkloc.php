@@ -1,9 +1,10 @@
 <?php
 /*
 Aufruf:
-https://backendsrv.steinkopf.net:39931/tuerauf/checkloc.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o&installationid=03C085B2-D6C2-4172-A051-6BDB6ED93C12&geoy=48.109536&geox=11.622306
+BASEURL/checkloc.php?appsecret=APPSECRET&installationid=INST_ID&geoy=12.34567&geox=23.45678
  */
 
+require 'config.php';
 require 'incl/lib.php';
 check_appsecret();
 

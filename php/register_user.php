@@ -1,38 +1,23 @@
 <?php
 /*
-Neue User anzeigen:
-https://backend.steinkopf.net:39931/tuerauf/register_user.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o&showusers=WsI65yuGCkjcA
-
-Neue User nach all kopieren (und dadurch aktivieren):
-https://backend.steinkopf.net:39931/tuerauf/register_user.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o&showusers=WsI65yuGCkjcA&activateallnew=WsI65yuGCkjcA
-
-Einen User anlegen: (dazu vorher freischalten mit: cp -p data/userlistnew_empty.php data/userlistnew.php
-https://backendsrv.steinkopf.net:39931/tuerauf/register_user.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o&installationid=ii1&name=nn1
-
-
 Ablauf Registrierung:
-1. Admin schaltet Registrierung frei:
-    cd ... && cp -p data/userlistnew_empty.php data/userlistnew.php
-2. User registrieren sich mit App. D.h.
-    https://backendsrv.steinkopf.net:39931/tuerauf/register_user.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o&installationid=ii1&name=nn1&pin=1111
-3. Admin zeigt User an:
-    https://backendsrv.steinkopf.net:39931/tuerauf/register_user.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o&showusers=WsI65yuGCkjcA
-4. Admin aktiviert neue User:
-    https://backendsrv.steinkopf.net:39931/tuerauf/register_user.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o&showusers=WsI65yuGCkjcA&activateallnew=WsI65yuGCkjcA
-5. Admin schaltet Registrierung ab:
-    cd ... && rm data/userlistnew.php
-6. Admin zeigt User an:
-    https://backendsrv.steinkopf.net:39931/tuerauf/register_user.php?appsecret=plUwPcIE82vKwHUVnGiS4o5J6o&showusers=WsI65yuGCkjcA
-   */
+1. User registrieren sich mit App. D.h.
+    BASEURL/register_user.php?appsecret=APPSECRET&installationid=ii1&name=nn1&pin=1111
+2. Admin zeigt User an:
+    BASEURL/register_user.php?appsecret=APPSECRET&showusers=ADMINSECRET
+3. Admin aktiviert neue User:
+    BASEURL/register_user.php?appsecret=APPSECRET&showusers=ADMINSECRET&activateallnew=ADMINSECRET
+4. Admin zeigt User an:
+    BASEURL/register_user.php?appsecret=APPSECRET&showusers=ADMINSECRET
+*/
 
+require 'config.php';
 require 'incl/lib.php';
 check_appsecret();
 
 require 'incl/users.php';
 
 if ($debug) print "debug is on<br>";
-
-$adminsecret = "WsI65yuGCkjcA";
 
 
 $showusers = (array_key_exists("showusers", $_REQUEST) && $_REQUEST["showusers"] == $adminsecret);

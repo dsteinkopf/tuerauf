@@ -1,2 +1,3 @@
 *.xcbkptlist
 tuerauf.xcodeproj/xcuserdata/*.xcuserdatad
+config_urlscheme.txt

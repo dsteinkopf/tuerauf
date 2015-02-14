@@ -31,17 +31,9 @@ F("abc") spart Speicher. siehe http://electronics.stackexchange.com/questions/66
 #include <DHT22.h>
 #include <EEPROM.h>
 
+#include "config.h"
 
 //  Ethernet shield attached to pins 10, 11, 12, 13
-byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFD, 0xEC };
-IPAddress ip(192,168,40,14);
-IPAddress allowedip(192,168,41,18);
-const int do_dhcp = 1;
-const int ip_port = 1080;
-int pinTuer = 8;
-
-const int fixed_pin = 4242;
-const String master_pin = "uasdaccbai36dxas";
 String dyn_code;
 
 const int bufsize = 100;
@@ -397,7 +389,7 @@ void sendEMail(String content)
 {
   Serial.println(F("sendEMail"));
   EthernetClient client = EthernetClient();
-  client.connect("mail.wor.net",25);
+  client.connect(smtp_server,25);
   Serial.println(F("connected"));
   int count = 0;
   while (count < 20) {
@@ -412,16 +404,16 @@ void sendEMail(String content)
     }
   }
   Serial.println(F("got response from mail server"));
-  client.print(F("HELO arduino.steinkopf.net\n"));
+  client.print(F("HELO ")); client.print(smtp_helo); client.print("\n");
   delay(100);
   // client.print(F("AUTH PLAIN\n"));
   // client.print(F("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\r\n"));  // x: base64 encoded login: \0foo@yahoo.com\0password
-  client.print(F("MAIL FROM:<tueroeffner_arduino@steinkopf.net>\n"));
-  client.print(F("RCPT TO:<dirk@wor.net>\n"));
+  client.print(F("MAIL FROM:<")); client.print(smtp_mail_from); client.print(">\n");
+  client.print(F("RCPT TO:<")); client.print(smtp_mail_to); client.print(">\n");
   client.print(F("DATA\n"));
   delay(100);
-  client.print(F("From: \"tueroeffner_arduino\" <tueroeffner_arduino@steinkopf.net>\r\n"));
-  client.print(F("To: dirk@wor.net\r\n"));
+  client.print(F("From: \"tueroeffner_arduino\" <")); client.print(smtp_mail_from); client.print(">\r\n");
+  client.print(F("To: ")); client.print(smtp_mail_to); client.print("\r\n");
 
   client.print(F("Subject: "));
   client.print(content);

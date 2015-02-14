@@ -48,5 +48,16 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>de.ecube.net.steinkopf.tuerauf.test</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>tuerauftest</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>

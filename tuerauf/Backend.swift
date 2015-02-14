@@ -8,21 +8,31 @@
 
 import Foundation
 
-private let baseUrl = "https://backend.steinkopf.net:39931/tuerauf/"
-private let appsecretParam = "appsecret=plUwPcIE82vKwHUVnGiS4o5J6o"
+private var configBaseUrl:String? = nil
+private var configAppSecret:String? = nil
 private let debugParam = "&debug=1"
 private var lastCall = Dictionary<String,NSDate>()
 
 
 class Backend {
 
+    class func setBaseUrl(baseUrl:String!) {
+        NSLog("setBaseUrl \(baseUrl)")
+        configBaseUrl = baseUrl
+    }
+
+    class func setAppSecret(appSecret:String!) {
+        NSLog("setAppSecret \(appSecret)")
+        configAppSecret = appSecret
+    }
+
     class func doOpen(code: String, geoy: Double, geox: Double, installationid: String,
         completionHandler: (hasBeenOpened: Bool, info: String) -> ())
     {
         let geoy_str = String(format:"%f", geoy)
         let geox_str = String(format:"%f", geox)
-        let urlString = String(format:"%@tuerauf.php?%@&geoy=%@&geox=%@&installationid=%@&pin=%@",
-            baseUrl, appsecretParam, geoy_str, geox_str, installationid, code)
+        let urlString = String(format:"tuerauf.php?geoy=%@&geox=%@&installationid=%@&pin=%@",
+            geoy_str, geox_str, installationid, code)
 
         bgRunDataTaskWithURL("doOpen", urlStringParam:urlString) {
             (data, info) in
@@ -53,8 +63,8 @@ class Backend {
     {
         let geoy_str = String(format:"%f", geoy)
         let geox_str = String(format:"%f", geox)
-        let urlString = String(format:"%@checkloc.php?%@&geoy=%@&geox=%@&installationid=%@",
-            baseUrl, appsecretParam, geoy_str, geox_str, installationid)
+        let urlString = String(format:"checkloc.php?geoy=%@&geox=%@&installationid=%@",
+            geoy_str, geox_str, installationid)
 
         bgRunDataTaskWithURL("checkloc", urlStringParam:urlString) {
             (data, info) in
@@ -82,9 +92,7 @@ class Backend {
     class func registerUser(username: String, pin: String, installationid: String,
         completionHandler: (hasBeenSaved: Bool, info: String) -> ())
     {
-        let urlString = String(format:"%@register_user.php?%@&installationid=%@&name=%@&pin=%@",
-            baseUrl,
-            appsecretParam,
+        let urlString = String(format:"register_user.php?installationid=%@&name=%@&pin=%@",
             installationid,
             username.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!,
             pin.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
@@ -124,7 +132,13 @@ class Backend {
 
         // NSLog("running \(callType)]")
 
-        var urlString = urlStringParam
+        if configBaseUrl == nil || configAppSecret == nil {
+            completionHandler(nil, "App ist noch nicht konfiguriert")
+            return
+        }
+
+        var urlString = String(format:"%@%@&appsecret=%@", configBaseUrl!, urlStringParam, configAppSecret!)
+
         #if DEBUG
             urlString += debugParam // wird (noch) nicht ausgewertet
         #endif
