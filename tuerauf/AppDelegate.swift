@@ -52,7 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(application: UIApplication, handleOpenURL url: NSURL) -> Bool {
-        NSLog("handleOpenURL url=\(url)")
+        NSLog("handleOpenURL url=%@", url)
         if url.scheme != urlScheme {
             return false
         }
@@ -63,7 +63,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         for comp in url.query!.pathComponents {
-            NSLog("url.query.comp=\(comp)")
+            NSLog("url.query.comp=%@", comp)
         }
 
         if countElements(url.query!.pathComponents) != 2 {
