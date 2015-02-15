@@ -49,7 +49,7 @@ class SettingsViewController: UITableViewController {
     }
 
     private func enableDisableSaveButton() {
-        saveButton.enabled = (countElements(pinEntryTextField.text) == 4)
+        saveButton.enabled = (countElements(pinEntryTextField.text) == 4 && Backend.sharedInstance.isConfigured())
     }
 
     private func saveUservalues() {
@@ -96,7 +96,7 @@ class SettingsViewController: UITableViewController {
 
         self.activityIndicator.startAnimating()
 
-        Backend.registerUser(usernameTextField.text, pin:pinEntryTextField.text, installationid: self.userRegistration!.installationId,
+        Backend.sharedInstance.registerUser(usernameTextField.text, pin:pinEntryTextField.text, installationid: self.userRegistration!.installationId,
             completionHandler: { (hasBeenSaved, info) -> () in
 
                 NSLog("registerUser returned: hasBeenSaved:%@ info=%@", hasBeenSaved, info)

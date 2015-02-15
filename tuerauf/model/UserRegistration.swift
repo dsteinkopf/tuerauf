@@ -24,7 +24,8 @@ class UserRegistration {
             if _username != nil {
                 return _username!
             }
-            if let _username = userdefaults.stringForKey("tueraufUsername") {
+            _username = userdefaults.stringForKey("tueraufUsername")
+            if _username != nil {
                 return _username;
             }
             _username = ""
@@ -41,7 +42,8 @@ class UserRegistration {
             if _pin != nil {
                 return _pin!
             }
-            if let _pin = userdefaults.stringForKey("tueraufPIN") {
+            _pin = userdefaults.stringForKey("tueraufPIN")
+            if _pin != nil {
                 return _pin;
             }
             _pin = ""
@@ -58,7 +60,8 @@ class UserRegistration {
             if _installationId != nil {
                 return _installationId!
             }
-            if let _installationId = userdefaults.stringForKey("tueraufInstallationId") {
+            _installationId = userdefaults.stringForKey("tueraufInstallationId")
+            if _installationId != nil {
                 return _installationId;
             }
             _installationId = NSUUID().UUIDString

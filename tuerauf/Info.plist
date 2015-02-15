@@ -25,7 +25,7 @@
 	<key>NSLocationUsageDescription</key>
 	<string>this is NSLocationUsageDescription</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Die App stellt fest, ob Du in der Nähe von Steinkopfs Haus bist.</string>
+	<string>Die App stellt fest, ob Du in der Nähe bist.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

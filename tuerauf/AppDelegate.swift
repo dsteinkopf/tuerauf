@@ -71,8 +71,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return false
         }
 
-        Backend.setBaseUrl(url.query!.pathComponents[0].stringByRemovingPercentEncoding)
-        Backend.setAppSecret(url.query!.pathComponents[1].stringByRemovingPercentEncoding)
+        Backend.sharedInstance.configBaseUrl = url.query!.pathComponents[0].stringByRemovingPercentEncoding
+        Backend.sharedInstance.configAppSecret = url.query!.pathComponents[1].stringByRemovingPercentEncoding
 
         // Erfolgsmeldung:
         var alert = UIAlertController(title: "Hat geklappt", message: "Die App ist nun konfiguriert.",
@@ -80,8 +80,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { action in
             NSLog("ok pressed")
         }))
-        UIApplication.sharedApplication().keyWindow!.rootViewController!.presentViewController(alert, animated: true, completion: nil)
-
+        self.window?.rootViewController!.presentViewController(alert, animated: true, completion: nil)
 
         return true
     }

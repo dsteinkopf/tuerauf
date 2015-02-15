@@ -8,25 +8,65 @@
 
 import Foundation
 
-private var configBaseUrl:String? = nil
-private var configAppSecret:String? = nil
+
+private let _backendInstance = Backend()
+
 private let debugParam = "&debug=1"
-private var lastCall = Dictionary<String,NSDate>()
 
 
 class Backend {
 
-    class func setBaseUrl(baseUrl:String!) {
-        NSLog("setBaseUrl \(baseUrl)")
-        configBaseUrl = baseUrl
+    private let userdefaults = NSUserDefaults.standardUserDefaults()
+
+    private var _configBaseUrl:String? = nil
+    private var _configAppSecret:String? = nil
+    private var lastCall = Dictionary<String,NSDate>()
+    
+
+    class var sharedInstance: Backend {
+        return _backendInstance
     }
 
-    class func setAppSecret(appSecret:String!) {
-        NSLog("setAppSecret \(appSecret)")
-        configAppSecret = appSecret
+    init() {
+        // leer
     }
 
-    class func doOpen(code: String, geoy: Double, geox: Double, installationid: String,
+    var configBaseUrl: String? {
+        get {
+            if _configBaseUrl != nil {
+                return _configBaseUrl
+            }
+            _configBaseUrl = userdefaults.stringForKey("tueraufConfigBaseUrl")
+            return _configBaseUrl
+        }
+        set {
+            _configBaseUrl = newValue
+            NSLog("set _configBaseUrl \(_configBaseUrl)")
+            userdefaults.setObject(_configBaseUrl, forKey: "tueraufConfigBaseUrl")
+        }
+    }
+
+    var configAppSecret: String? {
+        get {
+            if _configAppSecret != nil {
+                return _configAppSecret
+            }
+            _configAppSecret = userdefaults.stringForKey("tueraufConfigAppSecret")
+            return _configAppSecret
+        }
+        set {
+            _configAppSecret = newValue
+            NSLog("set _configAppSecret \(_configAppSecret)")
+            userdefaults.setObject(_configAppSecret, forKey: "tueraufConfigAppSecret")
+        }
+    }
+
+    func isConfigured() -> Bool {
+        return configAppSecret != nil && countElements(configAppSecret!) > 1
+            && configBaseUrl != nil && countElements(configBaseUrl!) > 1;
+    }
+
+    func doOpen(code: String, geoy: Double, geox: Double, installationid: String,
         completionHandler: (hasBeenOpened: Bool, info: String) -> ())
     {
         let geoy_str = String(format:"%f", geoy)
@@ -58,7 +98,7 @@ class Backend {
         }
     }
 
-    class func checkloc(geoy: Double, geox: Double, installationid: String,
+    func checkloc(geoy: Double, geox: Double, installationid: String,
                         completionHandler: (isNear: Bool, info: String) -> ())
     {
         let geoy_str = String(format:"%f", geoy)
@@ -89,7 +129,7 @@ class Backend {
         }
     }
 
-    class func registerUser(username: String, pin: String, installationid: String,
+    func registerUser(username: String, pin: String, installationid: String,
         completionHandler: (hasBeenSaved: Bool, info: String) -> ())
     {
         let urlString = String(format:"register_user.php?installationid=%@&name=%@&pin=%@",
@@ -120,7 +160,12 @@ class Backend {
         }
     }
 
-    private class func bgRunDataTaskWithURL(callType: String, urlStringParam: String, completionHandler: ((NSData!, String!) -> Void)) {
+    private func bgRunDataTaskWithURL(callType: String, urlStringParam: String, completionHandler: ((NSData!, String!) -> Void)) {
+
+        if !isConfigured() {
+            completionHandler(nil, "App ist noch nicht konfiguriert")
+            return
+        }
 
         if let lastCallThisType = lastCall[callType] {
             if -lastCallThisType.timeIntervalSinceNow < 3 {
@@ -131,11 +176,6 @@ class Backend {
         lastCall[callType] = NSDate()
 
         // NSLog("running \(callType)]")
-
-        if configBaseUrl == nil || configAppSecret == nil {
-            completionHandler(nil, "App ist noch nicht konfiguriert")
-            return
-        }
 
         var urlString = String(format:"%@%@&appsecret=%@", configBaseUrl!, urlStringParam, configAppSecret!)
 
@@ -178,7 +218,7 @@ class Backend {
         session.finishTasksAndInvalidate()
     }
 
-    private class func getSession() -> NSURLSession! {
+    private func getSession() -> NSURLSession! {
         var config = NSURLSessionConfiguration.defaultSessionConfiguration()
         config.timeoutIntervalForRequest = 15
 

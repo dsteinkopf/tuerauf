@@ -81,7 +81,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         self.isRunning = true
         self.checkToEnableAll()
 
-        Backend.doOpen(code, geoy:geoy, geox:geox, installationid:userRegistration!.installationId,
+        Backend.sharedInstance.doOpen(code, geoy:geoy, geox:geox, installationid:userRegistration!.installationId,
             completionHandler: { (hasBeenOpened, info) -> () in
 
                 NSLog("call to Backend.doOpen returned to ViewController.")
@@ -138,9 +138,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
 
     private func checkToEnableAll() {
-        self.enableAll(!self.isRunning && self.gotGeolocation && self.userRegistration!.registered!)
+        self.enableAll(!self.isRunning
+                        && self.gotGeolocation
+                        && self.userRegistration!.registered!
+                        && Backend.sharedInstance.isConfigured())
         // NSLog("checkToEnableAll: self.gotGeolocation=%@, registered=%@", self.gotGeolocation ? "t":"f", self.userRegistration!.registered! ? "t":"f")
-        if !self.userRegistration!.registered! {
+        if !Backend.sharedInstance.isConfigured() {
+            updateErgebnisLabel(specialText: "App nicht konfiguriert: Fragen Sie Ihren Admin nach dem Config-Link.")
+        }
+        else if !self.userRegistration!.registered! {
             updateErgebnisLabel(specialText: "Nicht registriert.\nBitte auf Zahnrad klicken, Name eingeben und speichern!")
         }
         else if !self.gotGeolocation {
@@ -262,7 +268,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         let checkGeoy = geoy
         let checkGeox = geox
 
-        Backend.checkloc(checkGeoy, geox:checkGeox, installationid:userRegistration!.installationId,
+        Backend.sharedInstance.checkloc(checkGeoy, geox:checkGeox, installationid:userRegistration!.installationId,
             completionHandler: { (isNear, info) -> () in
 
                 NSLog("call to Backend.checkloc returned to ViewController. isNear=\(isNear)")
