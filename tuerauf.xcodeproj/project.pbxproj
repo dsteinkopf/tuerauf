@@ -7,12 +7,41 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		580A91D01A75E96E002AEE17 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 580A91CF1A75E96E002AEE17 /* SettingsViewController.swift */; };
+		5823BADE1A79582100B8FB33 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585FDE0A1A5904EA00C830F2 /* ViewController.swift */; };
+		5823BADF1A79582100B8FB33 /* UserRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58AEFF131A7780C7006A122F /* UserRegistration.swift */; };
+		5823BAE01A79582100B8FB33 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585FDE081A5904EA00C830F2 /* AppDelegate.swift */; };
+		5823BAE11A79582100B8FB33 /* Backend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585FDE281A5908C100C830F2 /* Backend.swift */; };
+		5823BAE21A79582100B8FB33 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 580A91CF1A75E96E002AEE17 /* SettingsViewController.swift */; };
+		5823BAE41A79582100B8FB33 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58CE1A171A738C7B00C7C6BD /* CoreLocation.framework */; };
+		5823BAE61A79582100B8FB33 /* tuer_icon_60.png in Resources */ = {isa = PBXBuildFile; fileRef = 58854BC31A6C1B5C00EB4080 /* tuer_icon_60.png */; };
+		5823BAE71A79582100B8FB33 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 585FDE0C1A5904EA00C830F2 /* Main.storyboard */; };
+		5823BAE81A79582100B8FB33 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 585FDE111A5904EA00C830F2 /* LaunchScreen.xib */; };
+		5823BAE91A79582100B8FB33 /* tuer_icon_76.png in Resources */ = {isa = PBXBuildFile; fileRef = 58854BC51A6C1B5C00EB4080 /* tuer_icon_76.png */; };
+		5823BAEA1A79582100B8FB33 /* tuer_icon_180.png in Resources */ = {isa = PBXBuildFile; fileRef = 585FDE321A5959B800C830F2 /* tuer_icon_180.png */; };
+		5823BAEB1A79582100B8FB33 /* tuer_icon_120.png in Resources */ = {isa = PBXBuildFile; fileRef = 58854BC61A6C1B5C00EB4080 /* tuer_icon_120.png */; };
+		5823BAEC1A79582100B8FB33 /* tuer_a.png in Resources */ = {isa = PBXBuildFile; fileRef = 585FDE2F1A5956FB00C830F2 /* tuer_a.png */; };
+		5823BAED1A79582100B8FB33 /* tuer_icon_152.png in Resources */ = {isa = PBXBuildFile; fileRef = 58854BC41A6C1B5C00EB4080 /* tuer_icon_152.png */; };
+		5823BAEE1A79582100B8FB33 /* tuer.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 585FDE2D1A59535C00C830F2 /* tuer.jpg */; };
+		5823BAEF1A79582100B8FB33 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 585FDE0F1A5904EA00C830F2 /* Images.xcassets */; };
+		5823BAF01A79582100B8FB33 /* tuer.png in Resources */ = {isa = PBXBuildFile; fileRef = 585FDE311A5959B800C830F2 /* tuer.png */; };
 		585FDE091A5904EA00C830F2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585FDE081A5904EA00C830F2 /* AppDelegate.swift */; };
 		585FDE0B1A5904EA00C830F2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585FDE0A1A5904EA00C830F2 /* ViewController.swift */; };
 		585FDE0E1A5904EA00C830F2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 585FDE0C1A5904EA00C830F2 /* Main.storyboard */; };
 		585FDE101A5904EA00C830F2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 585FDE0F1A5904EA00C830F2 /* Images.xcassets */; };
 		585FDE131A5904EA00C830F2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 585FDE111A5904EA00C830F2 /* LaunchScreen.xib */; };
 		585FDE1F1A5904EA00C830F2 /* tueraufTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585FDE1E1A5904EA00C830F2 /* tueraufTests.swift */; };
+		585FDE291A5908C100C830F2 /* Backend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585FDE281A5908C100C830F2 /* Backend.swift */; };
+		585FDE2E1A59535C00C830F2 /* tuer.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 585FDE2D1A59535C00C830F2 /* tuer.jpg */; };
+		585FDE301A5956FB00C830F2 /* tuer_a.png in Resources */ = {isa = PBXBuildFile; fileRef = 585FDE2F1A5956FB00C830F2 /* tuer_a.png */; };
+		585FDE331A5959B800C830F2 /* tuer.png in Resources */ = {isa = PBXBuildFile; fileRef = 585FDE311A5959B800C830F2 /* tuer.png */; };
+		585FDE341A5959B800C830F2 /* tuer_icon_180.png in Resources */ = {isa = PBXBuildFile; fileRef = 585FDE321A5959B800C830F2 /* tuer_icon_180.png */; };
+		58854BC71A6C1B5C00EB4080 /* tuer_icon_60.png in Resources */ = {isa = PBXBuildFile; fileRef = 58854BC31A6C1B5C00EB4080 /* tuer_icon_60.png */; };
+		58854BC81A6C1B5C00EB4080 /* tuer_icon_152.png in Resources */ = {isa = PBXBuildFile; fileRef = 58854BC41A6C1B5C00EB4080 /* tuer_icon_152.png */; };
+		58854BC91A6C1B5C00EB4080 /* tuer_icon_76.png in Resources */ = {isa = PBXBuildFile; fileRef = 58854BC51A6C1B5C00EB4080 /* tuer_icon_76.png */; };
+		58854BCA1A6C1B5C00EB4080 /* tuer_icon_120.png in Resources */ = {isa = PBXBuildFile; fileRef = 58854BC61A6C1B5C00EB4080 /* tuer_icon_120.png */; };
+		58AEFF141A7780C7006A122F /* UserRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58AEFF131A7780C7006A122F /* UserRegistration.swift */; };
+		58CE1A181A738C7B00C7C6BD /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58CE1A171A738C7B00C7C6BD /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,7 +55,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		585FDE031A5904EA00C830F2 /* tuerauf.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tuerauf.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		580A91CF1A75E96E002AEE17 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		5823BAF51A79582100B8FB33 /* tuerauf.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tuerauf.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5823BAF71A795D7B00B8FB33 /* tuerauf_prod-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "tuerauf_prod-Info.plist"; sourceTree = "<group>"; };
+		5823BAFB1A79F27100B8FB33 /* getgitrevision.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = getgitrevision.sh; sourceTree = SOURCE_ROOT; };
+		585FDE031A5904EA00C830F2 /* tuerauf_test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tuerauf_test.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		585FDE071A5904EA00C830F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		585FDE081A5904EA00C830F2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		585FDE0A1A5904EA00C830F2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -36,13 +69,33 @@
 		585FDE181A5904EA00C830F2 /* tueraufTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = tueraufTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		585FDE1D1A5904EA00C830F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		585FDE1E1A5904EA00C830F2 /* tueraufTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tueraufTests.swift; sourceTree = "<group>"; };
+		585FDE281A5908C100C830F2 /* Backend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Backend.swift; sourceTree = "<group>"; };
+		585FDE2D1A59535C00C830F2 /* tuer.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tuer.jpg; sourceTree = "<group>"; };
+		585FDE2F1A5956FB00C830F2 /* tuer_a.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tuer_a.png; sourceTree = "<group>"; };
+		585FDE311A5959B800C830F2 /* tuer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tuer.png; sourceTree = "<group>"; };
+		585FDE321A5959B800C830F2 /* tuer_icon_180.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tuer_icon_180.png; sourceTree = "<group>"; };
+		58854BC31A6C1B5C00EB4080 /* tuer_icon_60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tuer_icon_60.png; sourceTree = "<group>"; };
+		58854BC41A6C1B5C00EB4080 /* tuer_icon_152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tuer_icon_152.png; sourceTree = "<group>"; };
+		58854BC51A6C1B5C00EB4080 /* tuer_icon_76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tuer_icon_76.png; sourceTree = "<group>"; };
+		58854BC61A6C1B5C00EB4080 /* tuer_icon_120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tuer_icon_120.png; sourceTree = "<group>"; };
+		58AEFF131A7780C7006A122F /* UserRegistration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserRegistration.swift; path = model/UserRegistration.swift; sourceTree = "<group>"; };
+		58CE1A171A738C7B00C7C6BD /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		5823BAE31A79582100B8FB33 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5823BAE41A79582100B8FB33 /* CoreLocation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		585FDE001A5904EA00C830F2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				58CE1A181A738C7B00C7C6BD /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,6 +112,7 @@
 		585FDDFA1A5904EA00C830F2 = {
 			isa = PBXGroup;
 			children = (
+				58CE1A171A738C7B00C7C6BD /* CoreLocation.framework */,
 				585FDE051A5904EA00C830F2 /* tuerauf */,
 				585FDE1B1A5904EA00C830F2 /* tueraufTests */,
 				585FDE041A5904EA00C830F2 /* Products */,
@@ -68,8 +122,9 @@
 		585FDE041A5904EA00C830F2 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				585FDE031A5904EA00C830F2 /* tuerauf.app */,
+				585FDE031A5904EA00C830F2 /* tuerauf_test.app */,
 				585FDE181A5904EA00C830F2 /* tueraufTests.xctest */,
+				5823BAF51A79582100B8FB33 /* tuerauf.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -77,11 +132,15 @@
 		585FDE051A5904EA00C830F2 /* tuerauf */ = {
 			isa = PBXGroup;
 			children = (
+				58AEFF151A77863D006A122F /* model */,
+				585FDE281A5908C100C830F2 /* Backend.swift */,
 				585FDE081A5904EA00C830F2 /* AppDelegate.swift */,
 				585FDE0A1A5904EA00C830F2 /* ViewController.swift */,
+				580A91CF1A75E96E002AEE17 /* SettingsViewController.swift */,
 				585FDE0C1A5904EA00C830F2 /* Main.storyboard */,
 				585FDE0F1A5904EA00C830F2 /* Images.xcassets */,
 				585FDE111A5904EA00C830F2 /* LaunchScreen.xib */,
+				585FDE2C1A59533300C830F2 /* images */,
 				585FDE061A5904EA00C830F2 /* Supporting Files */,
 			);
 			path = tuerauf;
@@ -90,7 +149,9 @@
 		585FDE061A5904EA00C830F2 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				5823BAFB1A79F27100B8FB33 /* getgitrevision.sh */,
 				585FDE071A5904EA00C830F2 /* Info.plist */,
+				5823BAF71A795D7B00B8FB33 /* tuerauf_prod-Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -112,24 +173,66 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		585FDE2C1A59533300C830F2 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				58854BC31A6C1B5C00EB4080 /* tuer_icon_60.png */,
+				58854BC51A6C1B5C00EB4080 /* tuer_icon_76.png */,
+				58854BC61A6C1B5C00EB4080 /* tuer_icon_120.png */,
+				58854BC41A6C1B5C00EB4080 /* tuer_icon_152.png */,
+				585FDE321A5959B800C830F2 /* tuer_icon_180.png */,
+				585FDE311A5959B800C830F2 /* tuer.png */,
+				585FDE2F1A5956FB00C830F2 /* tuer_a.png */,
+				585FDE2D1A59535C00C830F2 /* tuer.jpg */,
+			);
+			name = images;
+			sourceTree = "<group>";
+		};
+		58AEFF151A77863D006A122F /* model */ = {
+			isa = PBXGroup;
+			children = (
+				58AEFF131A7780C7006A122F /* UserRegistration.swift */,
+			);
+			name = model;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		585FDE021A5904EA00C830F2 /* tuerauf */ = {
+		5823BADC1A79582100B8FB33 /* tuerauf_prod */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 585FDE221A5904EA00C830F2 /* Build configuration list for PBXNativeTarget "tuerauf" */;
+			buildConfigurationList = 5823BAF21A79582100B8FB33 /* Build configuration list for PBXNativeTarget "tuerauf_prod" */;
 			buildPhases = (
-				585FDDFF1A5904EA00C830F2 /* Sources */,
-				585FDE001A5904EA00C830F2 /* Frameworks */,
-				585FDE011A5904EA00C830F2 /* Resources */,
+				5823BADD1A79582100B8FB33 /* Sources */,
+				5823BAE31A79582100B8FB33 /* Frameworks */,
+				5823BAE51A79582100B8FB33 /* Resources */,
+				5823BAF11A79582100B8FB33 /* Revisionsnummer holen */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = tuerauf;
+			name = tuerauf_prod;
 			productName = tuerauf;
-			productReference = 585FDE031A5904EA00C830F2 /* tuerauf.app */;
+			productReference = 5823BAF51A79582100B8FB33 /* tuerauf.app */;
+			productType = "com.apple.product-type.application";
+		};
+		585FDE021A5904EA00C830F2 /* tuerauf_test */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 585FDE221A5904EA00C830F2 /* Build configuration list for PBXNativeTarget "tuerauf_test" */;
+			buildPhases = (
+				585FDDFF1A5904EA00C830F2 /* Sources */,
+				585FDE001A5904EA00C830F2 /* Frameworks */,
+				585FDE011A5904EA00C830F2 /* Resources */,
+				584E093B1A6BEDAB002AC50E /* Revisionsnummer holen */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = tuerauf_test;
+			productName = tuerauf;
+			productReference = 585FDE031A5904EA00C830F2 /* tuerauf_test.app */;
 			productType = "com.apple.product-type.application";
 		};
 		585FDE171A5904EA00C830F2 /* tueraufTests */ = {
@@ -159,8 +262,12 @@
 				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = "Dirk Steinkopf";
 				TargetAttributes = {
+					5823BADC1A79582100B8FB33 = {
+						DevelopmentTeam = Z9F28AVBD8;
+					};
 					585FDE021A5904EA00C830F2 = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = Z9F28AVBD8;
 					};
 					585FDE171A5904EA00C830F2 = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -181,20 +288,47 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				585FDE021A5904EA00C830F2 /* tuerauf */,
+				585FDE021A5904EA00C830F2 /* tuerauf_test */,
+				5823BADC1A79582100B8FB33 /* tuerauf_prod */,
 				585FDE171A5904EA00C830F2 /* tueraufTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		5823BAE51A79582100B8FB33 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5823BAE61A79582100B8FB33 /* tuer_icon_60.png in Resources */,
+				5823BAE71A79582100B8FB33 /* Main.storyboard in Resources */,
+				5823BAE81A79582100B8FB33 /* LaunchScreen.xib in Resources */,
+				5823BAE91A79582100B8FB33 /* tuer_icon_76.png in Resources */,
+				5823BAEA1A79582100B8FB33 /* tuer_icon_180.png in Resources */,
+				5823BAEB1A79582100B8FB33 /* tuer_icon_120.png in Resources */,
+				5823BAEC1A79582100B8FB33 /* tuer_a.png in Resources */,
+				5823BAED1A79582100B8FB33 /* tuer_icon_152.png in Resources */,
+				5823BAEE1A79582100B8FB33 /* tuer.jpg in Resources */,
+				5823BAEF1A79582100B8FB33 /* Images.xcassets in Resources */,
+				5823BAF01A79582100B8FB33 /* tuer.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		585FDE011A5904EA00C830F2 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				58854BC71A6C1B5C00EB4080 /* tuer_icon_60.png in Resources */,
 				585FDE0E1A5904EA00C830F2 /* Main.storyboard in Resources */,
 				585FDE131A5904EA00C830F2 /* LaunchScreen.xib in Resources */,
+				58854BC91A6C1B5C00EB4080 /* tuer_icon_76.png in Resources */,
+				585FDE341A5959B800C830F2 /* tuer_icon_180.png in Resources */,
+				58854BCA1A6C1B5C00EB4080 /* tuer_icon_120.png in Resources */,
+				585FDE301A5956FB00C830F2 /* tuer_a.png in Resources */,
+				58854BC81A6C1B5C00EB4080 /* tuer_icon_152.png in Resources */,
+				585FDE2E1A59535C00C830F2 /* tuer.jpg in Resources */,
 				585FDE101A5904EA00C830F2 /* Images.xcassets in Resources */,
+				585FDE331A5959B800C830F2 /* tuer.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -207,13 +341,59 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		5823BAF11A79582100B8FB33 /* Revisionsnummer holen */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Revisionsnummer holen";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "#!/bin/bash\nbash \"$PROJECT_DIR\"/getgitrevision.sh";
+		};
+		584E093B1A6BEDAB002AC50E /* Revisionsnummer holen */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Revisionsnummer holen";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "#!/bin/bash\nbash \"$PROJECT_DIR\"/getgitrevision.sh";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		5823BADD1A79582100B8FB33 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5823BADE1A79582100B8FB33 /* ViewController.swift in Sources */,
+				5823BADF1A79582100B8FB33 /* UserRegistration.swift in Sources */,
+				5823BAE01A79582100B8FB33 /* AppDelegate.swift in Sources */,
+				5823BAE11A79582100B8FB33 /* Backend.swift in Sources */,
+				5823BAE21A79582100B8FB33 /* SettingsViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		585FDDFF1A5904EA00C830F2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				585FDE0B1A5904EA00C830F2 /* ViewController.swift in Sources */,
+				58AEFF141A7780C7006A122F /* UserRegistration.swift in Sources */,
 				585FDE091A5904EA00C830F2 /* AppDelegate.swift in Sources */,
+				585FDE291A5908C100C830F2 /* Backend.swift in Sources */,
+				580A91D01A75E96E002AEE17 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -230,7 +410,7 @@
 /* Begin PBXTargetDependency section */
 		585FDE1A1A5904EA00C830F2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 585FDE021A5904EA00C830F2 /* tuerauf */;
+			target = 585FDE021A5904EA00C830F2 /* tuerauf_test */;
 			targetProxy = 585FDE191A5904EA00C830F2 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -255,6 +435,32 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		5823BAF31A79582100B8FB33 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = "$(SRCROOT)/tuerauf/tuerauf_prod-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = tuerauf;
+				PROVISIONING_PROFILE = "";
+			};
+			name = Debug;
+		};
+		5823BAF41A79582100B8FB33 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = "$(SRCROOT)/tuerauf/tuerauf_prod-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = tuerauf;
+				PROVISIONING_PROFILE = "";
+			};
+			name = Release;
+		};
 		585FDE201A5904EA00C830F2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -292,6 +498,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "Tür auf";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -328,6 +535,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "Tür auf";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -338,9 +546,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = tuerauf/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				"OTHER_SWIFT_FLAGS[arch=*]" = "-DDEBUG";
+				PRODUCT_NAME = tuerauf_test;
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -348,9 +560,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = tuerauf/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = tuerauf_test;
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
@@ -369,7 +584,7 @@
 				INFOPLIST_FILE = tueraufTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/tuerauf.app/tuerauf";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/tuerauf_test.app/tuerauf_test";
 			};
 			name = Debug;
 		};
@@ -384,13 +599,22 @@
 				INFOPLIST_FILE = tueraufTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/tuerauf.app/tuerauf";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/tuerauf_test.app/tuerauf_test";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		5823BAF21A79582100B8FB33 /* Build configuration list for PBXNativeTarget "tuerauf_prod" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5823BAF31A79582100B8FB33 /* Debug */,
+				5823BAF41A79582100B8FB33 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		585FDDFE1A5904EA00C830F2 /* Build configuration list for PBXProject "tuerauf" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -400,13 +624,14 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		585FDE221A5904EA00C830F2 /* Build configuration list for PBXNativeTarget "tuerauf" */ = {
+		585FDE221A5904EA00C830F2 /* Build configuration list for PBXNativeTarget "tuerauf_test" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				585FDE231A5904EA00C830F2 /* Debug */,
 				585FDE241A5904EA00C830F2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		585FDE251A5904EA00C830F2 /* Build configuration list for PBXNativeTarget "tueraufTests" */ = {
 			isa = XCConfigurationList;
@@ -415,6 +640,7 @@
 				585FDE271A5904EA00C830F2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -8,10 +8,20 @@
 
 import UIKit
 
+
+#if DEBUG
+    private let urlScheme = "tuerauftest"
+#else
+    private let urlScheme = "tuerauf"
+#endif
+
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+
+    private var _userRegistration: UserRegistration! = UserRegistration()
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
@@ -41,6 +51,59 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
+    func application(application: UIApplication, handleOpenURL url: NSURL) -> Bool {
+        NSLog("handleOpenURL url=\(url)")
+        if url.scheme != urlScheme {
+            return false
+        }
 
+        if url.query == nil {
+            NSLog("found no query instead of expected 2")
+            return false
+        }
+
+        for comp in url.query!.pathComponents {
+            NSLog("url.query.comp=\(comp)")
+        }
+
+        if countElements(url.query!.pathComponents) != 2 {
+            NSLog("found \(countElements(url.query!.pathComponents)) pathComponents instead of expected 2")
+            return false
+        }
+
+        Backend.sharedInstance.configBaseUrl = url.query!.pathComponents[0].stringByRemovingPercentEncoding
+        Backend.sharedInstance.configAppSecret = url.query!.pathComponents[1].stringByRemovingPercentEncoding
+
+        // Erfolgsmeldung:
+        var alert = UIAlertController(title: "Hat geklappt", message: "Die App ist nun konfiguriert.",
+            preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { action in
+            NSLog("ok pressed")
+        }))
+        self.window?.rootViewController!.presentViewController(alert, animated: true, completion: nil)
+
+        return true
+    }
+
+    class func getAppVersionFull() -> String! {
+        let infoDict: NSDictionary? = NSBundle.mainBundle().infoDictionary?
+        let revDetails: String? = infoDict?["CFBundleVersionDetails"] as? String // CFBundleVersionDetails = our own key
+        let version:    String? = infoDict?["CFBundleShortVersionString"] as? String
+
+        var fullVersion = String(format:"%@ (%@)",
+            version == nil ? "?" : version!,
+            revDetails == nil ? "??" : revDetails!)
+        #if DEBUG
+            fullVersion += " test"
+        #endif
+        NSLog("fullVersion="+fullVersion)
+        return fullVersion
+    }
+
+    internal var userRegistration: UserRegistration {
+        get {
+            return _userRegistration
+        }
+    }
 }
 
