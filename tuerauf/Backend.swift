@@ -204,7 +204,7 @@ class Backend {
             let httpresponse = response as NSHTTPURLResponse
 
             if httpresponse.statusCode != 200 {
-                completionHandler(data, "falscher Statuscode \(httpresponse.statusCode)")
+                completionHandler(data, "Statuscode \(httpresponse.statusCode). Bitte den Server prüfen.")
                 return
             }
 

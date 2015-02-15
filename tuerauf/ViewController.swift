@@ -141,7 +141,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         self.enableAll(!self.isRunning
                         && self.gotGeolocation
                         && self.userRegistration!.registered!
-                        && Backend.sharedInstance.isConfigured())
+                        && Backend.sharedInstance.isConfigured()
+                        && self.textToShowInErgebnisLabel == nil)
         // NSLog("checkToEnableAll: self.gotGeolocation=%@, registered=%@", self.gotGeolocation ? "t":"f", self.userRegistration!.registered! ? "t":"f")
         if !Backend.sharedInstance.isConfigured() {
             updateErgebnisLabel(specialText: "App nicht konfiguriert: Fragen Sie Ihren Admin nach dem Config-Link.")
