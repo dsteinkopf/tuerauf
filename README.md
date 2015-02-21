@@ -14,3 +14,5 @@ Ziel ist es, dass ich Personen meines Vertrauens ermöglichen möchte, über die
   enthält Logik zum Registrieren der Benutzer-Apps. Reicht erfolgreich authentifizierte Aufrufe an den Arduino weiter.
 
 * **App**
+
+mehr im Wiki: https://github.com/dsteinkopf/tuerauf/wiki
