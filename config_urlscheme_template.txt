@@ -1,5 +1,5 @@
 Diesen Link z.B. per Mail an die Nutzer schicken.
 Der Link kann nach Installation der App angeklickt werden, um sie zu konfigurieren:
 
-tuerauf:///?https%3A%2F%2Fmeinedomain.top%3A39931%2Ftuerauf%2F/APPSECRET
-tuerauftest:///?https%3A%2F%2Fmeinedomain.top%3A39931%2Ftuerauf-test%2F/APPSECRET
+tuerauf:///?https%3A%2F%2Fmeinedomain.top%2Ftuerauf%2F/APPSECRET
+tuerauftest:///?https%3A%2F%2Fmeinedomain.top%2Ftuerauf-test%2F/APPSECRET
