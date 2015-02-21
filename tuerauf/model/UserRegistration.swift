@@ -42,16 +42,16 @@ class UserRegistration {
             if _pin != nil {
                 return _pin!
             }
-            _pin = userdefaults.stringForKey("tueraufPIN")
-            if _pin != nil {
-                return _pin;
-            }
+            // no - don't persist user's PIN: _pin = userdefaults.stringForKey("tueraufPIN")
+            // no - don't persist user's PIN: if _pin != nil {
+            // no - don't persist user's PIN:     return _pin;
+            // no - don't persist user's PIN: }
             _pin = ""
             return _pin!
         }
         set {
-            _username = newValue
-            userdefaults.setObject(_username, forKey: "tueraufPIN")
+            _pin = newValue
+            // no - don't persist user's PIN: userdefaults.setObject(_pin, forKey: "tueraufPIN")
         }
     }
 
