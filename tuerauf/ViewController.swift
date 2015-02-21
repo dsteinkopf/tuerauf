@@ -21,7 +21,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 
     private let locationManager = CLLocationManager()
     private let NEEDED_ACCURACY_IN_M = 75.0
-    private let TIME_TO_KEEP_NEAR_LOCATION = 10.0 // sek.
+    private let TIME_TO_KEEP_NEAR_LOCATION = 60.0 // sek.
 
     private var isRunning = false
     private var geoy: Double = 0.0
