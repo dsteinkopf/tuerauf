@@ -61,12 +61,8 @@ if ($response === false) {
     print "bad request";
     exit(2);
 }
-$remote = $_SERVER['REMOTE_ADDR'].(array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER) ? "/".$_SERVER['HTTP_X_FORWARDED_FOR'] : "");
-$logstr = $_SERVER['SCRIPT_NAME'].": user $username from $remote got response $response (installationid=$installationid)";
-error_log($logstr, 0);
-//if (strpos($logstr, 'OFFEN') !== FALSE) {
-        error_log($logstr, 1, $mailaddr);
-//}
+
+logAndMail("user $username from $remote got response $response (installationid=$installationid)");
 
 print $response;
 exit(0);

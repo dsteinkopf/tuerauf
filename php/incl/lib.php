@@ -38,6 +38,15 @@ function isNear($geoy, $geox) {
                 $stkhomex_min <= $geox && $geox <= $stkhomex_max;
 }
 
+function logAndMail($message) {
+        global $_SERVER;
+        global $mailaddr;
+
+        $remote = $_SERVER['REMOTE_ADDR'].(array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER) ? "/".$_SERVER['HTTP_X_FORWARDED_FOR'] : "");
+        $logstr = $_SERVER['SCRIPT_NAME'].": ".$message;
+        error_log($logstr, 0);
+        error_log($logstr, 1, $mailaddr);
+}
 
 /*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
 /*::                                                                         :*/

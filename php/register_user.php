@@ -32,9 +32,17 @@ if ($debug) print "name=$name<br>";
 if ($debug) print "pin=$pin<br>";
 
 if ($installationid && $name && $pin) {
-        User::createUser($name, $pin, $installationid);
+        $user = User::createUser($name, $pin, $installationid);
         User::saveUserlist();
-        print "saved: new, inactive";
+        print "saved:";
+        print ($user->new ? " new" : " changed");
+        print ($user->active ? " active" : " inactive");
+        if ($user->usernameOld) {
+                logAndMail("user $user->usernameOld changed name to $user->username (installationid=$user->installationid)");
+        }
+        if ($user->pinOld) {
+                logAndMail("user $user->username changed pin to $user->pin (installationid=$user->installationid)");
+        }
 }
 
 if ($activateallnew) {
@@ -57,8 +65,10 @@ if ($showusers) {
                 print $emph.$user->installationid.$emph_end;
                 print "</td><td>";
                 print $emph.$user->username.$emph_end;
+                print $user->usernameOld ? " (was: $user->usernameOld)" : "";
                 print "</td><td>";
                 print $emph.$user->pin.$emph_end;
+                print $user->pinOld ? " (was: $user->pinOld)" : "";
                 print "</td><td>";
                 print $emph.$user->lfdid.$emph_end;
                 print "</td></tr>\n";

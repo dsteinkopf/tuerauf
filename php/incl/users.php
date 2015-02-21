@@ -23,6 +23,21 @@ class User {
                 $this->lfdid = null;
         }
 
+        public function updateData($username, $pin) {
+                if ($username != $this->username) {
+                        if ( ! $this->usernameOld) {
+                                $this->usernameOld = $this->username;
+                        }
+                        $this->username = $username;
+                }
+                if ($pin != $this->pin) {
+                        if ( ! $this->pinOld) {
+                                $this->pinOld = $this->pin;
+                        }
+                        $this->pin = $pin;
+                }
+        }
+
         /**
          Liefert den User anhand der installationid
         */
@@ -57,6 +72,8 @@ class User {
                                 $user->active = 1;
                                 $user->new = 0;
                         }
+                        $user->usernameOld = null;
+                        $user->pinOld = null;
                 }
         }
 
@@ -78,7 +95,7 @@ class User {
                 self::checkToLoadUserlist();
                 if (array_key_exists($installationid, self::$userlist)) {
                         $user = self::$userlist[$installationid];
-                        $lfdid = $user->lfdid;
+                        $user->updateData($username, $pin);
                 }
                 else {
                         $user = new User($username, $pin, $installationid);
@@ -86,6 +103,8 @@ class User {
                         $user->lfdid = $lfdid;
                 }
                 self::$userlist[$installationid] = $user;
+
+                return $user;
         }
 
         /**
