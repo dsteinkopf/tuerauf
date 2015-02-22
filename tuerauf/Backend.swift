@@ -13,6 +13,8 @@ private let _backendInstance = Backend()
 
 private let debugParam = "&debug=1"
 
+private let REQUEST_TIMEOUT: NSTimeInterval = 15 // seconds
+
 
 class Backend {
 
@@ -71,10 +73,13 @@ class Backend {
     {
         let geoy_str = String(format:"%f", geoy)
         let geox_str = String(format:"%f", geox)
-        let urlString = String(format:"tuerauf.php?geoy=%@&geox=%@&installationid=%@&pin=%@",
-            geoy_str, geox_str, installationid, code)
+        let urlString = String(format:"tuerauf.php?geoy=%@&geox=%@&installationid=%@",
+            geoy_str, geox_str, installationid)
+        let bodyData = String(format:"pin=%@",
+            code.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
+        )
 
-        bgRunDataTaskWithURL("doOpen", urlStringParam:urlString) {
+        bgRunDataTaskWithURL("doOpen", urlStringParam:urlString, bodyData:bodyData) {
             (data, info) in
 
             // sleep(3)
@@ -106,7 +111,7 @@ class Backend {
         let urlString = String(format:"checkloc.php?geoy=%@&geox=%@&installationid=%@",
             geoy_str, geox_str, installationid)
 
-        bgRunDataTaskWithURL("checkloc", urlStringParam:urlString) {
+        bgRunDataTaskWithURL("checkloc", urlStringParam:urlString, bodyData:nil) {
             (data, info) in
 
             // sleep(3)
@@ -132,13 +137,16 @@ class Backend {
     func registerUser(username: String, pin: String, installationid: String,
         completionHandler: (hasBeenSaved: Bool, info: String) -> ())
     {
-        let urlString = String(format:"register_user.php?installationid=%@&name=%@&pin=%@",
+        let urlString = String(format:"register_user.php?installationid=%@&name=%@",
             installationid,
-            username.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!,
+            username.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
+        )
+        let bodyData = String(format:"pin=%@",
             pin.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
         )
 
-        bgRunDataTaskWithURL("registerUser", urlStringParam:urlString) {
+
+        bgRunDataTaskWithURL("registerUser", urlStringParam:urlString, bodyData:bodyData) {
             (data, info) in
 
             // sleep(3)
@@ -160,8 +168,11 @@ class Backend {
         }
     }
 
-    private func bgRunDataTaskWithURL(callType: String, urlStringParam: String, completionHandler: ((NSData!, String!) -> Void)) {
-
+    private func bgRunDataTaskWithURL(callType: String,
+                                        urlStringParam: String,
+                                        bodyData: String?,
+                                        completionHandler: ((NSData!, String!) -> Void))
+    {
         if !isConfigured() {
             completionHandler(nil, "App ist noch nicht konfiguriert")
             return
@@ -177,17 +188,29 @@ class Backend {
 
         // NSLog("running \(callType)]")
 
-        var urlString = String(format:"%@%@&appsecret=%@", configBaseUrl!, urlStringParam, configAppSecret!)
+        // build urlString:
+        var urlString = configBaseUrl! + urlStringParam
 
         #if DEBUG
             urlString += debugParam // wird (noch) nicht ausgewertet
         #endif
-        let url = NSURL(string: urlString)
+        let url: NSURL! = NSURL(string: urlString)
         NSLog("calling url="+urlString)
+
+        // build bodyDataToPost:
+        var bodyDataToPost = bodyData == nil ? "" : bodyData!;
+        bodyDataToPost += (countElements(bodyDataToPost) > 0 ? "&" : "") + "appsecret=" + configAppSecret!
+        NSLog("bodyDataToPost=%@", bodyDataToPost)
+
+        // create request
+        let request = NSMutableURLRequest(URL: url)
+        request.HTTPMethod = "POST"
+        request.HTTPBody = bodyDataToPost.dataUsingEncoding(NSUTF8StringEncoding);
+        request.timeoutInterval = REQUEST_TIMEOUT
 
         let session = self.getSession()
 
-        let task = session.dataTaskWithURL(url!) {
+        let task = session.dataTaskWithRequest(request) {
             (data, response, error) in
 
             if (error != nil) {
@@ -220,7 +243,7 @@ class Backend {
 
     private func getSession() -> NSURLSession! {
         var config = NSURLSessionConfiguration.defaultSessionConfiguration()
-        config.timeoutIntervalForRequest = 15
+        config.timeoutIntervalForRequest = REQUEST_TIMEOUT
 
         let session = NSURLSession(configuration: config)
         return session
