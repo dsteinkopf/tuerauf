@@ -33,15 +33,20 @@ if ($debug) print "pin=$pin<br>";
 
 if ($installationid && $name && $pin) {
         $user = User::createUser($name, $pin, $installationid);
-        User::saveUserlist();
-        print "saved:";
-        print ($user->new ? " new" : " changed");
-        print ($user->active ? " active" : " inactive");
-        if ($user->usernameOld) {
-                logAndMail("user $user->usernameOld changed name to $user->username (installationid=$user->installationid)");
+        $ok = User::saveUserlist();
+        if ($ok) {
+                print "saved:";
+                print ($user->new ? " new" : " changed");
+                print ($user->active ? " active" : " inactive");
+                if ($user->usernameOld) {
+                        logAndMail("user $user->usernameOld changed name to $user->username (installationid=$user->installationid)");
+                }
+                if ($user->pinOld) {
+                        logAndMail("user $user->username changed pin (installationid=$user->installationid)");
+                }
         }
-        if ($user->pinOld) {
-                logAndMail("user $user->username changed pin (installationid=$user->installationid)");
+        else {
+                print "error";
         }
 }
 

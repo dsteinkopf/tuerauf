@@ -1,11 +1,11 @@
 <?php
 /*
 Installieren mit:
-rsync -av php/ root@backendsrv:/var/www/backend/tuerauf/
+rsync -av --exclude=config.php --exclude=data php/ root@backendsrv:/var/www/backend/tuerauf/
 ssh root@backendsrv chown -R www-data:www-data /var/www/backend/tuerauf/data
 
 Änderungen holen mit:
-rsync -av root@backendsrv:/var/www/backend/tuerauf-test/ php/
+rsync -av --exclude=config.php --exclude=data root@backendsrv:/var/www/backend/tuerauf-test/ php/
 
 Aufruf:
 BASEURL/tuerauf.php?appsecret=APPSECRET&installationid=INST_ID&geoy=12.34567&geox=23.45678&pin=1111

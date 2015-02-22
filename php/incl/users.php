@@ -156,16 +156,23 @@ class User {
         }
 
         /**
-         * speichert die Userlist als PHP-Include-File, damit sie nicht von extern direkt aufgerufen werden kann
+         * speichert die Userlist als PHP-Include-File, damit sie nicht von extern direkt aufgerufen werden kann.
+         * Return true, wenn ok
          */
         public static function saveUserlist() {
                 $filename = self::userlistfilename_base.".php";
                 $userlist_string = serialize(self::$userlist);
                 $quoted_userlist_string = str_replace("\"", "\\\"", $userlist_string);
-                file_put_contents($filename,
-                                  "<?php\n"
-                                  ."\$users=\"".$quoted_userlist_string."\";\n"
-                                  ."?>\n");
+                $bytecountOrFalse = file_put_contents($filename,
+                                                      "<?php\n"
+                                                      ."\$users=\"".$quoted_userlist_string."\";\n"
+                                                      ."?>\n");
+                if ($bytecountOrFalse === false || $bytecountOrFalse < 2) {
+                        return false; // false
+                }
+                else {
+                        return true; // ok
+                }
         }
 
         /**
