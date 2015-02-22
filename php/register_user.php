@@ -41,7 +41,7 @@ if ($installationid && $name && $pin) {
                 logAndMail("user $user->usernameOld changed name to $user->username (installationid=$user->installationid)");
         }
         if ($user->pinOld) {
-                logAndMail("user $user->username changed pin to $user->pin (installationid=$user->installationid)");
+                logAndMail("user $user->username changed pin (installationid=$user->installationid)");
         }
 }
 
