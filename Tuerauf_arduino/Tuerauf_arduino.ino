@@ -34,8 +34,8 @@ F("abc") spart Speicher. siehe http://electronics.stackexchange.com/questions/66
 #include "config.h"
 
 #ifdef DEBUG
-#define LOG_PRINT(msg) (LOG_PRINT(msg))
-#define LOG_PRINTLN(msg) (LOG_PRINTLN(msg))
+#define LOG_PRINT(msg) (Serial.print(msg))
+#define LOG_PRINTLN(msg) (Serial.println(msg))
 #else
 #define LOG_PRINT(msg) (0)
 #define LOG_PRINTLN(msg) (0)
