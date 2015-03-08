@@ -71,6 +71,7 @@ const int dht22Pin = 7; // Sensor an Pin D7
 
 float temperaturDHT22 = -999;
 float feuchtigkeit = -999;
+String dht22_state;
 
 DHT22 DHT22_1(dht22Pin); // bilde DHT22-Instanz
 
@@ -127,7 +128,8 @@ void setup() {
   Serial.println(myIp);
   myNet = IPAddress(myIp[0], myIp[1], myIp[2], 0);
 
-  timer.every(10*1000, dht22);
+  dht22_state = F("dht22 not yet checked");
+  timer.every(100*1000, dht22);
 }
 
 
@@ -230,6 +232,9 @@ String processRequest(EthernetClient client, char *input)
                   return F("bad client ip for storepinlist");
           }
           return storePinList();
+  }
+  if (strcmp(command, "/status") == 0) {
+    return getStatus();
   }
 
   switch (mystate) {
@@ -455,29 +460,31 @@ void dht22()
       feuchtigkeit = DHT22_1.getHumidity();
       Serial.print(feuchtigkeit);
       Serial.println(F(" %"));
+      dht22_state = F("dht22 ok");
       break;
     case DHT_ERROR_CHECKSUM:
-      Serial.print(F("Fehler Pruefziffer "));
+      dht22_state = F("Fehler Pruefziffer ");
       break;
     case DHT_BUS_HUNG:
-      Serial.println(F("BUS haengt "));
+      dht22_state = F("BUS haengt ");
       break;
     case DHT_ERROR_NOT_PRESENT:
-      Serial.println(F("nicht vorhanden "));
+      dht22_state = F("nicht vorhanden ");
       break;
     case DHT_ERROR_ACK_TOO_LONG:
-      Serial.println(F("Fehler ACK Timeout "));
+      dht22_state = F("Fehler ACK Timeout ");
       break;
     case DHT_ERROR_SYNC_TIMEOUT:
-      Serial.println(F("Fehler Sync Timeout "));
+      dht22_state = F("Fehler Sync Timeout ");
       break;
     case DHT_ERROR_DATA_TIMEOUT:
-      Serial.println(F("Fehler Daten Timeout "));
+      dht22_state = F("Fehler Daten Timeout ");
       break;
     case DHT_ERROR_TOOQUICK:
-      Serial.println(F("Abfrage zu schnell "));
+      dht22_state = F("Abfrage zu schnell ");
       break;
   }
+  Serial.println(dht22_state);
   Serial.println(freeRam());
 }
 
@@ -533,3 +540,10 @@ void dumpPins() {
   }
     Serial.println(settings.version_of_program);
 }
+
+
+String getStatus()
+{
+  return dht22_state + F(", freeRam=") + freeRam();
+}
+
