@@ -33,6 +33,15 @@ F("abc") spart Speicher. siehe http://electronics.stackexchange.com/questions/66
 
 #include "config.h"
 
+#ifdef DEBUG
+#define LOG_PRINT(msg) (LOG_PRINT(msg))
+#define LOG_PRINTLN(msg) (LOG_PRINTLN(msg))
+#else
+#define LOG_PRINT(msg) (0)
+#define LOG_PRINTLN(msg) (0)
+#endif
+
+
 //  Ethernet shield attached to pins 10, 11, 12, 13
 String dyn_code;
 
@@ -104,14 +113,14 @@ void setup() {
   // start the Ethernet connection and the server:
   if (do_dhcp) {
     while (1) {
-      Serial.println(F("doing DHCP..."));
+      LOG_PRINTLN(F("doing DHCP..."));
       int dhcpok = Ethernet.begin(mac);
       if (dhcpok) {
-        Serial.println(F("DHCP ok"));
+        LOG_PRINTLN(F("DHCP ok"));
         break;
       }
       else {
-        Serial.println(F("DHCP failed"));
+        LOG_PRINTLN(F("DHCP failed"));
         delay(5*1000);
       }
     }
@@ -123,9 +132,9 @@ void setup() {
   loadConfig();
 
   server.begin();
-  Serial.print(F("server is at "));
+  LOG_PRINT(F("server is at "));
   IPAddress myIp = Ethernet.localIP();
-  Serial.println(myIp);
+  LOG_PRINTLN(myIp);
   myNet = IPAddress(myIp[0], myIp[1], myIp[2], 0);
 
   dht22_state = F("dht22 not yet checked");
@@ -139,7 +148,7 @@ void loop() {
   EthernetClient client = server.available();
   if (client) {
     int charcount = 0;
-    Serial.println(F("new client"));
+    LOG_PRINTLN(F("new client"));
     // an http request ends with a blank line
     boolean currentLineIsBlank = true;
     while (client.connected()) {
@@ -184,14 +193,14 @@ void loop() {
     delay(10);
     // close the connection:
     client.stop();
-    Serial.println(F("client disconnected"));
+    LOG_PRINTLN(F("client disconnected"));
   }
   delay(100); // damit kein busy wait entsteht
 }
 
 String processRequest(EthernetClient client, char *input)
 {
-  Serial.println(F("processRequest"));
+  LOG_PRINTLN(F("processRequest"));
 
   // check remote ip first - only local net and allowedip are allowed:
   byte rip[] = {0,0,0,0 };
@@ -212,7 +221,7 @@ String processRequest(EthernetClient client, char *input)
           return F("bad request 2");
   }
   char* command = strtok(querystring, "?");
-  Serial.print(F("command=")); Serial.println(command);
+  LOG_PRINT(F("command=")); LOG_PRINTLN(command);
   if (command == 0) {
     return "no_command";
   }
@@ -255,7 +264,7 @@ String storePinList() {
                 int pin = atoi(param);
                 if (pin >= 1000 && pin <= 9999) {
                         settings.pin[pinNum] = pin;
-                        Serial.print("Stored pin "); Serial.println(param);
+                        LOG_PRINT("Stored pin "); LOG_PRINTLN(param);
                 }
         }
         for (; pinNum < max_pins; pinNum++) {
@@ -270,7 +279,7 @@ String storePinList() {
 // near zeigt an, dass die dyn_code-Schritt ausgelassen werden kann, weil der Nutzer "nah" ist.
 String checkFixedPin(char *command)
 {
-  Serial.print(F("checkFixedPin ")); Serial.println(command);
+  LOG_PRINT(F("checkFixedPin ")); LOG_PRINTLN(command);
 
   // korrekte PIN bestimmen:
   int got_pin = atoi(strtok(command, "/"));
@@ -279,9 +288,9 @@ String checkFixedPin(char *command)
   int correct_pin = fixed_pin;
   if (pinIndex) {
     correct_pin = settings.pin[atoi(pinIndex)];
-    Serial.print(F("pinIndex=")); Serial.println(pinIndex);
+    LOG_PRINT(F("pinIndex=")); LOG_PRINTLN(pinIndex);
   }
-  Serial.print(F("correct_pin=")); Serial.println(correct_pin);
+  LOG_PRINT(F("correct_pin=")); LOG_PRINTLN(correct_pin);
 
   // PIN überprüfen:
   if (got_pin == correct_pin) {
@@ -318,7 +327,7 @@ String checkFixedPin(char *command)
 
 String sendNewDynCode()
 {
-  Serial.println(F("sendNewDynCode"));
+  LOG_PRINTLN(F("sendNewDynCode"));
   int randNumber4digits = random(1000,9999);
 
   dyn_code = String(randNumber4digits);
@@ -327,7 +336,7 @@ String sendNewDynCode()
 
 String checkDynCode(String input) // input ist z.B. "/1234"
 {
-  Serial.print(F("checkDynCode ")); Serial.println(input);
+  LOG_PRINT(F("checkDynCode ")); LOG_PRINTLN(input);
   int pos = input.indexOf(dyn_code);
 
   if (pos > 0) {
@@ -345,7 +354,7 @@ String checkDynCode(String input) // input ist z.B. "/1234"
 
 void openDoorNow()
 {
-  Serial.println(F("openDoorNow"));
+  LOG_PRINTLN(F("openDoorNow"));
   digitalWrite(pinTuer, LOW);   // Relais AN
   // delay(1000);              // wait for a second
   relaisOffEventId = timer.after(3000, closeRalais); // call closeRalais with delay
@@ -355,7 +364,7 @@ void openDoorNow()
 
 void closeRalais()
 {
-  Serial.println(F("closeRalais"));
+  LOG_PRINTLN(F("closeRalais"));
   digitalWrite(pinTuer, HIGH);   // Tür-Relaus aus
   relaisOffEventId = -1;
 
@@ -367,7 +376,7 @@ void closeRalais()
 
 void switchToState(int newState)
 {
-  Serial.print(F("switchToState ")); Serial.println(newState);
+  LOG_PRINT(F("switchToState ")); LOG_PRINTLN(newState);
   mystate = (serverstate) newState;
 
   if (resetStateEventId >= 0) {
@@ -377,14 +386,14 @@ void switchToState(int newState)
 
   // awaiting_dyn_code bleibt nur so lange:
   if (mystate == awaiting_dyn_code) {
-    Serial.print("start timer to reset state after ms "); Serial.println(timeout_awaiting_dyn_code);
+    LOG_PRINT("start timer to reset state after ms "); LOG_PRINTLN(timeout_awaiting_dyn_code);
     resetStateEventId = timer.after(timeout_awaiting_dyn_code, resetState);
   }
 }
 
 void resetState()
 {
-  Serial.println(F("resetState"));
+  LOG_PRINTLN(F("resetState"));
   switchToState(awaiting_fixed_pin);
   resetStateEventId = -1;
 }
@@ -392,10 +401,10 @@ void resetState()
 
 void sendEMail(String content)
 {
-  Serial.println(F("sendEMail"));
+  LOG_PRINTLN(F("sendEMail"));
   EthernetClient client = EthernetClient();
   client.connect(smtp_server,25);
-  Serial.println(F("connected"));
+  LOG_PRINTLN(F("connected"));
   int count = 0;
   while (count < 20) {
     if (client.available()) {
@@ -404,11 +413,11 @@ void sendEMail(String content)
         break;
     }
     else {
-      Serial.println(F("delay"));
+      LOG_PRINTLN(F("delay"));
       delay(1000);
     }
   }
-  Serial.println(F("got response from mail server"));
+  LOG_PRINTLN(F("got response from mail server"));
   client.print(F("HELO ")); client.print(smtp_helo); client.print("\n");
   delay(100);
   // client.print(F("AUTH PLAIN\n"));
@@ -427,7 +436,7 @@ void sendEMail(String content)
   client.print(content);  // Lines of text
   client.print(F("\r\n"));  // Lines of text
   if (doorRequestCameFromIP != NULL) {
-    Serial.print(F("doorRequestCameFromIP=")); Serial.println(doorRequestCameFromIP);
+    LOG_PRINT(F("doorRequestCameFromIP=")); LOG_PRINTLN(doorRequestCameFromIP);
     client.print(F("von "));
     client.print(doorRequestCameFromIP);
     client.print(F("\r\n"));
@@ -437,7 +446,7 @@ void sendEMail(String content)
   client.print(F(".\r\n"));
   client.print(F("quit\n"));
   client.stop();
-  Serial.println(F("mail sent"));
+  LOG_PRINTLN(F("mail sent"));
 }
 
 int freeRam () {
@@ -449,17 +458,17 @@ int freeRam () {
 void dht22()
 {
   DHT22_ERROR_t fehlerCodeDHT22;
-  Serial.print(F("Hole Daten DHT22 ...: "));
+  LOG_PRINT(F("Hole Daten DHT22 ...: "));
   fehlerCodeDHT22 = DHT22_1.readData(); // hole Status
   switch(fehlerCodeDHT22) // werte Status aus
   {
     case DHT_ERROR_NONE:; // wenn kein Fehler
       temperaturDHT22 = DHT22_1.getTemperatureC();
-      Serial.print(temperaturDHT22);
-      Serial.print(F(" C "));
+      LOG_PRINT(temperaturDHT22);
+      LOG_PRINT(F(" C "));
       feuchtigkeit = DHT22_1.getHumidity();
-      Serial.print(feuchtigkeit);
-      Serial.println(F(" %"));
+      LOG_PRINT(feuchtigkeit);
+      LOG_PRINTLN(F(" %"));
       dht22_state = F("dht22 ok");
       break;
     case DHT_ERROR_CHECKSUM:
@@ -484,8 +493,8 @@ void dht22()
       dht22_state = F("Abfrage zu schnell ");
       break;
   }
-  Serial.println(dht22_state);
-  Serial.println(freeRam());
+  LOG_PRINTLN(dht22_state);
+  LOG_PRINTLN(freeRam());
 }
 
 String getTemperature()
@@ -516,7 +525,7 @@ void loadConfig() {
       *((char*)&settings + t) = EEPROM.read(CONFIG_START + t);
   } else {
     // settings aren't valid! will overwrite with default settings
-    Serial.println(F("no settings in eeprom"));
+    LOG_PRINTLN(F("no settings in eeprom"));
     saveConfig();
   }
 }
@@ -528,7 +537,7 @@ void saveConfig() {
     // and verifies the data
     if (EEPROM.read(CONFIG_START + t) != *((unsigned char*)&settings + t))
     {
-       Serial.println(F("error writing to EEPROM"));
+       LOG_PRINTLN(F("error writing to EEPROM"));
     }
   }
 }
@@ -536,9 +545,9 @@ void saveConfig() {
 void dumpPins() {
   loadConfig();
   for (int i = 0; i < max_pins; i++) {
-    Serial.println(settings.pin[i]);
+    LOG_PRINTLN(settings.pin[i]);
   }
-    Serial.println(settings.version_of_program);
+    LOG_PRINTLN(settings.version_of_program);
 }
 
 

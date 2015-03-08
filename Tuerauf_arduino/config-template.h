@@ -1,3 +1,6 @@
+#define DEBUG 1
+// #undef DEBUG
+
 // mac-adresse, die das Ethernet-Shield erhält:
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFD, 0xEC };
 
