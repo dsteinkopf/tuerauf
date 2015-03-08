@@ -71,7 +71,7 @@ enum serverstate {
 };
 serverstate mystate = awaiting_fixed_pin;
 
-const unsigned long timeout_awaiting_dyn_code = 60u*1000u; // Vorsicht long ist offenbar nur 16 bit
+const unsigned long timeout_awaiting_dyn_code = 60ul*1000ul; // Vorsicht Konstanten wie 60 sind offenbar nur 16 bit
 
 int email_pending = 0;
 
@@ -138,7 +138,7 @@ void setup() {
   myNet = IPAddress(myIp[0], myIp[1], myIp[2], 0);
 
   dht22_state = F("dht22 not yet checked");
-  timer.every(100*1000, dht22);
+  timer.every(100ul*1000ul, dht22);
 }
 
 
