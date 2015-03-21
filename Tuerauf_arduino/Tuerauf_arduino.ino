@@ -207,13 +207,8 @@ String processRequest(EthernetClient client, char *input)
   LOG_PRINTLN(F("processRequest"));
 
   // check remote ip first - only local net and allowedip are allowed:
-  byte rip[] = {0,0,0,0 };
-  client.getRemoteIP(rip);
-  doorRequestCameFromIP = IPAddress(rip[0], rip[1], rip[2], rip[3]);
-  IPAddress doorRequestCameFromNet(rip[0], rip[1], rip[2], 0);
-  if (myNet != doorRequestCameFromNet && allowedip != doorRequestCameFromIP) {
-      return F("bad client ip");
-  }
+  String errString = checkAllowedIP(client, false); // true = onlyLocalNet, false = allowedip is allowed
+  if (errString != NULL) return errString;
 
   // strtok: siehe http://arduino.stackexchange.com/questions/1013/how-do-i-split-an-incoming-string
   char *part1 = strtok(input, " ");
@@ -236,15 +231,10 @@ String processRequest(EthernetClient client, char *input)
     return getHumidity();
   }
   if (strcmp(command, "/dumppins") == 0) {
-    dumpPins();
-    return F("done");
+    return dumpPins(client);
   }
   if (strcmp(command, "/storepinlist") == 0) {
-          // check remote ip first - only local net  ist allowed - not allowedip here:
-          if (myNet != doorRequestCameFromNet) {
-                  return F("bad client ip for storepinlist");
-          }
-          return storePinList();
+    return storePinList(client);
   }
   if (strcmp(command, "/status") == 0) {
     return getStatus();
@@ -260,7 +250,10 @@ String processRequest(EthernetClient client, char *input)
 }
 
 // Übergabe der Parameter via strtok
-String storePinList() {
+String storePinList(EthernetClient client) {
+        String errString = checkAllowedIP(client, true); // true = onlyLocalNet, false = allowedip is allowed
+        if (errString != NULL) return errString;
+
         int pinNum = 0;
         for (char *param = strtok(0, "&");
              param != 0 && pinNum < max_pins;
@@ -402,6 +395,24 @@ void resetState()
   resetStateEventId = -1;
 }
 
+String checkAllowedIP(EthernetClient client, boolean onlyLocalNet)
+{
+    // check remote ip first - only local net and allowedip are allowed:
+  byte rip[] = {0,0,0,0 };
+  client.getRemoteIP(rip);
+  doorRequestCameFromIP = IPAddress(rip[0], rip[1], rip[2], rip[3]);
+  IPAddress doorRequestCameFromNet(rip[0], rip[1], rip[2], 0);
+  if (myNet == doorRequestCameFromNet) { // myNet is allowed in any case
+    return (char *)NULL; // = ok
+  }
+  // we only get here if request did NOT come from local net
+  if (onlyLocalNet) {
+    return F("bad client ip");
+  }
+  else {
+    return (char *)NULL; // = ok
+  }
+}
 
 void sendEMail(String content)
 {
@@ -546,12 +557,17 @@ void saveConfig() {
   }
 }
 
-void dumpPins() {
-  loadConfig();
-  for (int i = 0; i < max_pins; i++) {
-    LOG_PRINTLN(settings.pin[i]);
-  }
-    LOG_PRINTLN(settings.version_of_program);
+String dumpPins(EthernetClient client) {
+        String errString = checkAllowedIP(client, true); // true = onlyLocalNet, false = allowedip is allowed
+        if (errString != NULL) return errString;
+
+        loadConfig();
+        for (int i = 0; i < max_pins; i++) {
+                LOG_PRINTLN(settings.pin[i]);
+        }
+        LOG_PRINTLN(settings.version_of_program);
+        
+        return F("done");
 }
 
 
