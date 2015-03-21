@@ -21,6 +21,7 @@ if ($debug) print "debug is on<br>";
 
 
 $showusers = (array_key_exists("showusers", $_REQUEST) && $_REQUEST["showusers"] == $adminsecret);
+$deletepins = (array_key_exists("deletepins", $_REQUEST) && $_REQUEST["showusers"] == $adminsecret);
 $activateallnew = (array_key_exists("activateallnew", $_REQUEST) && $_REQUEST["activateallnew"] == $adminsecret);
 
 $installationid = array_key_exists("installationid", $_REQUEST) ? $_REQUEST["installationid"] : "";
@@ -84,12 +85,32 @@ if ($showusers) {
         $pinlist = User::getPinList();
         // print_r($pinlist);
         $pins4arduino = implode('&',
-                                array_map(function ($v, $k) { return $v; },
-                                          $pinlist,
-                                          array_keys($pinlist))
+                                array_map(function ($v) { return $v; },
+                                          $pinlist)
                                 );
         $arduinourl = $arduino_baseurl."storepinlist?".$pins4arduino;
+        if ($testversion) {
+                $arduinourl = "TEST-NO-" . $arduinourl;
+        }
         print "<a href='$arduinourl'>$arduinourl</a><br>";
+
+        print "<br>After sending to Arduino: delete all locally stored active PINs:<br>";
+        $deleteUrl = getMyURL() . "&deletepins=" . $adminsecret;
+        // TODO: do it via POST and redirect after change
+        print "<a href='$deleteUrl'>$deleteUrl</a><br><br>";
+}
+
+if ($deletepins) {
+        // delete all locally stored active PINs
+        User::deletePINs();
+        $ok = User::saveUserlist();
+        if ($ok) {
+                // TODO: do it via POST and redirect after change
+                print "deleted, saved";
+        }
+        else {
+                print "error";
+        }
 }
 
 

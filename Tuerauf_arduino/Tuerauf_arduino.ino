@@ -557,22 +557,33 @@ void saveConfig() {
   }
 }
 
+// to be used for PIN backup
 String dumpPins(EthernetClient client) {
-        String errString = checkAllowedIP(client, true); // true = onlyLocalNet, false = allowedip is allowed
-        if (errString != NULL) return errString;
+  String errString = checkAllowedIP(client, true); // true = onlyLocalNet, false = allowedip is allowed
+  if (errString != NULL) return errString;
+  
+  String result = "PINs:\n";
 
-        loadConfig();
-        for (int i = 0; i < max_pins; i++) {
-                LOG_PRINTLN(settings.pin[i]);
-        }
-        LOG_PRINTLN(settings.version_of_program);
+  loadConfig();
+  for (int i = 0; i < max_pins; i++) {
+    LOG_PRINTLN(settings.pin[i]);
+    result += String(F("PIN ")) + i + F(": ") + settings.pin[i] + F("\n");
+  }
+  LOG_PRINTLN(settings.version_of_program);
+  result += String(F("settings version: ")) + settings.version_of_program;
         
-        return F("done");
+  return result;
 }
 
 
 String getStatus()
 {
-  return dht22_state + F(", freeRam=") + freeRam();
+  loadConfig();
+  
+  String statusString = dht22_state;
+  statusString += String(F(", freeRam=")) + freeRam();
+  // statusString += F(", version=") + settings.version_of_program;
+  
+  return statusString;
 }
 

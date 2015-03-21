@@ -6,6 +6,8 @@ if (strstr($_SERVER['HTTP_USER_AGENT'], "Mozilla") && startsWith($_SERVER['REMOT
     $debug=1;
 }
 
+$testversion = strpos($_SERVER["REQUEST_URI"], "-test") !== false;
+
 if ($debug) {
     error_reporting(E_ALL);
     ini_set('display_errors', 'on');
@@ -36,6 +38,18 @@ function isNear($geoy, $geox) {
 
         return $stkhomey_min <= $geoy && $geoy <= $stkhomey_max &&
                 $stkhomex_min <= $geox && $geox <= $stkhomex_max;
+}
+
+function getMyURL() {
+        $pageURL = (@$_SERVER["HTTPS"] == "on") ? "https://" : "http://";
+        if ($_SERVER["SERVER_PORT"] != "80")
+        {
+                $pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
+        }
+        else {
+                $pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+        }
+        return $pageURL;
 }
 
 function logAndMail($message) {

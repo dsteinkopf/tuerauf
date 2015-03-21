@@ -20,6 +20,9 @@ require 'incl/users.php';
 $installationid = $_REQUEST["installationid"];
 $user = User::getActiveUser($installationid);
 if (!$user) {
+        if ($installationid == "site24x7.com") {
+                // todo
+        }
         reject("user unknown");
 }
 $username = $user->username;

@@ -155,6 +155,22 @@ class User {
                 return $pins;
         }
 
+
+        /**
+         * delete all locally stored active PINs
+         */
+        public static function deletePINs() {
+                global $debug;
+                global $testversion;
+                if ($debug) print "deletePINs<br>";
+                self::checkToLoadUserlist();
+                foreach(self::$userlist as $installationid => $user) {
+                        if ($user->active) {
+                                $user->pin = 1;
+                        }
+                }
+        }
+
         /**
          * speichert die Userlist als PHP-Include-File, damit sie nicht von extern direkt aufgerufen werden kann.
          * Return true, wenn ok
