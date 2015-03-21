@@ -52,6 +52,15 @@ function getMyURL() {
         return $pageURL;
 }
 
+function dohttpget($url) {
+        $opts = array('http' =>
+                      array(
+                            'timeout' => 15, // seconds
+                            )
+                      );
+        return file_get_contents($url, false, stream_context_create($opts));
+}
+
 function logAndMail($message) {
         global $_SERVER;
         global $mailaddr;

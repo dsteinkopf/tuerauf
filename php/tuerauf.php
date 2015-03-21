@@ -20,8 +20,13 @@ require 'incl/users.php';
 $installationid = $_REQUEST["installationid"];
 $user = User::getActiveUser($installationid);
 if (!$user) {
-        if ($installationid == "site24x7.com") {
-                // todo
+        if ($installationid == "monitoring") {
+                $response = dohttpget($arduino_baseurl . "status");
+                if ($response === false) {
+                        print "bad request";
+                        exit(2);
+                }
+                print $response;
         }
         reject("user unknown");
 }
@@ -54,12 +59,8 @@ if (isNear($geoy, $geox)) {
 }
 
 if ($debug) print "arduino_url=$arduino_url<br>\n";
-$opts = array('http' =>
-    array(
-        'timeout' => 15, // seconds
-    )
-);
-$response = file_get_contents($arduino_url, false, stream_context_create($opts));
+
+$response = dohttpget($arduino_url);
 if ($response === false) {
     print "bad request";
     exit(2);
