@@ -1,6 +1,14 @@
 #define DEBUG 1
 // #undef DEBUG
 
+#ifdef DEBUG
+// wait for serial port to connect. Needed for Leonardo only
+// #define WAIT_FOR_SERIAL 1 
+#undef WAIT_FOR_SERIAL
+#else
+#undef WAIT_FOR_SERIAL
+#endif
+
 // mac-adresse, die das Ethernet-Shield erhält:
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFD, 0xEC };
 

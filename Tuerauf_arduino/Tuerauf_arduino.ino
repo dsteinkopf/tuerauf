@@ -105,10 +105,14 @@ void setup() {
   randomSeed(analogRead(0));
 
   // Open serial communications and wait for port to open:
+#ifdef DEBUG
   Serial.begin(9600);
+#endif
+#ifdef WAIT_FOR_SERIAL
   while (!Serial) {
     ; // wait for serial port to connect. Needed for Leonardo only
   }
+#endif
 
   // start the Ethernet connection and the server:
   if (do_dhcp) {
