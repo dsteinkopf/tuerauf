@@ -3,6 +3,7 @@
 Installieren mit:
 rsync -av --exclude=config.php --exclude=data php/ root@backendsrv:/var/www/backend/tuerauf/
 ssh root@backendsrv chown -R www-data:www-data /var/www/backend/tuerauf/data
+ssh root@backendsrv chmod -R u+w /var/www/backend/tuerauf/data
 
 Änderungen holen mit:
 rsync -av --exclude=config.php --exclude=data root@backendsrv:/var/www/backend/tuerauf-test/ php/

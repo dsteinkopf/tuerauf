@@ -249,7 +249,9 @@ String processRequest(EthernetClient client, char *input)
   }
 }
 
-// Übergabe der Parameter via strtok
+// Parameters: 1000&1001&1002&...
+// PINs that are not passed (not between 1000 and 9999) are not changed
+// Parameters are passed to this function via strtok
 String storePinList(EthernetClient client) {
         String errString = checkAllowedIP(client, true); // true = onlyLocalNet, false = allowedip is allowed
         if (errString != NULL) return errString;
