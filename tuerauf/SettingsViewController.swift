@@ -28,7 +28,7 @@ class SettingsViewController: UITableViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
 
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         userRegistration = appDelegate.userRegistration
 
         usernameTextField.addTarget(self, action: "usernameTextFieldValueChanged:", forControlEvents: UIControlEvents.EditingChanged)
@@ -49,7 +49,7 @@ class SettingsViewController: UITableViewController {
     }
 
     private func enableDisableSaveButton() {
-        saveButton.enabled = (countElements(pinEntryTextField.text) == 4 && Backend.sharedInstance.isConfigured())
+        saveButton.enabled = (count(pinEntryTextField.text) == 4 && Backend.sharedInstance.isConfigured())
     }
 
     private func saveUservalues() {
@@ -90,7 +90,7 @@ class SettingsViewController: UITableViewController {
     @IBAction func saveButtonPressed(sender: AnyObject) {
         NSLog("saveButtonPressed");
 
-        if countElements(pinEntryTextField.text) != 4 {
+        if count(pinEntryTextField.text) != 4 {
             return
         }
 

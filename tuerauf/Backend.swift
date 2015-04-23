@@ -64,8 +64,8 @@ class Backend {
     }
 
     func isConfigured() -> Bool {
-        return configAppSecret != nil && countElements(configAppSecret!) > 1
-            && configBaseUrl != nil && countElements(configBaseUrl!) > 1;
+        return configAppSecret != nil && count(configAppSecret!) > 1
+            && configBaseUrl != nil && count(configBaseUrl!) > 1;
     }
 
     func doOpen(code: String, geoy: Double, geox: Double, installationid: String,
@@ -199,7 +199,7 @@ class Backend {
 
         // build bodyDataToPost:
         var bodyDataToPost = bodyData == nil ? "" : bodyData!;
-        bodyDataToPost += (countElements(bodyDataToPost) > 0 ? "&" : "") + "appsecret=" + configAppSecret!
+        bodyDataToPost += (count(bodyDataToPost) > 0 ? "&" : "") + "appsecret=" + configAppSecret!
         NSLog("bodyDataToPost=%@", bodyDataToPost)
 
         // create request
@@ -224,7 +224,7 @@ class Backend {
                 return
             }
 
-            let httpresponse = response as NSHTTPURLResponse
+            let httpresponse = response as! NSHTTPURLResponse
 
             if httpresponse.statusCode != 200 {
                 completionHandler(data, "Statuscode \(httpresponse.statusCode). Bitte den Server prüfen.")

@@ -40,7 +40,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
 
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         userRegistration = appDelegate.userRegistration
 
         fillViews()
@@ -102,7 +102,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     else {
                         NSLog(info)
 
-                        if countElements(info) < 20 {
+                        if count(info) < 20 {
                             self.pinResultLabel.text = info
                             self.updateErgebnisLabel(text:"")
                             waitSeconds = 0.1
@@ -194,7 +194,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBAction func pinEntryValueChanged(sender: AnyObject) {
         NSLog("pinEntryValueChanged value="+pinEntryField.text)
 
-        if countElements(pinEntryField.text) >= 4 {
+        if count(pinEntryField.text) >= 4 {
             jetztOeffnenButtonPressed(sender)
         }
     }

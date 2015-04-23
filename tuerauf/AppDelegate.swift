@@ -70,8 +70,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             NSLog("url.query.comp=%@", comp)
         }
 
-        if countElements(url.query!.pathComponents) != 2 {
-            NSLog("found \(countElements(url.query!.pathComponents)) pathComponents instead of expected 2")
+        if count(url.query!.pathComponents) != 2 {
+            NSLog("found \(count(url.query!.pathComponents)) pathComponents instead of expected 2")
             return false
         }
 
@@ -90,7 +90,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     class func getAppVersionFull() -> String! {
-        let infoDict: NSDictionary? = NSBundle.mainBundle().infoDictionary?
+        let infoDict: NSDictionary? = NSBundle.mainBundle().infoDictionary
         let revDetails: String? = infoDict?["CFBundleVersionDetails"] as? String // CFBundleVersionDetails = our own key
         let version:    String? = infoDict?["CFBundleShortVersionString"] as? String
 
