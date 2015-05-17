@@ -74,6 +74,7 @@ serverstate mystate = awaiting_fixed_pin;
 const unsigned long timeout_awaiting_dyn_code = 60ul*1000ul; // Vorsicht Konstanten wie 60 sind offenbar nur 16 bit
 
 int email_pending = 0;
+int checkOK = -1; // -1 ok not checked, 0 = bad, 1 = ok
 
 
 const int dht22Pin = 7; // Sensor an Pin D7
@@ -94,12 +95,17 @@ IPAddress myNet;
 Timer timer;
 int relaisOffEventId = -1;
 int resetStateEventId = -1;
+int testrelaisCheckEventId = -1;
+int testrelaisOffEventId = -1;
 
 
 void setup() {
 
   pinMode(pinTuer, OUTPUT);
+  pinMode(pinTest, OUTPUT);
+  pinMode(pinTestInput, INPUT);
   closeRalais();
+  closeTestRalais();
 
   // randomSeed(millis());
   randomSeed(analogRead(0));
@@ -141,8 +147,13 @@ void setup() {
   LOG_PRINTLN(myIp);
   myNet = IPAddress(myIp[0], myIp[1], myIp[2], 0);
 
+  // start dht22 every 100 sec.
   dht22_state = F("dht22 not yet checked");
   timer.every(100ul*1000ul, dht22);
+  
+  // start self check every 50 sec
+  timer.every(3600ul*1000ul, doTestNow);
+  doTestNow(); // Do a first check now.
 }
 
 
@@ -356,21 +367,66 @@ void openDoorNow()
   LOG_PRINTLN(F("openDoorNow"));
   digitalWrite(pinTuer, LOW);   // Relais AN
   // delay(1000);              // wait for a second
-  relaisOffEventId = timer.after(3000, closeRalais); // call closeRalais with delay
+  relaisOffEventId = timer.after(3000ul, closeRalais); // call closeRalais with delay
 
   email_pending = 1;
+}
+
+void doTestNow()
+{
+  int value = digitalRead(pinTestInput);
+  LOG_PRINT(F("doTestNow value=")); LOG_PRINTLN(value == LOW ? F("Low") : F("High")); // current state (before check)
+  if (value != LOW) {
+    // current state ist NOT ok
+    LOG_PRINTLN(F("check current state NOT ok"));
+    checkOK = 0;
+  }
+  else {
+    // current state is OK
+    LOG_PRINTLN(F("check current state ok"));
+    digitalWrite(pinTest, LOW);   // Relais AN
+    delay(500);              // wait for a second
+    testrelaisCheckEventId = timer.after(5000ul, checkTestRalais); // call checkTestRalais with delay
+  }
+  LOG_PRINTLN(F("doTestNow done"));
 }
 
 void closeRalais()
 {
   LOG_PRINTLN(F("closeRalais"));
-  digitalWrite(pinTuer, HIGH);   // Tür-Relaus aus
+  digitalWrite(pinTuer, HIGH);   // Tür-Relais aus
   relaisOffEventId = -1;
 
   if (email_pending) {
     email_pending = 0;
     sendEMail(F("Tuer wurde geoeffnet"));
   }
+}
+
+void checkTestRalais()
+{
+  testrelaisCheckEventId = -1;
+  int value = digitalRead(pinTestInput);
+  LOG_PRINT(F("checkTestRalais value=")); LOG_PRINTLN(value == HIGH ? F("High") : F("Low"));
+  
+  if (value != HIGH) {
+    // current state ist NOT ok
+    LOG_PRINTLN(F("check NOT ok"));
+    checkOK = 0;
+  }
+  else {
+    // current state is OK
+    checkOK = 1;
+    LOG_PRINTLN(F("check OK"));
+  }
+  testrelaisOffEventId = timer.after(500ul, closeTestRalais); // call closeTestRalais with delay
+}
+
+void closeTestRalais()
+{
+  LOG_PRINTLN(F("closeTestRalais"));
+  digitalWrite(pinTest, HIGH);   // Test-Relais aus
+  testrelaisOffEventId = -1;
 }
 
 void switchToState(int newState)
@@ -584,6 +640,7 @@ String getStatus()
   
   String statusString = dht22_state;
   statusString += String(F(", freeRam=")) + freeRam();
+  statusString += String(F(", checkOK=")) + checkOK;
   // statusString += F(", version=") + settings.version_of_program;
   
   return statusString;

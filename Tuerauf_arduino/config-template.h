@@ -27,6 +27,12 @@ const int ip_port = 9999;
 // An welchem Arduino-Pin ist das Tür-Relais angeschlossen (level 0 = aktiv)
 int pinTuer = 8;
 
+// An welchem Arduino-Pin ist das Test-Relais angeschlossen (level 0 = aktiv)
+int pinTest = 9;
+
+// An welchem Arduino-Pin ist Feedback vom Test-Relais angeschlossen (level 1 = aktiv)
+int pinTestInput = 6;
+
 // Feste Default-PIN
 const int fixed_pin = 9999;
 
