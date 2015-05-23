@@ -1,0 +1,6 @@
+- switch to tuerauf_prod_scheme > iOS Device
+- Product -> Archive
+- Window -> Organizer (if not open)
+- Submit to App Store...
+- Description: git commit
+- git tag... e.g. ios_1.1.1_126-582af44
