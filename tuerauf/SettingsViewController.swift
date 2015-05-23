@@ -94,6 +94,13 @@ class SettingsViewController: UITableViewController {
             return
         }
 
+        let installationId = self.userRegistration!.installationId
+        if self.userRegistration!.error != nil {
+            var alert = UIAlertController(title: "Problem", message: "installationId nicht gespeichert",
+                preferredStyle: UIAlertControllerStyle.Alert)
+            return
+        }
+
         self.activityIndicator.startAnimating()
 
         Backend.sharedInstance.registerUser(usernameTextField.text, pin:pinEntryTextField.text, installationid: self.userRegistration!.installationId,

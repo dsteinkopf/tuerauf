@@ -81,6 +81,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         self.isRunning = true
         self.checkToEnableAll()
 
+        let installationId = self.userRegistration!.installationId
+        if self.userRegistration!.error != nil {
+            var alert = UIAlertController(title: "Problem", message: "installationId nicht gespeichert",
+                preferredStyle: UIAlertControllerStyle.Alert)
+            return
+        }
+
         Backend.sharedInstance.doOpen(code, geoy:geoy, geox:geox, installationid:userRegistration!.installationId,
             completionHandler: { (hasBeenOpened, info) -> () in
 

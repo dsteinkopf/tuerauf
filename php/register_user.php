@@ -45,6 +45,7 @@ if ($installationid && $name && $pin) {
                 if ($user->pinOld) {
                         logAndMail("user $user->username changed pin (installationid=$user->installationid)");
                 }
+                logAndMail("user $user->username saved (installationid=$user->installationid)");
         }
         else {
                 print "error";
@@ -84,6 +85,7 @@ if ($showusers) {
         print "<br>Aktive Pins an Arduino schicken:<br>";
         $pinlist = User::getPinList();
         // print_r($pinlist);
+        // PINs that are not passed (ie. deleted = not between 1000 and 9999) are not changed
         $pins4arduino = implode('&',
                                 array_map(function ($v) { return $v; },
                                           $pinlist)

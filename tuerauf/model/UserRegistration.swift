@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftKeychain
 
 
 class UserRegistration {
@@ -17,6 +18,10 @@ class UserRegistration {
     private var _registered: Bool?
 
     private let userdefaults = NSUserDefaults.standardUserDefaults()
+    private let keychain = Keychain()
+    private let tueraufInstallationIdKey = GenericKey(keyName: "tueraufInstallationId")
+
+    private var _error: NSError? = nil
 
 
     var username: String! {
@@ -57,15 +62,27 @@ class UserRegistration {
 
     var installationId: String! {
         get {
+            _error = nil;
+
             if _installationId != nil {
                 return _installationId!
             }
             _installationId = userdefaults.stringForKey("tueraufInstallationId")
             if _installationId != nil {
-                return _installationId;
+                userdefaults.removeObjectForKey("tueraufInstallationId")
             }
-            _installationId = NSUUID().UUIDString
-            userdefaults.setObject(_installationId, forKey: "tueraufInstallationId")
+            else if let installationId = keychain.get(tueraufInstallationIdKey).item?.value {
+                _installationId = installationId as String
+                return _installationId
+            }
+            else {
+                _installationId = NSUUID().UUIDString
+            }
+            // store new key:
+            tueraufInstallationIdKey.value = _installationId
+            if let error = keychain.add(tueraufInstallationIdKey) {
+                _error = error
+            }
             return _installationId!
         }
     }
@@ -81,6 +98,12 @@ class UserRegistration {
         set {
             _registered = newValue
             userdefaults.setBool(_registered!, forKey: "tueraufRegistered")
+        }
+    }
+
+    var error: NSError? {
+        get {
+            return _error;
         }
     }
 

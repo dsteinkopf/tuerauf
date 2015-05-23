@@ -1,0 +1,10 @@
+PODS:
+  - SwiftKeychain (0.1.2)
+
+DEPENDENCIES:
+  - SwiftKeychain
+
+SPEC CHECKSUMS:
+  SwiftKeychain: 889be6ab38b56c98f40dfac0d0c84f3b2bd2550a
+
+COCOAPODS: 0.37.1
