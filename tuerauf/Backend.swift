@@ -73,7 +73,7 @@ class Backend {
     {
         let geoy_str = String(format:"%f", geoy)
         let geox_str = String(format:"%f", geox)
-        let urlString = String(format:"tuerauf.php?geoy=%@&geox=%@&installationid=%@",
+        let urlString = String(format:"openDoor?geoy=%@&geox=%@&installationId=%@",
             geoy_str, geox_str, installationid)
         let bodyData = String(format:"pin=%@",
             code.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
@@ -108,7 +108,7 @@ class Backend {
     {
         let geoy_str = String(format:"%f", geoy)
         let geox_str = String(format:"%f", geox)
-        let urlString = String(format:"checkloc.php?geoy=%@&geox=%@&installationid=%@",
+        let urlString = String(format:"checkLocation?geoy=%@&geox=%@&installationId=%@",
             geoy_str, geox_str, installationid)
 
         bgRunDataTaskWithURL("checkloc", urlStringParam:urlString, bodyData:nil) {
@@ -137,7 +137,7 @@ class Backend {
     func registerUser(username: String, pin: String, installationid: String,
         completionHandler: (hasBeenSaved: Bool, info: String) -> ())
     {
-        let urlString = String(format:"register_user.php?installationid=%@&name=%@",
+        let urlString = String(format:"registerUser?installationId=%@&username=%@",
             installationid,
             username.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
         )
