@@ -18,6 +18,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet var bgImage: UIImageView!
     @IBOutlet var pinResultLabel: UILabel!
     @IBOutlet var versionLabel: UILabel!
+    @IBOutlet var activityIndicator: UIActivityIndicatorView!
 
     private let locationManager = CLLocationManager()
     private let NEEDED_ACCURACY_IN_M = 75.0
@@ -56,6 +57,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         updateErgebnisLabel()
         pinEntryField.text = ""
         pinResultLabel.text = ""
+
+        self.activityHandler(false)
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -68,6 +71,20 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         NSLog("viewDidAppear")
 
         checkToEnableAll()
+    }
+
+    private func activityHandler(isActive: Bool) {
+
+        dispatch_async(dispatch_get_main_queue(), {
+            if (isActive) {
+                self.activityIndicator.hidden = false
+                self.activityIndicator.startAnimating()
+            }
+            else {
+                self.activityIndicator.stopAnimating()
+                self.activityIndicator.hidden = true
+            }
+        })
     }
     
     @IBAction func jetztOeffnenButtonPressed(sender: AnyObject) {
@@ -89,6 +106,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         }
 
         Backend.sharedInstance.doOpen(code, geoy:geoy, geox:geox, installationid:userRegistration!.installationId,
+            activityHandler:activityHandler,
             completionHandler: { (hasBeenOpened, info) -> () in
 
                 NSLog("call to Backend.doOpen returned to ViewController.")
@@ -256,6 +274,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             self.checklocation()
         }
         else {
+            NSLog("manager.location.horizontalAccuracy = %f", manager.location.horizontalAccuracy)
+
             if self.gotGeolocation { // geoLocation gerade verloren
                 // NSLog("didUpdateLocations away: geoy=%f, geox=%f", self.geoy, self.geox)
                 self.gotGeolocation = false
@@ -277,6 +297,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         let checkGeox = geox
 
         Backend.sharedInstance.checkloc(checkGeoy, geox:checkGeox, installationid:userRegistration!.installationId,
+            activityHandler:activityHandler,
             completionHandler: { (isNear, info) -> () in
 
                 NSLog("call to Backend.checkloc returned to ViewController. isNear=\(isNear)")

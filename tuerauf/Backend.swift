@@ -69,6 +69,7 @@ class Backend {
     }
 
     func doOpen(code: String, geoy: Double, geox: Double, installationid: String,
+        activityHandler: (isActive: Bool) -> Void,
         completionHandler: (hasBeenOpened: Bool, info: String) -> ())
     {
         let geoy_str = String(format:"%f", geoy)
@@ -79,7 +80,7 @@ class Backend {
             code.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
         )
 
-        bgRunDataTaskWithURL("doOpen", urlStringParam:urlString, bodyData:bodyData) {
+        bgRunDataTaskWithURL("doOpen", urlStringParam:urlString, bodyData:bodyData, activityHandler:activityHandler) {
             (data, info) in
 
             // sleep(3)
@@ -104,6 +105,7 @@ class Backend {
     }
 
     func checkloc(geoy: Double, geox: Double, installationid: String,
+                        activityHandler: (isActive: Bool) -> Void,
                         completionHandler: (isNear: Bool, info: String) -> ())
     {
         let geoy_str = String(format:"%f", geoy)
@@ -111,7 +113,7 @@ class Backend {
         let urlString = String(format:"checkLocation?geoy=%@&geox=%@&installationId=%@",
             geoy_str, geox_str, installationid)
 
-        bgRunDataTaskWithURL("checkloc", urlStringParam:urlString, bodyData:nil) {
+        bgRunDataTaskWithURL("checkloc", urlStringParam:urlString, bodyData:nil, activityHandler:activityHandler) {
             (data, info) in
 
             // sleep(3)
@@ -134,6 +136,10 @@ class Backend {
         }
     }
 
+    private func dummyActivityHandler(isActive: Bool) {
+        // empty
+    }
+
     func registerUser(username: String, pin: String, installationid: String,
         completionHandler: (hasBeenSaved: Bool, info: String) -> ())
     {
@@ -146,7 +152,7 @@ class Backend {
         )
 
 
-        bgRunDataTaskWithURL("registerUser", urlStringParam:urlString, bodyData:bodyData) {
+        bgRunDataTaskWithURL("registerUser", urlStringParam:urlString, bodyData:bodyData, activityHandler:dummyActivityHandler) {
             (data, info) in
 
             // sleep(3)
@@ -171,6 +177,7 @@ class Backend {
     private func bgRunDataTaskWithURL(callType: String,
                                         urlStringParam: String,
                                         bodyData: String?,
+                                        activityHandler: (isActive: Bool) -> (),
                                         completionHandler: ((NSData!, String!) -> Void))
     {
         if !isConfigured() {
@@ -210,8 +217,12 @@ class Backend {
 
         let session = self.getSession()
 
+        activityHandler(isActive: true)
+
         let task = session.dataTaskWithRequest(request) {
             (data, response, error) in
+
+            activityHandler(isActive: false)
 
             if (error != nil) {
                 var infoString = error.userInfo?.description
