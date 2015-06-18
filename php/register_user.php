@@ -102,6 +102,22 @@ if ($showusers) {
         print "<a href='$deleteUrl'>$deleteUrl</a><br><br>";
 }
 
+if ($showusers) {
+        // als SQL ausgeben:
+        foreach (User::getUserlist() as $installationid => $user) {
+                print "INSERT INTO user (serial_id, installation_id, username, active, new_user, pin, creation_time, modification_time) VALUES (";
+                print $user->lfdid.", ";
+                print "'".$user->installationid."', ";
+                print "'".$user->username."', ";
+                print $user->active.", ";
+                print $user->new.", ";
+                print ($user->pin < 1000 ? "null" : "'".$user."'").", ";
+                print "'2015-01-01 01:01:01', ";
+                print "'2015-01-01 01:01:01' ";
+                print ");<br>";
+        }
+}
+
 if ($deletepins) {
         // delete all locally stored active PINs
         User::deletePINs();
