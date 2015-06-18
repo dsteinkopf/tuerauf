@@ -153,11 +153,30 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                        <activityIndicatorView key="tableFooterView" hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" id="6c3-Vd-4sF">
-                            <rect key="frame" x="0.0" y="130" width="600" height="37"/>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="WuE-Hq-dPi">
+                            <rect key="frame" x="0.0" y="253.5" width="600" height="333"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                        </activityIndicatorView>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MMf-tD-Jkt">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="73"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="6c3-Vd-4sF">
+                                    <rect key="frame" x="0.0" y="4" width="37" height="37"/>
+                                    <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </activityIndicatorView>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstItem="MMf-tD-Jkt" firstAttribute="leading" secondItem="WuE-Hq-dPi" secondAttribute="leading" constant="20" symbolic="YES" id="50S-S1-fg8"/>
+                                <constraint firstItem="MMf-tD-Jkt" firstAttribute="top" relation="greaterThanOrEqual" secondItem="WuE-Hq-dPi" secondAttribute="top" id="OLY-o3-hYY"/>
+                                <constraint firstAttribute="centerX" secondItem="MMf-tD-Jkt" secondAttribute="centerX" id="VCM-Jg-thv"/>
+                                <constraint firstItem="MMf-tD-Jkt" firstAttribute="top" secondItem="WuE-Hq-dPi" secondAttribute="top" constant="20" symbolic="YES" id="e1K-Xg-ozS"/>
+                                <constraint firstAttribute="trailing" secondItem="MMf-tD-Jkt" secondAttribute="trailing" constant="20" symbolic="YES" id="ith-mN-MBA"/>
+                            </constraints>
+                        </view>
                         <sections>
                             <tableViewSection headerTitle="Name" id="6zF-CO-HZP">
                                 <cells>
@@ -219,6 +238,8 @@
                     </navigationItem>
                     <connections>
                         <outlet property="activityIndicator" destination="6c3-Vd-4sF" id="xt5-so-DCt"/>
+                        <outlet property="bottomView" destination="WuE-Hq-dPi" id="Faj-xn-Nfa"/>
+                        <outlet property="infoLabel" destination="MMf-tD-Jkt" id="AcV-dt-CcG"/>
                         <outlet property="pinEntryCell" destination="Vy6-6I-c0J" id="Wls-fy-KMt"/>
                         <outlet property="pinEntryTextField" destination="mmI-6K-7vB" id="F4s-0w-AlL"/>
                         <outlet property="saveButton" destination="L8K-la-o7K" id="Zil-lX-hEW"/>

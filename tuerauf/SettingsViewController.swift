@@ -16,6 +16,8 @@ class SettingsViewController: UITableViewController {
     @IBOutlet var usernameTextField: UITextField!
     @IBOutlet var pinEntryTextField: UITextField!
     @IBOutlet var saveButton: UIBarButtonItem!
+    @IBOutlet var infoLabel: UILabel!
+    @IBOutlet var bottomView: UIView!
 
     private var userRegistration: UserRegistration?
 
@@ -44,6 +46,13 @@ class SettingsViewController: UITableViewController {
         pinEntryCell.accessoryType = userRegistration!.registered! ? UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None;
 
         usernameTextField.becomeFirstResponder()
+
+        // bottomView.sizeToFit()
+        bottomView.backgroundColor = UIColor.clearColor()
+
+        infoLabel.text = "(C) eCube GmbH, Dirk Steinkopf\n\nDiese App basiert auf einem Arduino-Projekt.\nsiehe https://github.com/dsteinkopf/tuerauf\n\nDiese App dient lediglich zu Informations- und Weiterbildungszwecken. Sie ist nicht für den Produktivbetrieb gedacht. Der Anbieter der App stellt sie, so wie sie ist, zur Verfügung - ohne jeglichen Support oder Haftung für etwaige direkte oder indirekte Schäden."
+        infoLabel.numberOfLines = 0
+        infoLabel.sizeToFit()
 
         enableDisableSaveButton()
     }
