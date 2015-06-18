@@ -72,7 +72,7 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="PIN" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fFZ-Uq-eKn">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="PIN" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fFZ-Uq-eKn">
                                 <rect key="frame" x="16" y="-6" width="568" height="206"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="28"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -91,11 +91,22 @@
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="ggy-Kn-Chl">
                                 <rect key="frame" x="564" y="49" width="20" height="20"/>
                             </activityIndicatorView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="backend info" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yVp-f9-aDz">
+                                <rect key="frame" x="16" y="314" width="568" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="jlX-zS-PfY"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="tss-2w-abN" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="0cR-Tx-x06"/>
+                            <constraint firstItem="yVp-f9-aDz" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="56X-t6-JCo"/>
                             <constraint firstItem="KWf-g3-s9s" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="5Ar-B3-qcS"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="yVp-f9-aDz" secondAttribute="trailing" id="D6K-NN-uR8"/>
                             <constraint firstAttribute="centerX" secondItem="8k9-yC-vMD" secondAttribute="centerX" id="DWw-e4-mEa"/>
                             <constraint firstItem="tss-2w-abN" firstAttribute="top" secondItem="68R-sj-Lz8" secondAttribute="top" constant="-20" id="KPr-3X-2y6"/>
                             <constraint firstAttribute="centerY" secondItem="tss-2w-abN" secondAttribute="centerY" id="L1a-Zj-hu9"/>
@@ -104,9 +115,11 @@
                             <constraint firstItem="hoW-BR-i88" firstAttribute="centerX" secondItem="Wg6-h1-k9E" secondAttribute="centerX" id="OcZ-Tg-KfO"/>
                             <constraint firstAttribute="centerX" secondItem="tss-2w-abN" secondAttribute="centerX" id="RmX-p3-gsm"/>
                             <constraint firstItem="hoW-BR-i88" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" symbolic="YES" id="Scr-kD-yo5"/>
+                            <constraint firstItem="Wg6-h1-k9E" firstAttribute="top" secondItem="fFZ-Uq-eKn" secondAttribute="bottom" constant="46" id="Sha-oT-nS9"/>
                             <constraint firstItem="tss-2w-abN" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" id="aaf-Y7-EQf"/>
                             <constraint firstItem="tss-2w-abN" firstAttribute="leading" secondItem="68R-sj-Lz8" secondAttribute="leading" constant="-10" id="b0W-Dn-kH9"/>
                             <constraint firstItem="ixm-yO-xMG" firstAttribute="top" secondItem="Wg6-h1-k9E" secondAttribute="bottom" constant="20" id="bXH-7Z-Cdp"/>
+                            <constraint firstItem="yVp-f9-aDz" firstAttribute="top" secondItem="fFZ-Uq-eKn" secondAttribute="bottom" constant="114" id="ih1-aJ-OD4"/>
                             <constraint firstItem="ggy-Kn-Chl" firstAttribute="trailing" secondItem="KWf-g3-s9s" secondAttribute="trailing" id="mwN-77-o8V"/>
                             <constraint firstItem="ggy-Kn-Chl" firstAttribute="top" secondItem="KWf-g3-s9s" secondAttribute="bottom" constant="8" id="ncc-Ov-z7O"/>
                             <constraint firstItem="ixm-yO-xMG" firstAttribute="centerX" secondItem="Wg6-h1-k9E" secondAttribute="centerX" id="pKV-q9-vk1"/>
@@ -118,6 +131,7 @@
                     </view>
                     <connections>
                         <outlet property="activityIndicator" destination="ggy-Kn-Chl" id="WFZ-KI-bxs"/>
+                        <outlet property="backendInfoLabel" destination="yVp-f9-aDz" id="meH-FB-7Wv"/>
                         <outlet property="bgImage" destination="tss-2w-abN" id="BSn-hc-Bv4"/>
                         <outlet property="ergebnisLabel" destination="ixm-yO-xMG" id="o4I-QZ-3f9"/>
                         <outlet property="jetztOeffnenButton" destination="Wg6-h1-k9E" id="cdl-uM-oNh"/>

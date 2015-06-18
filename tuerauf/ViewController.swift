@@ -30,13 +30,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     private var gotGeolocation = false
     private var isNear = false
     private var nextTimeChecklocation: NSDate? = nil
+    @IBOutlet var backendInfoLabel: UILabel!
 
     private var userRegistration: UserRegistration?
 
     private var textToShowInErgebnisLabel:String? = nil
     private var specialTextToShowInErgebnisLabel:String? = nil // "überschreibt" specialTextToShowInErgebnisLabel
 
+    private let userdefaults = NSUserDefaults.standardUserDefaults()
 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -57,6 +60,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         updateErgebnisLabel()
         pinEntryField.text = ""
         pinResultLabel.text = ""
+        #if DEBUG
+            backendInfoLabel.text = userdefaults.stringForKey("tueraufConfigBaseUrl")
+        #else
+            backendInfoLabel.hidden = true;
+        #endif
 
         self.activityHandler(false)
     }
