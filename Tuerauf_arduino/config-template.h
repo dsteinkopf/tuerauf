@@ -44,3 +44,6 @@ char *smtp_server = "mail.meinedomain.top";
 char *smtp_helo = "arduino.meinedomain.top";
 char *smtp_mail_from = "tueroeffner_arduino@meinedomain.top";
 char *smtp_mail_to = "admin@meinedomain.top";
+
+// Password for storing Pins:
+#define REQUIRED_PIN_PASSWORD ("abcdefgh")

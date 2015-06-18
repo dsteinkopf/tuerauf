@@ -266,6 +266,11 @@ String processRequest(EthernetClient client, char *input)
 String storePinList(EthernetClient client) {
         String errString = checkAllowedIP(client, true); // true = onlyLocalNet, false = allowedip is allowed
         if (errString != NULL) return errString;
+        
+        char *pinPassword = strtok(0, ":");
+        if (0 != strcmp(pinPassword, REQUIRED_PIN_PASSWORD)) {
+                return F("pinPassword missing or wrong");
+        }
 
         int pinNum = 0;
         for (char *param = strtok(0, "&");
