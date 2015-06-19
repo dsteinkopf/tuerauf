@@ -78,6 +78,7 @@
 		585FDE2F1A5956FB00C830F2 /* tuer_a.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tuer_a.png; sourceTree = "<group>"; };
 		585FDE311A5959B800C830F2 /* tuer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tuer.png; sourceTree = "<group>"; };
 		585FDE321A5959B800C830F2 /* tuer_icon_180.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tuer_icon_180.png; sourceTree = "<group>"; };
+		586818A81B34435D0057A052 /* howto-release-tuerauf.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = "howto-release-tuerauf.txt"; path = "../howto-release-tuerauf.txt"; sourceTree = "<group>"; };
 		58854BC31A6C1B5C00EB4080 /* tuer_icon_60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tuer_icon_60.png; sourceTree = "<group>"; };
 		58854BC41A6C1B5C00EB4080 /* tuer_icon_152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tuer_icon_152.png; sourceTree = "<group>"; };
 		58854BC51A6C1B5C00EB4080 /* tuer_icon_76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tuer_icon_76.png; sourceTree = "<group>"; };
@@ -169,6 +170,7 @@
 		585FDE061A5904EA00C830F2 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				586818A81B34435D0057A052 /* howto-release-tuerauf.txt */,
 				5823BAFB1A79F27100B8FB33 /* getgitrevision.sh */,
 				585FDE071A5904EA00C830F2 /* Info.plist */,
 				5823BAF71A795D7B00B8FB33 /* tuerauf_prod-Info.plist */,

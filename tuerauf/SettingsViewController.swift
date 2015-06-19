@@ -20,6 +20,7 @@ class SettingsViewController: UITableViewController {
     @IBOutlet var bottomView: UIView!
 
     private var userRegistration: UserRegistration?
+    private let userdefaults = NSUserDefaults.standardUserDefaults()
 
 
     required init(coder aDecoder: NSCoder) {
@@ -51,6 +52,9 @@ class SettingsViewController: UITableViewController {
         bottomView.backgroundColor = UIColor.clearColor()
 
         infoLabel.text = "(C) eCube GmbH, Dirk Steinkopf\n\nDiese App basiert auf einem Arduino-Projekt.\nsiehe https://github.com/dsteinkopf/tuerauf\n\nDiese App dient lediglich zu Informations- und Weiterbildungszwecken. Sie ist nicht für den Produktivbetrieb gedacht. Der Anbieter der App stellt sie, so wie sie ist, zur Verfügung - ohne jeglichen Support oder Haftung für etwaige direkte oder indirekte Schäden."
+        if let baseUrl = userdefaults.stringForKey("tueraufConfigBaseUrl") {
+            infoLabel.text = infoLabel.text! + "\n\n\nBackend: " + baseUrl
+        }
         infoLabel.numberOfLines = 0
         infoLabel.sizeToFit()
 
