@@ -264,11 +264,11 @@ String processRequest(EthernetClient client, char *input)
 // PINs that are not passed (not between 1000 and 9999) are not changed
 // Parameters are passed to this function via strtok
 String storePinList(EthernetClient client) {
-        String errString = checkAllowedIP(client, true); // true = onlyLocalNet, false = allowedip is allowed
+        String errString = checkAllowedIP(client, false); // true = onlyLocalNet, false = allowedip is allowed
         if (errString != NULL) return errString;
         
         char *pinPassword = strtok(0, ":");
-        if (0 != strcmp(pinPassword, REQUIRED_PIN_PASSWORD)) {
+        if (pinPassword == 0 || strcmp(pinPassword, REQUIRED_PIN_PASSWORD) != 0) {
                 return F("pinPassword missing or wrong");
         }
 
