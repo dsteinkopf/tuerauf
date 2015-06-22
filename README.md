@@ -7,11 +7,13 @@ Ziel ist es, dass ich Personen meines Vertrauens ermöglichen möchte, über die
 
 ## Aufbau
 
-* **Arduino** (mit Relais und Ethernet-Shield) zum Tür öffnen. Per Internet/HTTP nicht direkt von "außen" erreichbar. (Steht bei mir im gut geschützten internen Netz.) Enthält eine einfache PIN-Logik. Die PINs (4 Ziffern) werden nur hier (im Arduino intenen Speicher) gespeichert. Der Benutzer muss sie sich merken. Dadurch entsteht auch dann ein zusätzlicher Schutz für den Fall des Handy-Verlusts. Der Arduino-Sketch findet sich hier im Repo unter "Tuerauf_arduino".
-
-* **Web-Server** mit PHP-Logik. Von "außen" (Internet) erreichbar.
+* **Arduino** (mit Relais und Ethernet-Shield) zum Tür öffnen.
+* **Web-Server** Von "außen" (Internet) erreichbar.
   enthält Logik zum Registrieren der Benutzer-Apps. Reicht erfolgreich authentifizierte Aufrufe an den Arduino weiter.
-
 * **App** (hier im Repo im Basis-Verzeichnis) greift über das Internet auf den Web-Server zu.
 
 mehr im Wiki: https://github.com/dsteinkopf/tuerauf/wiki
+
+# Hinweis
+
+Diese App, jeglicher Code und Informationen dienen lediglich zu Informations- und Weiterbildungszwecken. Sie sind nicht für den Produktivbetrieb gedacht. Der Anbieter der App stellt sie, so wie sie sind, zur Verfügung - ohne jeglichen Support oder Haftung für etwaige direkte oder indirekte Schäden.
