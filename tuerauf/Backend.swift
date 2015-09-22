@@ -64,8 +64,8 @@ class Backend {
     }
 
     func isConfigured() -> Bool {
-        return configAppSecret != nil && count(configAppSecret!) > 1
-            && configBaseUrl != nil && count(configBaseUrl!) > 1;
+        return configAppSecret != nil && (configAppSecret!).characters.count > 1
+            && configBaseUrl != nil && (configBaseUrl!).characters.count > 1;
     }
 
     func doOpen(code: String, geoy: Double, geox: Double, installationid: String,
@@ -206,7 +206,7 @@ class Backend {
 
         // build bodyDataToPost:
         var bodyDataToPost = bodyData == nil ? "" : bodyData!;
-        bodyDataToPost += (count(bodyDataToPost) > 0 ? "&" : "") + "appsecret=" + configAppSecret!
+        bodyDataToPost += (bodyDataToPost.characters.count > 0 ? "&" : "") + "appsecret=" + configAppSecret!
         NSLog("bodyDataToPost=%@", bodyDataToPost)
 
         // create request
@@ -225,8 +225,8 @@ class Backend {
             activityHandler(isActive: false)
 
             if (error != nil) {
-                var infoString = error.userInfo?.description
-                completionHandler(data, infoString!)
+                let infoString = error!.userInfo.description
+                completionHandler(data, infoString)
                 return
             }
 
@@ -253,7 +253,7 @@ class Backend {
     }
 
     private func getSession() -> NSURLSession! {
-        var config = NSURLSessionConfiguration.defaultSessionConfiguration()
+        let config = NSURLSessionConfiguration.defaultSessionConfiguration()
         config.timeoutIntervalForRequest = REQUEST_TIMEOUT
 
         let session = NSURLSession(configuration: config)

@@ -98,22 +98,22 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBAction func jetztOeffnenButtonPressed(sender: AnyObject) {
         NSLog("buttonPressed")
 
-        var code = pinEntryField.text
-        NSLog("pin="+code)
+        let code = pinEntryField.text
+        NSLog("pin="+code!)
         pinEntryField.resignFirstResponder()
 
-        self.updateErgebnisLabel(text:"running")
+        self.updateErgebnisLabel("running")
         self.isRunning = true
         self.checkToEnableAll()
 
-        let installationId = self.userRegistration!.installationId
+        // let installationId = self.userRegistration!.installationId
         if self.userRegistration!.error != nil {
-            var alert = UIAlertController(title: "Problem", message: "installationId nicht gespeichert",
+            _ = UIAlertController(title: "Problem", message: "installationId nicht gespeichert",
                 preferredStyle: UIAlertControllerStyle.Alert)
             return
         }
 
-        Backend.sharedInstance.doOpen(code, geoy:geoy, geox:geox, installationid:userRegistration!.installationId,
+        Backend.sharedInstance.doOpen(code!, geoy:geoy, geox:geox, installationid:userRegistration!.installationId,
             activityHandler:activityHandler,
             completionHandler: { (hasBeenOpened, info) -> () in
 
@@ -129,27 +129,27 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 
                     if hasBeenOpened {
                         self.pinResultLabel.text = "";
-                        self.updateErgebnisLabel(text:"!!!!! Tür ist offen !!!!!")
+                        self.updateErgebnisLabel("!!!!! Tür ist offen !!!!!")
                         self.bgImage.alpha = 1.0;
                     }
                     else {
                         NSLog(info)
 
-                        if count(info) < 20 {
+                        if info.characters.count < 20 {
                             self.pinResultLabel.text = info
-                            self.updateErgebnisLabel(text:"")
+                            self.updateErgebnisLabel("")
                             waitSeconds = 0.1
                         }
                         else {
                             self.pinResultLabel.text = "";
-                            self.updateErgebnisLabel(text:info)
+                            self.updateErgebnisLabel(info)
                         }
                     }
 
-                    var dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64(waitSeconds * Double(NSEC_PER_SEC)))
+                    let dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64(waitSeconds * Double(NSEC_PER_SEC)))
                     dispatch_after(dispatchTime, dispatch_get_main_queue(), {
                         NSLog("jetzt Ergebnis ausblenden etc.")
-                        self.updateErgebnisLabel(text:"")
+                        self.updateErgebnisLabel("")
                         self.bgImage.alpha = 0.7;
 
                         self.checkToEnableAll()
@@ -225,9 +225,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
 
     @IBAction func pinEntryValueChanged(sender: AnyObject) {
-        NSLog("pinEntryValueChanged value="+pinEntryField.text)
+        NSLog("pinEntryValueChanged value="+pinEntryField.text!)
 
-        if count(pinEntryField.text) >= 4 {
+        if pinEntryField.text!.characters.count >= 4 {
             jetztOeffnenButtonPressed(sender)
         }
     }
@@ -256,7 +256,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         self.checkToEnableAll()
     }
 
-    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
 
         // NSLog("didUpdateLocations: geoy=%f, geox=%f accuracy=%f m", self.geoy, self.geox, manager.location.horizontalAccuracy)
 
@@ -265,9 +265,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             return
         }
 
-        if (manager.location.horizontalAccuracy < NEEDED_ACCURACY_IN_M) {
-            self.geoy = manager.location.coordinate.latitude
-            self.geox = manager.location.coordinate.longitude
+        if (manager.location!.horizontalAccuracy < NEEDED_ACCURACY_IN_M) {
+            self.geoy = manager.location!.coordinate.latitude
+            self.geox = manager.location!.coordinate.longitude
 
             // NSLog("didUpdateLocations here: geoy=%f, geox=%f", self.geoy, self.geox)
 
@@ -282,7 +282,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             self.checklocation()
         }
         else {
-            NSLog("manager.location.horizontalAccuracy = %f", manager.location.horizontalAccuracy)
+            NSLog("manager.location.horizontalAccuracy = %f", manager.location!.horizontalAccuracy)
 
             if self.gotGeolocation { // geoLocation gerade verloren
                 // NSLog("didUpdateLocations away: geoy=%f, geox=%f", self.geoy, self.geox)
@@ -295,7 +295,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
 
-    func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
+    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         NSLog("Error while updating location " + error.localizedDescription)
     }
 

@@ -23,7 +23,7 @@ class SettingsViewController: UITableViewController {
     private let userdefaults = NSUserDefaults.standardUserDefaults()
 
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
@@ -62,7 +62,7 @@ class SettingsViewController: UITableViewController {
     }
 
     private func enableDisableSaveButton() {
-        saveButton.enabled = (count(pinEntryTextField.text) == 4 && Backend.sharedInstance.isConfigured())
+        saveButton.enabled = (pinEntryTextField.text!.characters.count == 4 && Backend.sharedInstance.isConfigured())
     }
 
     private func saveUservalues() {
@@ -103,20 +103,22 @@ class SettingsViewController: UITableViewController {
     @IBAction func saveButtonPressed(sender: AnyObject) {
         NSLog("saveButtonPressed");
 
-        if count(pinEntryTextField.text) != 4 {
+        if pinEntryTextField.text!.characters.count != 4 {
             return
         }
 
-        let installationId = self.userRegistration!.installationId
+        // let installationId = self.userRegistration!.installationId
         if self.userRegistration!.error != nil {
-            var alert = UIAlertController(title: "Problem", message: "installationId nicht gespeichert",
+            let alert = UIAlertController(title: "Problem", message: "installationId nicht gespeichert",
                 preferredStyle: UIAlertControllerStyle.Alert)
+            // TODO add action?
+            self.presentViewController(alert, animated: true, completion: nil)
             return
         }
 
         self.activityIndicator.startAnimating()
 
-        Backend.sharedInstance.registerUser(usernameTextField.text, pin:pinEntryTextField.text, installationid: self.userRegistration!.installationId,
+        Backend.sharedInstance.registerUser(usernameTextField.text!, pin:pinEntryTextField.text!, installationid: self.userRegistration!.installationId,
             completionHandler: { (hasBeenSaved, info) -> () in
 
                 NSLog("registerUser returned: hasBeenSaved:%@ info=%@", hasBeenSaved, info)
@@ -127,7 +129,7 @@ class SettingsViewController: UITableViewController {
                     if hasBeenSaved {
                         self.saveRegistration()
 
-                        var alert = UIAlertController(title: "Alles gut", message: "Deine Info ist gespeichert. Bitte Admin Bescheid geben.",
+                        let alert = UIAlertController(title: "Alles gut", message: "Deine Info ist gespeichert. Bitte Admin Bescheid geben.",
                             preferredStyle: UIAlertControllerStyle.Alert)
                         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { action in
                             NSLog("ok pressed - now perform segue")
@@ -139,7 +141,7 @@ class SettingsViewController: UITableViewController {
                     else {
                         self.saveUservalues() // username/Pin bleiben erhalten, auch wenn reg. fehlschlägt
                         
-                        var alert = UIAlertController(title: "Nicht registriert", message: info, preferredStyle: UIAlertControllerStyle.Alert)
+                        let alert = UIAlertController(title: "Nicht registriert", message: info, preferredStyle: UIAlertControllerStyle.Alert)
                         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
                         self.presentViewController(alert, animated: true, completion: nil)
                     }
@@ -147,8 +149,8 @@ class SettingsViewController: UITableViewController {
         })
     }
     
-    override func shouldPerformSegueWithIdentifier(identifier: String?, sender: AnyObject?) -> Bool {
-        NSLog("shouldPerformSegueWithIdentifier: %@", identifier!);
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+        NSLog("shouldPerformSegueWithIdentifier: %@", identifier);
         return true;
     }
 

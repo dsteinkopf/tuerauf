@@ -66,20 +66,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return false
         }
 
-        for comp in url.query!.pathComponents {
+        for comp in url.pathComponents! {
             NSLog("url.query.comp=%@", comp)
         }
 
-        if count(url.query!.pathComponents) != 2 {
-            NSLog("found \(count(url.query!.pathComponents)) pathComponents instead of expected 2")
+        if url.pathComponents!.count != 2 {
+            NSLog("found \(url.pathComponents!.count) pathComponents instead of expected 2")
             return false
         }
 
-        Backend.sharedInstance.configBaseUrl = url.query!.pathComponents[0].stringByRemovingPercentEncoding
-        Backend.sharedInstance.configAppSecret = url.query!.pathComponents[1].stringByRemovingPercentEncoding
+        Backend.sharedInstance.configBaseUrl = (url.pathComponents!)[0].stringByRemovingPercentEncoding
+        Backend.sharedInstance.configAppSecret = (url.pathComponents!)[1].stringByRemovingPercentEncoding
 
         // Erfolgsmeldung:
-        var alert = UIAlertController(title: "Hat geklappt", message: "Die App ist nun konfiguriert.",
+        let alert = UIAlertController(title: "Hat geklappt", message: "Die App ist nun konfiguriert.",
             preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { action in
             NSLog("ok pressed")
