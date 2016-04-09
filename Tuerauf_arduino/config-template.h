@@ -1,6 +1,8 @@
 #define DEBUG 1
 // #undef DEBUG
 
+#define DEBUG_TO_SYSLOG 1
+
 #ifdef DEBUG
 // wait for serial port to connect. Needed for Leonardo only
 // #define WAIT_FOR_SERIAL 1 
@@ -47,3 +49,7 @@ char *smtp_mail_to = "admin@meinedomain.top";
 
 // Password for storing Pins:
 #define REQUIRED_PIN_PASSWORD ("abcdefgh")
+
+IPAddress syslogServer(192, 168, 1, 1);   // IP Address of Syslog Server
+int syslogPort = 514;
+

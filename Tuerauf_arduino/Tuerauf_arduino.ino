@@ -1,3 +1,10 @@
+#include <Dhcp.h>
+#include <Dns.h>
+#include <Ethernet.h>
+#include <EthernetClient.h>
+#include <EthernetServer.h>
+#include <EthernetUdp.h>
+
 /*
 
   Dirk Steinkopf
@@ -34,8 +41,13 @@ F("abc") spart Speicher. siehe http://electronics.stackexchange.com/questions/66
 #include "config.h"
 
 #ifdef DEBUG
+#ifdef DEBUG_TO_SYSLOG
 #define LOG_PRINT(msg) (Serial.print(msg))
 #define LOG_PRINTLN(msg) (Serial.println(msg))
+#else
+#define LOG_PRINT(msg) (sendSyslogMessage(6, String(msg)))
+#define LOG_PRINTLN(msg) (sendSyslogMessage(6, String(msg)))
+#endif
 #else
 #define LOG_PRINT(msg) (0)
 #define LOG_PRINTLN(msg) (0)
@@ -98,6 +110,9 @@ int resetStateEventId = -1;
 int testrelaisCheckEventId = -1;
 int testrelaisOffEventId = -1;
 
+EthernetUDP udp;                           // An EthernetUDP instance to let us send and receive packets over UDP
+int syslogInited = 0;
+
 
 void setup() {
 
@@ -106,7 +121,7 @@ void setup() {
   pinMode(pinTestInput, INPUT);
   closeRalais();
   closeTestRalais();
-
+  
   // randomSeed(millis());
   randomSeed(analogRead(0));
 
@@ -139,12 +154,16 @@ void setup() {
     Ethernet.begin(mac, ip);
   }
 
+  udp.begin(8888);
+  syslogInited = 1;
+  LOG_PRINTLN(F("Arduino syslog logging started"));
+
   loadConfig();
 
   server.begin();
   LOG_PRINT(F("server is at "));
   IPAddress myIp = Ethernet.localIP();
-  LOG_PRINTLN(myIp);
+  LOG_PRINTLN(String(myIp));
   myNet = IPAddress(myIp[0], myIp[1], myIp[2], 0);
 
   // start dht22 every 100 sec.
@@ -216,7 +235,7 @@ void loop() {
 String processRequest(EthernetClient client, char *input)
 {
   LOG_PRINTLN(F("processRequest"));
-
+  
   // check remote ip first - only local net and allowedip are allowed:
   String errString = checkAllowedIP(client, false); // true = onlyLocalNet, false = allowedip is allowed
   if (errString != NULL) return errString;
@@ -638,7 +657,6 @@ String dumpPins(EthernetClient client) {
   return result;
 }
 
-
 String getStatus()
 {
   loadConfig();
@@ -649,5 +667,40 @@ String getStatus()
   // statusString += F(", version=") + settings.version_of_program;
   
   return statusString;
+}
+
+// see http://www.msxfaq.de/sonst/bastelbude/arduinoethernet.htm#meldung_per_syslog
+// http://www.dl8rds.de/index.php/Arduino_Syslog_Client_Library
+void sendSyslogMessage(int severity, String message)
+{
+  /*
+   0 Emergency: system is unusable 
+   1 Alert: action must be taken immediately 
+   2 Critical: critical conditions 
+   3 Error: error conditions 
+   4 Warning: warning conditions 
+   5 Notice: normal but significant condition 
+   6 Informational: informational messages 
+   */
+
+  if (!syslogInited)
+     return;
+
+  int facility = 17; // local1
+  int pri = (8*facility + severity);
+  String priString = String(pri, DEC);
+  String buffer = "<" + priString + ">" + "arduino " + message;
+  int bufferLength = buffer.length();
+  char char1[bufferLength+1];
+  for(int i=0; i < bufferLength; i++)  {
+    char1[i]=buffer.charAt(i);
+  }
+  char1[bufferLength] = '\0'; 
+  
+  udp.beginPacket(syslogServer, syslogPort); 
+  udp.write(char1); 
+  udp.endPacket();  
+
+  Serial.println(char1);
 }
 
