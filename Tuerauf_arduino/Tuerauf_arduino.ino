@@ -42,11 +42,11 @@ F("abc") spart Speicher. siehe http://electronics.stackexchange.com/questions/66
 
 #ifdef DEBUG
 #ifdef DEBUG_TO_SYSLOG
-#define LOG_PRINT(msg) (Serial.print(msg))
-#define LOG_PRINTLN(msg) (Serial.println(msg))
-#else
 #define LOG_PRINT(msg) (sendSyslogMessage(6, String(msg)))
 #define LOG_PRINTLN(msg) (sendSyslogMessage(6, String(msg)))
+#else
+#define LOG_PRINT(msg) (Serial.print(msg))
+#define LOG_PRINTLN(msg) (Serial.println(msg))
 #endif
 #else
 #define LOG_PRINT(msg) (0)
@@ -496,6 +496,8 @@ String checkAllowedIP(EthernetClient client, boolean onlyLocalNet)
   }
 }
 
+#define MAX_DELAY 30
+
 void sendEMail(String content)
 {
   LOG_PRINTLN(F("sendEMail"));
@@ -503,7 +505,7 @@ void sendEMail(String content)
   client.connect(smtp_server,25);
   LOG_PRINTLN(F("connected"));
   int count = 0;
-  while (count < 20) {
+  while (count <= MAX_DELAY) {
     if (client.available()) {
       char c = client.read();
       if (c == '\n')
@@ -512,7 +514,12 @@ void sendEMail(String content)
     else {
       LOG_PRINTLN(F("delay"));
       delay(1000);
+      count++;
     }
+  }
+  if (count > MAX_DELAY) {
+    LOG_PRINTLN(F("no response from mailserver"));
+    return;
   }
   LOG_PRINTLN(F("got response from mail server"));
   client.print(F("HELO ")); client.print(smtp_helo); client.print("\n");
