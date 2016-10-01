@@ -202,7 +202,7 @@ class Backend {
             urlString += debugParam // wird (noch) nicht ausgewertet
         #endif
         let url: NSURL! = NSURL(string: urlString)
-        NSLog("calling url="+urlString)
+        NSLog("calling url=%@", url)
 
         // build bodyDataToPost:
         var bodyDataToPost = bodyData == nil ? "" : bodyData!;

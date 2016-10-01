@@ -7,7 +7,20 @@ inhibit_all_warnings!
 
 use_frameworks!
 
-link_with 'tuerauf_test', 'tuerauf_prod', 'tueraufTests'
+# was: link_with 'tuerauf_test', 'tuerauf_prod', 'tueraufTests'
+# see http://stackoverflow.com/questions/37280077/error-with-cocoapods-link-with-after-update-to-1-0-0
 
-pod 'SwiftKeychain'
+abstract_target 'BasePods' do
+
+    pod 'SwiftKeychain', '~> 0.1.5'
+
+    target 'tuerauf_test' do
+    end
+
+    target 'tuerauf_prod' do
+    end
+
+    target 'tueraufTests' do
+    end
+end
 

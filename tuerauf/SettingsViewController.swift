@@ -34,8 +34,8 @@ class SettingsViewController: UITableViewController {
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         userRegistration = appDelegate.userRegistration
 
-        usernameTextField.addTarget(self, action: "usernameTextFieldValueChanged:", forControlEvents: UIControlEvents.EditingChanged)
-        pinEntryTextField.addTarget(self, action: "pinEntryTextFieldValueChanged:", forControlEvents: UIControlEvents.EditingChanged)
+        usernameTextField.addTarget(self, action: #selector(SettingsViewController.usernameTextFieldValueChanged(_:)), forControlEvents: UIControlEvents.EditingChanged)
+        pinEntryTextField.addTarget(self, action: #selector(SettingsViewController.pinEntryTextFieldValueChanged(_:)), forControlEvents: UIControlEvents.EditingChanged)
 
         fillViews()
     }

@@ -50,7 +50,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         fillViews()
 
 //        pinEntryField.addTarget(self, action: "pinEntryValueChanged:", forControlEvents: UIControlEvents.ValueChanged)
-        pinEntryField.addTarget(self, action: "pinEntryValueChanged:", forControlEvents: UIControlEvents.EditingChanged)
+        pinEntryField.addTarget(self, action: #selector(ViewController.pinEntryValueChanged(_:)), forControlEvents: UIControlEvents.EditingChanged)
 //        pinEntryField.addTarget(self, action: "pinEntryValueChanged:", forControlEvents: UIControlEvents.TouchUpInside)
     }
 

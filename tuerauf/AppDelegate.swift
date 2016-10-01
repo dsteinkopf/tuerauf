@@ -62,21 +62,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         if url.query == nil {
-            NSLog("found no query instead of expected 2")
+            NSLog("found no query")
+            return false
+        }
+        NSLog("url.query=%@", url.query!)
+
+        let parts = url.query!.characters.split{$0 == "/"}.map(String.init)
+
+        if parts.count != 2 {
+            NSLog("found \(parts.count) query parts instead of expected 2")
             return false
         }
 
-        for comp in url.pathComponents! {
-            NSLog("url.query.comp=%@", comp)
+        for part in parts {
+            NSLog("part=%@", part)
         }
 
-        if url.pathComponents!.count != 2 {
-            NSLog("found \(url.pathComponents!.count) pathComponents instead of expected 2")
-            return false
-        }
-
-        Backend.sharedInstance.configBaseUrl = (url.pathComponents!)[0].stringByRemovingPercentEncoding
-        Backend.sharedInstance.configAppSecret = (url.pathComponents!)[1].stringByRemovingPercentEncoding
+        Backend.sharedInstance.configBaseUrl = parts[0].stringByRemovingPercentEncoding
+        Backend.sharedInstance.configAppSecret = parts[1].stringByRemovingPercentEncoding
 
         // Erfolgsmeldung:
         let alert = UIAlertController(title: "Hat geklappt", message: "Die App ist nun konfiguriert.",

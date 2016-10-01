@@ -1,10 +1,12 @@
 PODS:
-  - SwiftKeychain (0.1.2)
+  - SwiftKeychain (0.1.5)
 
 DEPENDENCIES:
-  - SwiftKeychain
+  - SwiftKeychain (~> 0.1.5)
 
 SPEC CHECKSUMS:
-  SwiftKeychain: 889be6ab38b56c98f40dfac0d0c84f3b2bd2550a
+  SwiftKeychain: 1387edad8b56c659daa93d9ffc99526bac5b0088
 
-COCOAPODS: 0.37.1
+PODFILE CHECKSUM: 43b87e7c2aaf14ee0efa47e515e3e66d43ee2534
+
+COCOAPODS: 1.0.1
