@@ -3,7 +3,7 @@
 //  tuerauf
 //
 //  Created by Dirk Steinkopf on 04.01.15.
-//  Copyright (c) 2015 Dirk Steinkopf. All rights reserved.
+//  Copyright (c) 2016 Dirk Steinkopf. All rights reserved.
 //
 
 import UIKit
