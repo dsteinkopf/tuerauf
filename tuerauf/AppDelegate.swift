@@ -21,6 +21,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
+    var mainViewController: ViewController?
+
     private var _userRegistration: UserRegistration! = UserRegistration()
 
 
@@ -29,6 +31,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // remove stored PIN - don't persist user's PIN
         NSUserDefaults.standardUserDefaults().removeObjectForKey("tueraufPIN")
+
+        if let tryMainViewController = self.window?.rootViewController as? ViewController {
+            self.mainViewController = tryMainViewController
+        }
 
         return true
     }
@@ -68,6 +74,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NSLog("url.query=%@", url.query!)
 
         let parts = url.query!.characters.split{$0 == "/"}.map(String.init)
+
+        if parts.count == 1 && url.query!.hasPrefix("pin=") {
+            let pinParts = url.query!.characters.split{$0 == "="}.map(String.init)
+            if pinParts.count == 2 {
+                let pin = pinParts[1]
+                NSLog("got pin \(pin)")
+                jumpToMainViewWithPin(pin)
+            }
+        }
 
         if parts.count != 2 {
             NSLog("found \(parts.count) query parts instead of expected 2")
@@ -110,6 +125,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     internal var userRegistration: UserRegistration {
         get {
             return _userRegistration
+        }
+    }
+
+    func jumpToMainViewWithPin(pin: String) {
+        NSLog("jumpToMainViewWithPin \(pin)")
+        if pin.characters.count == 4 {
+            mainViewController?.pinEntryField.text = pin
+            mainViewController?.jetztOeffnenButtonPressed(self)
         }
     }
 }

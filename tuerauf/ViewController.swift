@@ -30,6 +30,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     private var gotGeolocation = false
     private var isNear = false
     private var nextTimeChecklocation: NSDate? = nil
+    private var pendingJetztOeffnenButtonPressed = false
     @IBOutlet var backendInfoLabel: UILabel!
 
     private var userRegistration: UserRegistration?
@@ -101,15 +102,22 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         let code = pinEntryField.text
         NSLog("pin="+code!)
         pinEntryField.resignFirstResponder()
+        self.pendingJetztOeffnenButtonPressed = false
 
         self.updateErgebnisLabel("running")
         self.isRunning = true
+        self.pinResultLabel.text = "";
         self.checkToEnableAll()
 
         // let installationId = self.userRegistration!.installationId
         if self.userRegistration!.error != nil {
             _ = UIAlertController(title: "Problem", message: "installationId nicht gespeichert",
                 preferredStyle: UIAlertControllerStyle.Alert)
+            return
+        }
+
+        if !self.gotGeolocation {
+            self.pendingJetztOeffnenButtonPressed = true
             return
         }
 
@@ -276,6 +284,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 
                 dispatch_async(dispatch_get_main_queue(), {
                     self.checkToEnableAll()
+                    if self.pendingJetztOeffnenButtonPressed {
+                        self.jetztOeffnenButtonPressed(self)
+                    }
                 })
             }
 
