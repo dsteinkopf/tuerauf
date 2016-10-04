@@ -302,7 +302,7 @@
 				5823BADD1A79582100B8FB33 /* Sources */,
 				5823BAE31A79582100B8FB33 /* Frameworks */,
 				5823BAE51A79582100B8FB33 /* Resources */,
-				5823BAF11A79582100B8FB33 /* Revisionsnummer holen */,
+				5823BAF11A79582100B8FB33 /* Revisionsnummer holen tuerauf_prod */,
 				034D48A9B396A44D3F9B4697 /* [CP] Embed Pods Frameworks */,
 				723E1EE33E310586E2DD092A /* [CP] Copy Pods Resources */,
 				588F75651DA0E529007A10A0 /* Embed App Extensions */,
@@ -366,6 +366,7 @@
 				588F75511DA0E529007A10A0 /* Sources */,
 				588F75521DA0E529007A10A0 /* Frameworks */,
 				588F75531DA0E529007A10A0 /* Resources */,
+				58D5725E1DA2B63E00C36ED2 /* Revisionsnummer holen tawidget */,
 			);
 			buildRules = (
 			);
@@ -542,14 +543,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BasePods-tueraufTests/Pods-BasePods-tueraufTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		5823BAF11A79582100B8FB33 /* Revisionsnummer holen */ = {
+		5823BAF11A79582100B8FB33 /* Revisionsnummer holen tuerauf_prod */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Revisionsnummer holen";
+			name = "Revisionsnummer holen tuerauf_prod";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -568,6 +569,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
+			shellScript = "#!/bin/bash\nbash \"$PROJECT_DIR\"/getgitrevision.sh";
+		};
+		58D5725E1DA2B63E00C36ED2 /* Revisionsnummer holen tawidget */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Revisionsnummer holen tawidget";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
 			shellScript = "#!/bin/bash\nbash \"$PROJECT_DIR\"/getgitrevision.sh";
 		};
 		68B343F292CF1DB4B460016C /* [CP] Embed Pods Frameworks */ = {
