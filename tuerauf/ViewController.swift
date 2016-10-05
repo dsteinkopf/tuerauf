@@ -101,13 +101,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 
         let code = pinEntryField.text
         NSLog("pin="+code!)
-        pinEntryField.resignFirstResponder()
         self.pendingJetztOeffnenButtonPressed = false
-
-        self.updateErgebnisLabel("running")
-        self.isRunning = true
-        self.pinResultLabel.text = "";
-        self.checkToEnableAll()
 
         // let installationId = self.userRegistration!.installationId
         if self.userRegistration!.error != nil {
@@ -120,6 +114,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             self.pendingJetztOeffnenButtonPressed = true
             return
         }
+
+        pinEntryField.resignFirstResponder()
+        self.updateErgebnisLabel("running")
+        self.isRunning = true
+        self.pinResultLabel.text = "";
+        self.checkToEnableAll()
 
         Backend.sharedInstance.doOpen(code!, geoy:geoy, geox:geox, installationid:userRegistration!.installationId,
             activityHandler:activityHandler,
