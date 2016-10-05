@@ -53,15 +53,6 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         completionHandler(NCUpdateResult.NewData)
     }
 
-    func widgetActiveDisplayModeDidChange(activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
-        if activeDisplayMode == NCWidgetDisplayMode.Compact {
-            self.preferredContentSize = maxSize
-        }
-        else {
-            self.preferredContentSize = CGSize(width: 0, height: 150)
-        }
-    }
-
     @IBAction func startButtonAction(sender: UIButton) {
         NSLog("startButtonAction");
         // let options = [UIApplicationOpenURLOptionUniversalLinksOnly : true]
@@ -77,15 +68,18 @@ class TodayViewController: UIViewController, NCWidgetProviding {
 
         let pressedButton = sender as! UIButton
         pressedButton.selected = true
-        let unselectTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.3 * Double(NSEC_PER_SEC)))
-        dispatch_after(unselectTime, dispatch_get_main_queue(), {
+        let waitTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.3 * Double(NSEC_PER_SEC)))
+        dispatch_after(waitTime, dispatch_get_main_queue(), {
             pressedButton.selected = false
         })
 
         if enteredPinTextField.text?.characters.count >= 4 {
             let url = NSURL(string: urlScheme + ":///?pin=" + enteredPinTextField.text!)!
             self.extensionContext?.openURL(url, completionHandler: { (success) in
-                self.enteredPinTextField.text = ""
+                let waitTime = dispatch_time(DISPATCH_TIME_NOW, Int64(1.5 * Double(NSEC_PER_SEC)))
+                dispatch_after(waitTime, dispatch_get_main_queue(), {
+                    self.enteredPinTextField.text = ""
+                })
             })
         }
     }
