@@ -385,7 +385,7 @@
 			attributes = {
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0800;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = "Dirk Steinkopf";
 				TargetAttributes = {
 					5823BADC1A79582100B8FB33 = {
