@@ -296,7 +296,7 @@ String storePinList(EthernetClient client) {
              param != 0 && pinNum < max_pins;
              param = strtok(0, "&"), pinNum++) {
                 int pin = atoi(param);
-                if (pin >= 1000 && pin <= 9999) {
+                if (pin >= 1 && pin <= 9999) {
                         settings.pin[pinNum] = pin;
                         LOG_PRINT("Stored pin "); LOG_PRINTLN(param);
                 }
@@ -650,6 +650,11 @@ void saveConfig() {
 String dumpPins(EthernetClient client) {
   String errString = checkAllowedIP(client, true); // true = onlyLocalNet, false = allowedip is allowed
   if (errString != NULL) return errString;
+
+  char *pinPassword = strtok(0, ":");
+  if (pinPassword == 0 || strcmp(pinPassword, REQUIRED_PIN_PASSWORD) != 0) {
+          return F("pinPassword missing or wrong");
+  }
   
   String result = "PINs:\n";
 
