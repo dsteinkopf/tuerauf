@@ -4,7 +4,7 @@
 
 siehe nun:
 
-* Arduino-Projekt: [https://github.com/dsteinkopf/tuerauf_arduino](https://github.com/dsteinkopf/tuerauf_arduino)
+* Arduino-Projekt: [https://gitlab.steinkopf.net/tuerauf/tuerauf_arduino](https://gitlab.steinkopf.net/tuerauf/tuerauf_arduino)
 * Flutter-App: [https://gitlab.steinkopf.net/tuerauf/tuerauf-flutter](https://gitlab.steinkopf.net/tuerauf/tuerauf-flutter)
 
 # !!!!!!!!!
