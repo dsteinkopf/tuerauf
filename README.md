@@ -24,7 +24,7 @@ Ziel ist es, dass ich Personen meines Vertrauens ermöglichen möchte, über die
   enthält Logik zum Registrieren der Benutzer-Apps. Reicht erfolgreich authentifizierte Aufrufe an den Arduino weiter.
 * **App** (hier im Repo im Basis-Verzeichnis) greift über das Internet auf den Web-Server zu.
 
-mehr im Wiki: https://github.com/dsteinkopf/tuerauf/wiki
+mehr im Wiki: https://gitlab.steinkopf.net/tuerauf/tuerauf_arduino/wikis/home
 
 # Hinweis
 
